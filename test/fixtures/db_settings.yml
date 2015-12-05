@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: MyText
+  db_name: MyText
+  user: MyText
+  password: MyText
+  start_fresh: 
+  show_statements: 
+  auto_populate_tables: 
+  auto_populate_teams: 
+  auto_populate_roster: 
+  auto_populate_schedule: 
+  auto_populate_gamestats: 
+  auto_populate_lotto: 
+  auto_populate_draft: 
+
+two:
+  user: MyText
+  db_name: MyText
+  user: MyText
+  password: MyText
+  start_fresh: 
+  show_statements: 
+  auto_populate_tables: 
+  auto_populate_teams: 
+  auto_populate_roster: 
+  auto_populate_schedule: 
+  auto_populate_gamestats: 
+  auto_populate_lotto: 
+  auto_populate_draft: 

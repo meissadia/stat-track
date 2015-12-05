@@ -1,0 +1,18 @@
+<main>
+  <h1>Populate Database</h1>
+  <section id="buttons">
+    <ul>
+      <li><%= link_to 'Update DB', '/maintain_db/updateDb', method: :post %></li>
+      <!-- <li><%= link_to 'Load Rosters', './loadRosters', method: :post %></li>
+      <li><%= link_to 'Load Schedules', './loadSchedules', method: :post %></li>
+      <li><%= link_to 'Load GameStats', './loadGamestats', method: :post %></li> -->
+    </ul>
+  </section>
+  <section id=status>
+    <% @status.each do |msg| %>
+      <% if !msg.empty? %>
+        <p><%= msg %></p>
+      <% end %>
+    <% end %>
+  </section>
+</main>

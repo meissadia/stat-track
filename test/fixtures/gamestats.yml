@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team_id: MyString
+  game_id: 1
+  pname: MyString
+  pos: MyString
+  min: 1
+  fgm: 1
+  fga: 1
+  tpm: 1
+  tpa: 1
+  ftm: 1
+  fta: 1
+  oreb: 1
+  dreb: 1
+  reb: 1
+  ast: 1
+  stl: 1
+  blk: 1
+  tos: 1
+  pf: 1
+  plus: 1
+  pts: 1
+  starter: false
+
+two:
+  team_id: MyString
+  game_id: 1
+  pname: MyString
+  pos: MyString
+  min: 1
+  fgm: 1
+  fga: 1
+  tpm: 1
+  tpa: 1
+  ftm: 1
+  fta: 1
+  oreb: 1
+  dreb: 1
+  reb: 1
+  ast: 1
+  stl: 1
+  blk: 1
+  tos: 1
+  pf: 1
+  plus: 1
+  pts: 1
+  starter: false

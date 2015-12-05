@@ -1,0 +1,107 @@
+<main>
+  <nav id=player_nav>
+    <ul id=p_nav_list>
+      <li><%= link_to " << Team: #{@player.t_abbr}", "/team/#{Team.getTeamId(@player.t_abbr)}" %></li>
+    </ul>
+  </nav>
+  <!-- Player Info -->
+  <h1><%= @player.p_name %></h1>
+  <h2>Player Info</h2>
+  <table class="width_90 center"  id=player_info>
+    <tr>
+      <th>Jersey</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>College</th>
+      <th>Salary</th>
+    </tr>
+    <tr class=r0>
+      <td><%= @player.p_num %></td>
+      <td><%= "%i\'%i\"" % [@player.h_ft, @player.h_in] %></td>
+      <td><%= @player.weight %></td>
+      <td><%= @player.college %></td>
+      <td><%= number_to_currency(@player.salary, {:precision => 0}) %></td>
+    </tr>
+  </table>
+  <h2>Season Highs</h2>
+  <table class="width_90 center" id=season_highs>
+    <thead>
+      <tr>
+        <th>MIN</th>
+        <th>PTS</th>
+        <th>AST</th>
+        <th>REB</th>
+        <th>STL</th>
+        <th>BLK</th>
+        <th>TO</th>
+        <th>FG</th>
+        <th>FT</th>
+        <th>3P</th>
+        <th>+/-</th>
+        <th>PFs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class=r0>
+        <td><%= @p_maxs.min == '' ? 'Blank MIN' : @p_maxs.min %></td>
+        <td><%= @p_maxs.pts %></td>
+        <td><%= @p_maxs.ast %></td>
+        <td><%= @p_maxs.reb %></td>
+        <td><%= @p_maxs.stl %></td>
+        <td><%= @p_maxs.blk %></td>
+        <td><%= @p_maxs.tos %></td>
+        <td><%= @p_maxs.fgp %>%</td>
+        <td><%= @p_maxs.ftp %>%</td>
+        <td><%= @p_maxs.tpp %>%</td>
+        <td><%= @p_maxs.plus %></td>
+        <td><%= @p_maxs.pf %></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="width_90">
+    <h2>Game Stats</h2>
+    <table class="tablesorter center" id=player_stats>
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Opp</th>
+          <th>POS</th>
+          <th>MIN</th>
+          <th>PTS</th>
+          <th>AST</th>
+          <th>R(O)</th>
+          <th>STL</th>
+          <th>BLK</th>
+          <th>TO</th>
+          <th>FG</th>
+          <th>FT</th>
+          <th>3P</th>
+          <th>+/-</th>
+          <th>PFs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @stats.each do |row| %>
+        <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+          <td><%= link_to row.t_abbr, "/team/#{Team.getTeamId(row.t_abbr)}" %></td>
+          <td><%= link_to row.opp_abbr, "/game/#{row.boxscore_id}" %></td>
+          <td><%= row.pos %></td>
+          <td><%= row.min == '' ? 'Blank MIN' : row.min %></td>
+          <td><%= row.pts %></td>
+          <td><%= row.ast %></td>
+          <td><%= row.reb %> (<%= row.oreb %>)</td>
+          <td><%= row.stl %></td>
+          <td><%= row.blk %></td>
+          <td><%= row.tos %></td>
+          <td><%= row.fgm %> / <%= row.fga %></td>
+          <td><%= row.ftm %> / <%= row.fta %></td>
+          <td><%= row.tpm %> / <%= row.tpa %></td>
+          <td><%= row.plus %></td>
+          <td><%= row.pf %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</main>

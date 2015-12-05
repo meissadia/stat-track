@@ -1,0 +1,137 @@
+<main>
+  <nav id=team_nav>
+    <ul>
+      <li><%= link_to "Team Info", "/team/#{params[:id]}" %></li>
+      <li><%= link_to "Schedule", "/team/schedule/#{params[:id]}" %></li>
+    </ul>
+  </nav>
+
+  <h1><%= puts "%s (%s)" % [@team.t_name, @team.id] %></h1>
+  <h2>Team</h2>
+  <table class="center" id=team_info>
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Team ID</th>
+        <th>Division</th>
+        <th>Conference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class=r0>
+        <td><%= link_to @team.t_name, "/team/#{@team.id}"  %></td>
+        <td><%= @team.id %></td>
+        <td><%= @team.division %></td>
+        <td><%= @team.conference %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Team Summary</h2>
+  <div class="columns-two">
+    <div class="col1">
+      <h3>Team Results</h3>
+      <table class=center id=win_loss_pct>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class=r0>
+            <td><%= @rank %></td>
+            <td><%= @last10_games.first.wins %></td>
+            <td><%= @last10_games.first.losses %></td>
+            <td><%= "#{@win_pct}"  %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div><div class="col2">
+      <h3>Next Game</h3>
+      <table class=center>
+        <thead>
+          <tr>
+            <th>Opponent</th>
+            <th>Game Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class=r0>
+            <td><%= link_to "%s %s" % [@next_game.home ? "vs" : "@",  @next_game.opp_abbr], "/team/#{Team.getTeamId(@next_game.opp_abbr)}" %>
+              <td><%= @next_game.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+  <div class=width_90>
+    <h2>Roster</h2>
+    <table class="tablesorter center" id=roster>
+      <thead>
+        <tr>
+          <th>Jersey</th>
+          <th>Player</th>
+          <th>Position</th>
+          <th>Age</th>
+          <th>Height</th>
+          <th>Weight</th>
+          <th>College</th>
+          <th>Salary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @roster.each do |row| %>
+        <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+          <td><%= row.p_num %></td>
+          <!-- # Player Link -->
+          <td><%= link_to row.p_name, "/player/#{row.id}" %></td>
+          <td><%= row.pos %></td>
+          <td><%= row.age %></td>
+          <td><span class=hide><%= row.h_ft*12+row.h_in%></span><%= "%i' %i\"" % [row.h_ft,row.h_in] %></td>
+          <td><%= row.weight %></td>
+          <td><%= row.college %></td>
+          <td><%= number_to_currency(row.salary, {:precision => 0}) %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class=columns-two>
+    <div class="col1">
+      <h3>Last 10</h3>
+      <table class=center>
+        <tr>
+          <th>Game Num</th>
+          <th>Opp</th>
+          <th>Score</th>
+        </tr>
+        <% @last10_games.each do |pg| %>
+        <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+          <td><%= pg.game_num %></td>
+          <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+          <td><%= link_to "%s %i - %i" %[pg.win ? 'W' : 'L', pg.team_score, pg.opp_score], "/game/#{pg.boxscore_id}" %></td>
+        </tr>
+        <% end %>
+      </table>
+    </div><div class="col2">
+      <h3>Next 10</h3>
+      <table class=center>
+        <tr>
+          <th>Opp</th>
+          <th>Game Date</th>
+        </tr>
+        <% @next10_games.each do |pg| %>
+        <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+          <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+          <td><%= pg.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</main>

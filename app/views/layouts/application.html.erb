@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <title>StatTrack</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <nav id=site_nav>
+    <p id=logo>StatTrack</p><ul id=nav_list>
+      <li><%= link_to "Home", '/teams' %></li>
+      <li><%= link_to "Teams", "/teams" %></li>
+      <li><%= link_to "Players", "/players" %></li>
+      <li><%= link_to "DB", "/maintain_db" %></li>
+      <!-- <li>Run Query</li> -->
+    </ul>
+  </nav>
+
+  <%= yield %>
+  <footer>&copy Meissa Dia, 2015</footer>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $(".tablesorter").tablesorter();
+    });
+  </script>
+</body>
+</html>

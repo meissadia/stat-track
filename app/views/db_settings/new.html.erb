@@ -1,0 +1,58 @@
+
+<main>
+  <h1>Create New Database</h1>
+  <section id=form_db_info>
+    <%= form_for :db_setting, url: db_settings_path do |f| %>
+      <div id=text_inputs>
+        <p>
+          <%= f.label :user %><br>
+          <%= f.text_field :user %>
+        </p><p>
+          <%= f.label :db_name %><br>
+          <%= f.text_field :db_name %>
+        </p><p>
+          <%= f.label :db_user %><br>
+          <%= f.text_field :db_user %>
+        </p><p>
+          <%= f.label :db_password %><br>
+          <%= f.text_field :db_password %>
+        </p>
+      </div>
+      <div id=check_boxes>
+        <p>
+          <%= f.label :start_fresh %>
+          <%= f.check_box :start_fresh %>
+        </p><p>
+          <%= f.label :show_statements %>
+          <%= f.check_box :show_statements %>
+        </p><p>
+          <%= f.label :auto_populate_tables %>
+          <%= f.check_box :auto_populate_tables %>
+        </p><p>
+          <%= f.label :auto_populate_teams %>
+          <%= f.check_box :auto_populate_teams %>
+        </p><p>
+          <%= f.label :auto_populate_rosters %>
+          <%= f.check_box :auto_populate_rosters %>
+        </p><p>
+          <%= f.label :auto_populate_schedules %>
+          <%= f.check_box :auto_populate_schedules %>
+        </p><p>
+          <%= f.label :auto_populate_gamestats %>
+          <%= f.check_box :auto_populate_gamestats %>
+        </p><p>
+          <%= f.label :auto_populate_lotto %>
+          <%= f.check_box :auto_populate_lotto %>
+        </p><p>
+          <%= f.label :auto_populate_draft %>
+          <%= f.check_box :auto_populate_draft %>
+        </p>
+      </div>
+      <div id=submit_button>
+        <p>
+          <%= f.submit "Save DB Settings"%>
+        </p>
+      </div>
+    <% end %>
+  </section>
+</main>

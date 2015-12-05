@@ -1,0 +1,37 @@
+<h1>Listing User Settings (DbSettings)</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>DB Name</th>
+    <th>DB User</th>
+    <th>DB Password</th>
+    <th>Start Fresh</th>
+    <th>Show Statements</th>
+    <th>Auto Populate Tables</th>
+    <th>Auto Populate Teams</th>
+    <th>Auto Populate Rosters</th>
+    <th>Auto Populate Schedules</th>
+    <th>Auto Populate GameStats</th>
+    <th>Auto Populate Lotto</th>
+    <th>Auto Populate Draft</th>
+  </tr>
+
+  <% @db_settings.each do |row| %>
+    <tr>
+      <td><%= row.user %></td>
+      <td><%= row.db_name %></td>
+      <td><%= row.db_user %></td>
+      <td><%= row.db_password %></td>
+      <td><%= row.start_fresh %></td>
+      <td><%= row.show_statements %></td>
+      <td><%= row.auto_populate_tables %></td>
+      <td><%= row.auto_populate_teams %></td>
+      <td><%= row.auto_populate_rosters %></td>
+      <td><%= row.auto_populate_schedules %></td>
+      <td><%= row.auto_populate_gamestats %></td>
+      <td><%= row.auto_populate_lotto %></td>
+      <td><%= row.auto_populate_draft %></td>
+    </tr>
+  <% end %>
+</table>

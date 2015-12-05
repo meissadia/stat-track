@@ -1,0 +1,80 @@
+// Place all the styles related to the db_settings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+main {
+  width: 90%;
+  background-color: lightgray;
+  margin: auto;
+  // padding: 2em auto;
+}
+
+main h1 {
+  text-align: center;
+}
+
+#form_db_info{
+  width: 90%;
+  background-color: lightblue;
+  margin: auto;
+  padding-bottom: 2em;
+}
+
+#text_inputs, #check_boxes, #submit_button {
+  width: 100%;
+  background-color: white;
+  margin: 0 auto;
+  border: 1px solid black;
+}
+
+#text_inputs p {
+  width: 50%;
+  background-color: gray;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+#text_inputs p label {
+  text-align: center;
+  margin-left: 1em;
+}
+
+#text_inputs p input {
+  width: 75%;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+#checkboxes{
+}
+
+#check_boxes p {
+  width: 30%;
+  display: inline-block;
+  margin-left: 2%;
+  margin-top: .5em;
+}
+
+#check_boxes p input, #check_boxes p label {
+  display: inline-block;
+}
+
+#check_boxes p label {
+  width: 66%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#check_boxes p inputs {
+  width: 33%;
+}
+
+#submit_button p {
+  width: 100%;
+  margin: 0 auto;
+}
+
+#submit_button p input {
+  width: 30%;
+  margin: 0 30% 1% 30%;
+  background-color: green;
+}

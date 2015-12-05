@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pnum: 1
+  pname: 
+  h_ft: 1
+  h_in: MyString
+  integer: MyString
+  college: MyString
+  salary: 1
+
+two:
+  pnum: 1
+  pname: 
+  h_ft: 1
+  h_in: MyString
+  integer: MyString
+  college: MyString
+  salary: 1

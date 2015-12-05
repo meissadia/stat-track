@@ -1,0 +1,44 @@
+// Place all the styles related to the team controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$roster: 8;
+$team : 4;
+
+main {
+  width: 100%;
+}
+
+h2, h3 {
+  width: 100%;
+  text-align: center;
+  color: red;
+}
+
+h3 {
+  color: green;
+}
+
+#team_info {
+  width: 90%;
+}
+
+#team_info td, #team_info th {
+  width: 25%;
+}
+
+th {
+  background-color: gray;
+}
+
+#roster td, #roster th {
+  // width: 12.5%;
+}
+
+#win_loss_pct td, #win_loss_pct th {
+  // width: 33.33%;
+}
+
+.hide {
+  position: absolute;
+  left: -999em;
+}

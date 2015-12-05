@@ -1,0 +1,54 @@
+<main>
+  <nav id=team_nav>
+    <ul>
+      <li><%= link_to "Team Info", "/team/#{params[:id]}" %></li>
+      <li><%= link_to "Schedule", "/team/schedule/#{params[:id]}" %></li>
+    </ul>
+  </nav>
+
+  <h2><%= @team.t_name %> Schedule</h2>
+  <div class=width_90>
+    <h3>Past Games</h3>
+    <table class="tablesorter center">
+      <thead>
+        <tr>
+          <th>Game Num</th>
+          <th>Opponent</th>
+          <th>Result</th>
+          <th>Record</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @past_games.each do |pg| %>
+        <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+          <td><%= pg.game_num %></td>
+          <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+          <td><%= pg.win ? 'W' : 'L' %> <%= pg.team_score %> - <%=pg.opp_score%></td>
+          <td><%= pg.wins %> - <%= pg.losses %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class=width_90>
+  <h3>Future Games</h3>
+  <table class="tablesorter center">
+    <thead>
+      <tr>
+        <th>Num</th>
+        <th>Date</th>
+        <th>Opponent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @future_games.each do |pg| %>
+      <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+        <td><%= pg.game_num %></td>
+        <td><%= pg.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
+        <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+</main>

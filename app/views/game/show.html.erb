@@ -1,0 +1,109 @@
+<main>
+  <nav>
+    <ul>
+      <li><%= link_to "Home", "/"%></li>
+    </ul>
+  </nav>
+
+  <h1><%= "%s (%i) %s %s (%i)" % [@game.t_abbr, @game.team_score, @game.home ? 'vs' : '@', @game.opp_abbr, @game.opp_score] %></h1>
+
+  <div class="">
+    <h2>Game Stats</h2>
+    <div class="width_90">
+      <h3><%= link_to @game.t_abbr, "/team/#{Team.getTeamId(@game.t_abbr)}" %></h3>
+      <table class="tablesorter center" id=home_stats>
+        <thead>
+          <tr>
+            <!-- <th>Team</th> -->
+            <!-- <th>Game#</th> -->
+            <th>NAME</th>
+            <th>POS</th>
+            <th>MIN</th>
+            <th>PTS</th>
+            <th>AST</th>
+            <th>R(O)</th>
+            <th>STL</th>
+            <th>BLK</th>
+            <th>TO</th>
+            <th>FG</th>
+            <th>FT</th>
+            <th>3P</th>
+            <th>+/-</th>
+            <th>PFs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @home_stats.each do |row| %>
+          <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+            <!-- <%= debug row %> -->
+            <!-- <td><%= link_to row.t_abbr, "/team/#{Team.getTeamId(row.t_abbr)}" %></td> -->
+            <!-- <td><%= link_to row.boxscore_id, "/game/#{row.boxscore_id}" %></td> -->
+            <td><%= link_to row.p_name, "/player/#{Player.getPlayerId(row.p_name)}" %></td>
+            <td><%= row.pos %></td>
+            <td><%= row.min == '' ? 'Blank MIN' : row.min %></td>
+            <td><%= row.pts %></td>
+            <td><%= row.ast %></td>
+            <td><%= row.reb %> (<%= row.oreb %>)</td>
+            <td><%= row.stl %></td>
+            <td><%= row.blk %></td>
+            <td><%= row.tos %></td>
+            <td><%= row.fgm %> / <%= row.fga %></td>
+            <td><%= row.ftm %> / <%= row.fta %></td>
+            <td><%= row.tpm %> / <%= row.tpa %></td>
+            <td><%= row.plus %></td>
+            <td><%= row.pf %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class=width_90>
+      <h3><%= link_to @game.opp_abbr, "/team/#{Team.getTeamId(@game.opp_abbr)}" %></h3>
+      <table class="tablesorter center" id=away_stats>
+        <thead>
+          <tr>
+            <!-- <th>Team</th> -->
+            <!-- <th>Game#</th> -->
+            <th>NAME</th>
+            <th>POS</th>
+            <th>MIN</th>
+            <th>PTS</th>
+            <th>AST</th>
+            <th>REB(O)</th>
+            <th>STL</th>
+            <th>BLK</th>
+            <th>TO</th>
+            <th>FG</th>
+            <th>FT</th>
+            <th>3P</th>
+            <th>+/-</th>
+            <th>Fouls</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @away_stats.each do |row| %>
+          <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+            <!-- <%= debug row %> -->
+            <!-- <td><%= link_to row.t_abbr, "/team/#{Team.getTeamId(row.t_abbr)}" %></td> -->
+            <!-- <td><%= link_to row.boxscore_id, "/game/#{row.boxscore_id}" %></td> -->
+            <td><%= link_to row.p_name, "/player/#{Player.getPlayerId(row.p_name)}" %></td>
+            <td><%= row.pos %></td>
+            <td><%= row.min == '' ? 'Blank MIN' : row.min %></td>
+            <td><%= row.pts %></td>
+            <td><%= row.ast %></td>
+            <td><%= row.reb %> (<%= row.oreb %>)</td>
+            <td><%= row.stl %></td>
+            <td><%= row.blk %></td>
+            <td><%= row.tos %></td>
+            <td><%= row.fgm %> / <%= row.fga %></td>
+            <td><%= row.ftm %> / <%= row.fta %></td>
+            <td><%= row.tpm %> / <%= row.tpa %></td>
+            <td><%= row.plus %></td>
+            <td><%= row.pf %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

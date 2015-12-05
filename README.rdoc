@@ -1,0 +1,30 @@
+== README
+
+StatTrack allows you to perform your own sports stats tracking!
+ - Currently only for NBA
+
+QUICK START
+ From inside the statTrack directory, execute the following commands:
+ >> bundle install
+ >> rake db:migrate
+ >> rake db:setup
+ >> rails server
+
+ In your web browser, navigate to localhost:3000
+
+
+REQUIREMENTS
+* Ruby/Rails version
+    Built on Ruby 2.2.3p173 / Rails 4.2.5
+
+* Dependencies ()
+    (GEM) espnscrape 0.0.1
+    (GEM) jquery-tablesorter
+
+* Database creation
+    => rake db:migrate
+    => rake db:setup
+    Database will be populated via seeds.rb file during setup
+
+* How to run the test suite
+   TODO: Develop Test Suite

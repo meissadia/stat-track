@@ -1,0 +1,25 @@
+<main>
+  <div class="width_90">
+    <h1>Team Index(<%= @teams.size %>)</h1>
+    <table class="tablesorter center" id="teams">
+      <thead>
+        <tr>
+          <th>Team Name</th>
+          <th>Team ID</th>
+          <th>Division</th>
+          <th>Conference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @teams.each do |t| %>
+        <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+          <td><%= link_to t.t_name, "team/#{t.id}"  %></td>
+          <td><%= link_to t.t_abbr, "team/#{t.id}" %></td>
+          <td><%= t.division %></td>
+          <td><%= t.conference %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</main>
