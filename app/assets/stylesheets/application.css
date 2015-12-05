@@ -14,6 +14,7 @@
  *= require_self
  *= require jquery-tablesorter/theme.default
  */
+
  * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 body {
@@ -23,56 +24,67 @@ body {
   margin: 0;
 }
 
-#site_nav{
+nav {
+  font-size: 1em;
+  line-height: 2em;
   margin: 0;
-  height: 2em;
   width: 100%;
-  background-color: white;
-  vertical-align: bottom;
+  vertical-align: middle;
   overflow: hidden;
 }
 
-#site_nav ul, #site_nav p{
-  margin: 0;
+nav ul {
+  width: inherit;
+  display: inline-block;
+  background-color: gray;
+  margin: 0 auto;
+  padding: 0;
 }
 
-#site_nav li, #site_nav p{
+nav li, nav p {
+  /*background-color: yellow;*/
   margin: 0;
   display: inline-block;
+  line-height: inherit;
+  /*border: 1px solid white;*/
+}
+
+nav li {
+  margin: 0 auto;
+  padding: 0 1em;
+  /*width: 20%;*/
+}
+
+#site_nav{
+  background-color: white;
+}
+
+#site_nav ul {
+  width: 80%;
 }
 
 #logo {
   width: 20%;
   background-color: #0099ff;
-  display: inline-block;
-  font-size: 1.75em;
-  padding-left: .5em;
-  vertical-align: top;
   text-align: center;
 }
 
-#nav_list {
-  width: 80%;
-  height: 100%;
-  line-height: 100%;
-  color: #006bb3;
-  background-color: gray;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
+main {
+  width: 100%;
 }
 
-#nav_list li{
-  font-size: 1.25em;
-    margin-top: 10px;
-    margin-left: 1em;
+h2, h3 {
+  width: 100%;
+  text-align: center;
+  color: red;
 }
 
+h3 {
+  color: green;
+}
 
 footer {
   width: 100%;
-  height: 2em;
   line-height: 2em;
   padding-left: 2em;
   background-color: darkgrey;
