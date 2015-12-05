@@ -1,6 +1,6 @@
 <main>
   <nav id=team_nav>
-    <ul>
+    <ul id=t_nav_list>
       <li><%= link_to "Team Info", "/team/#{params[:id]}" %></li>
       <li><%= link_to "Schedule", "/team/schedule/#{params[:id]}" %></li>
     </ul>
@@ -87,7 +87,6 @@
         <% @roster.each do |row| %>
         <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
           <td><%= row.p_num %></td>
-          <!-- # Player Link -->
           <td><%= link_to row.p_name, "/player/#{row.id}" %></td>
           <td><%= row.pos %></td>
           <td><%= row.age %></td>

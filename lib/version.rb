@@ -18,7 +18,6 @@ end
 #    Check escaping of ' from EspnReader
 #    Solution: EspnReader was at fault. Install updated version.
 #      Gemfile:: EspnReader 0.0.1
-# 2. Game.UpdateFromSchedule (TEST)
 
 ########################### Version History ####################################
 
