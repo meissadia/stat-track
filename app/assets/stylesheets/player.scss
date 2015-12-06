@@ -5,5 +5,10 @@
 .r1 { background-color: lightblue;}
 
 #player_nav li:first-child {
-  margin-left: 16em;
+  // margin-left: 16em;
+}
+
+#player_nav #nav_list {
+  width: 50%;
+  margin: 0 auto;
 }

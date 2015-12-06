@@ -60,11 +60,11 @@
         </thead>
         <tbody>
           <tr class=r0>
-            <td><%= link_to "%s %s" % [@next_game.home ? "vs" : "@",  @next_game.opp_abbr], "/team/#{Team.getTeamId(@next_game.opp_abbr)}" %>
-              <td><%= @next_game.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
-            </tr>
-          </tbody>
-        </table>
+            <td><%= link_to "%s %s" % [@next_game.home ? "vs" : "@",  @next_game.opp_abbr], "/team/#{Team.getTeamId(@next_game.opp_abbr)}" %></td>
+            <td><%= @next_game.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -127,7 +127,7 @@
         <% @next10_games.each do |pg| %>
         <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
           <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
-          <td><%= pg.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
+          <td><%= pg.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
         </tr>
         <% end %>
       </table>

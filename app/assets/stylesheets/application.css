@@ -27,7 +27,7 @@ body {
 nav {
   font-size: 1em;
   line-height: 2em;
-  margin: 0;
+  margin: 0 auto;
   width: 100%;
   vertical-align: middle;
   overflow: hidden;
@@ -42,17 +42,14 @@ nav ul {
 }
 
 nav li, nav p {
-  /*background-color: yellow;*/
-  margin: 0;
+  margin: 0 auto;
   display: inline-block;
   line-height: inherit;
-  /*border: 1px solid white;*/
 }
 
 nav li {
   margin: 0 auto;
   padding: 0 1em;
-  /*width: 20%;*/
 }
 
 #site_nav{

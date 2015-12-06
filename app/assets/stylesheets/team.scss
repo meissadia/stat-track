@@ -5,7 +5,13 @@ $roster: 8;
 $team : 4;
 
 #team_nav li:first-child {
-  margin-left: 23em;
+  // margin-left: 23em;
+}
+
+#team_nav #nav_list {
+  width: 50%;
+  // background-color: yellow;
+  margin: 0 auto;
 }
 
 #team_info {
