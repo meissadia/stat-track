@@ -5,18 +5,22 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 end
 
 
 ########################### Current Version  ###################################
-# 0.0.2
+# 0.0.3
 # @fixed-issues
-# 1. Game.UpdateFromSchedule now correctly updates Game/Gamestat info for
-#    games that have already been completed!  No more need to reseed the entire
-#    database to bring it up-to-date.
+# 1. Game.UpdateFromSchedule now correctly updates Gamestat info for
+#    games that have already been completed!
 
 ########################### Version History ####################################
+
+# 0.0.2
+# @fixed-issues
+# 1. Game.UpdateFromSchedule now correctly updates Game info for
+#    games that have already been completed!
 
 # 0.0.1
 # @fixed-issues

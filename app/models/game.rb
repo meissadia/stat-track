@@ -15,7 +15,7 @@ class Game < ActiveRecord::Base
   def self.UpdateFromSchedule()
     gs_msgs = [] # Gamestat message
     ignore_fields_on_create = [:gtime, :g_datetime]
-    ignore_fields_on_update = [:gtime, :g_datetime, :tv, :home, :game_num, :home, :opp_abbr]
+    ignore_fields_on_update = [:gtime, :g_datetime, :tv, :game_num]
     time = Benchmark.realtime do
       puts "Updating GameStats : #{Date.today.strftime("%F")}"
       es = EspnScrape.new
@@ -46,14 +46,15 @@ class Game < ActiveRecord::Base
 
             cnt += 1
             bs = es.getBoxscore(pg[:boxscore_id])
-            fl_a += from_array2d(Gamestat::FIELD_NAMES, (pg[:home] ? bs.getHomeTeamPlayers : bs.getAwayTeamPlayers))
-            fl_a.each do |fl| #set foreign keys
+            fl_temp = from_array2d(Gamestat::FIELD_NAMES, (pg[:home] ? bs.getHomeTeamPlayers : bs.getAwayTeamPlayers))
+            fl_temp.each do |fl| #set foreign keys
               fl[:player_id] = Player.getPlayerId(fl[:p_name])
               fl[:boxscore_id] = pg[:boxscore_id]
-              fl[:opp_abbr] = pg[:home] ? bs.getTid(bs.getHomeTeamName) : bs.getTid(bs.getAwayTeamName)
+              fl[:opp_abbr] = (pg[:home] ? bs.getTid(bs.getHomeTeamName) : bs.getTid(bs.getAwayTeamName))
               fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
               fl[:starter] = fl[:starter] == 'X' ? true : false
             end
+            fl_a << fl_temp
             gs_msgs << "\n..GameStats: Game #{pg[:game_num]} vs #{pg[:opp_abbr]  } saved."
           end
         end
