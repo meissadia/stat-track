@@ -15,6 +15,8 @@ class PlayerController < ApplicationController
     @p_maxs_cols = ["min"] << "pts" << "ast" << "reb" << "stl" << "blk" << "tos"
     @p_maxs_cols << "(fgm/fga) as fgp" << "(ftm/fta) as ftp" << "(tpm/tpa) as tpp" << "plus" << "pf"
     @p_maxs = @player.select_max_stats(@p_maxs_cols, {:float_div => true, :decimals => 2, :round_f => ["fgp","ftp","tpp"]})
+    @previous = @player.previousPlayer
+    @next = @player.nextPlayer
   end
 
 

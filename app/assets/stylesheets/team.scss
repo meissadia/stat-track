@@ -4,6 +4,10 @@
 $roster: 8;
 $team : 4;
 
+#team_nav li:first-child {
+  margin-left: 23em;
+}
+
 #team_info {
   width: 90%;
 }

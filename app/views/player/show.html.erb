@@ -1,7 +1,9 @@
 <main>
   <nav id=player_nav>
-    <ul id=p_nav_list>
-      <li><%= link_to " << Team: #{@player.t_abbr}", "/team/#{Team.getTeamId(@player.t_abbr)}" %></li>
+    <ul id=nav_list>
+      <li><%= @previous.nil? ? "<< Previous Player" : (link_to "<< Previous Player", "/player/#{@previous}") %></li>
+      <li><%= link_to "Team: #{@player.t_abbr}", "/team/#{Team.getTeamId(@player.t_abbr)}" %></li>
+      <li><%= @next.nil? ? "Next Player >>" : (link_to "Next Player >>", "/player/#{@next}") %></li>
     </ul>
   </nav>
   <!-- Player Info -->

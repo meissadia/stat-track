@@ -36,4 +36,22 @@ class Player < ActiveRecord::Base
     Gamestat.select(maxs.join(',')).find_by_player_id(self.id)
   end
 
+  # Get previous PlayerID
+  def previousPlayer
+    if self.id == 1
+      return nil
+    else
+      return self.id - 1
+    end
+  end
+
+  # Get next PlayerID
+  def nextPlayer
+    if self.id == Player.all.count
+      return nil
+    else
+      return self.id + 1
+    end
+  end
+
 end
