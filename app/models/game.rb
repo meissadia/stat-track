@@ -10,6 +10,8 @@ class Game < ActiveRecord::Base
   FIELD_NAMES_PG = [:t_abbr,:game_num,:gtime,:tv,:gdate,:home,:opp_abbr,:win,:team_score,:opp_score,:boxscore_id,:wins,:losses, :g_datetime]
   FIELD_NAMES_FG = [:t_abbr,:game_num,:win,:boxscore_id, :gdate,:home,:opp_abbr,:gtime, :tv, :g_datetime]
 
+  # Update Games and Gamestats tables for any games that have been completed
+  # @return [Array[STRING]] Process Messages
   def self.UpdateFromSchedule()
     gs_msgs = [] # Gamestat message
     ignore_fields_on_create = [:gtime, :g_datetime]
@@ -60,6 +62,5 @@ class Game < ActiveRecord::Base
       end
     end
     return gs_msgs << "Update completed in #{time} sec"
-
   end
 end
