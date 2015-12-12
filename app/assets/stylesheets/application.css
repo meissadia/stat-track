@@ -52,6 +52,19 @@ nav li {
   padding: 0 1em;
 }
 
+main {
+  margin: 0 auto;
+  width: 90%;
+}
+
+h1 {
+  margin: .25em auto;
+}
+
+h2 {
+  margin: 1em auto;
+}
+
 #site_nav{
   background-color: white;
 }
@@ -64,10 +77,6 @@ nav li {
   width: 20%;
   background-color: #0099ff;
   text-align: center;
-}
-
-main {
-  width: 100%;
 }
 
 h2, h3 {
