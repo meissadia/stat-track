@@ -80,6 +80,7 @@
           <th>3P</th>
           <th>+/-</th>
           <th>PFs</th>
+          <th title="GameScore">GS</th>
         </tr>
       </thead>
       <tbody>
@@ -100,6 +101,7 @@
           <td><%= row.tpm %> / <%= row.tpa %></td>
           <td><%= row.plus %></td>
           <td><%= row.pf %></td>
+          <td><%= "%.2f" % [row.gamescore] %></td>
         </tr>
         <% end %>
       </tbody>

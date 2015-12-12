@@ -16,6 +16,7 @@ end
 # 1. Add more functional (but ugly) landing page with Conference Standings
 #    and Today's Games.
 # 2. Add top performers (by GameScore) to View Game#show
+# 3. Add GameScore to Gamestats shown in Player#show and Game#show 
 # @fixed-issues
 # 1. View Game#show | Correct sorting of FG/FT/3P now
 

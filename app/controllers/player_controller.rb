@@ -10,7 +10,8 @@ class PlayerController < ApplicationController
       render players_path
     end
     @alt_bg = 0
-    @stats = Gamestat.where("p_name = \"#{@player.p_name}\"")
+    s = "Gamestats.*, " + Gamestat.formulaGameScore
+    @stats = Gamestat.select(s).where("p_name = \"#{@player.p_name}\"")
 
     @p_maxs_cols = ["min"] << "pts" << "ast" << "reb" << "stl" << "blk" << "tos"
     @p_maxs_cols << "(fgm/fga) as fgp" << "(ftm/fta) as ftp" << "(tpm/tpa) as tpp" << "plus" << "pf"
