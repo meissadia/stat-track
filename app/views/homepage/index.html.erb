@@ -3,7 +3,7 @@
     <h1>Today's Games</h1>
     <div class="col1">
       <% @games[0].each do |game| %>
-      <div class="game_small">
+      <div class="game_small center">
         <div class="columns-two game_teams">
           <div class="col1">
             <%= link_to game.t_abbr, "/team/#{game.team_id}" %>
@@ -18,7 +18,7 @@
       <% end %>
     </div><div class="col2">
       <% @games[1].each do |game| %>
-      <div class="game_small">
+      <div class="game_small center">
         <div class="columns-two game_teams">
           <div class="col1">
             <%= link_to game.t_abbr, "/team/#{game.team_id}" %>
@@ -27,6 +27,53 @@
           </div>
           <div class="game_time">
             <%= game.gdate.strftime('%I:%M %p') %> EST
+          </div>
+        </div>
+      </div>
+      <% end %>
+      <% (@games[0].size - @games[1].size).times do %>
+      <div class="game_small_empty">
+        <div class="columns-two game_teams">
+          <div class="col1">&nbsp;</div><div class="col2">&nbsp;</div>
+          <div class="game_time">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="columns-two" id=games_today>
+    <h1>Latest Results</h1>
+    <div class="col1">
+      <% @results[0].each do |game| %>
+      <div class="game_small">
+        <div class="columns-two game_teams center">
+          <div class="col1">
+            <%= link_to game.t_abbr, "/team/#{game.team_id}" %> (<%= game.team_score %>)<br/>
+            <!-- <%= "%s - %s" % [game.wins, game.losses] %> -->
+          </div><div class="col2">
+            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %> (<%= game.opp_score %>)
+          </div>
+          <div class="game_boxscore_link">
+            <%= link_to "Boxscore", "/game/#{game.boxscore_id}" %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div><div class="col2">
+      <% @results[1].each do |game| %>
+      <div class="game_small">
+        <div class="columns-two game_teams center">
+          <div class="col1">
+            <%= link_to game.t_abbr, "/team/#{game.team_id}" %> (<%= game.team_score %>)<br/>
+            <!-- <%= "%s - %s" % [game.wins, game.losses] %> -->
+          </div><div class="col2">
+            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %> (<%= game.opp_score %>)
+          </div>
+          <div class="game_boxscore_link">
+            <%= link_to "Boxscore", "/game/#{game.boxscore_id}" %>
           </div>
         </div>
       </div>

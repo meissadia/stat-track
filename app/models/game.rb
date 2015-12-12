@@ -72,6 +72,13 @@ class Game < ActiveRecord::Base
     Game.where(gdate: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).where(:home => true).order("gdate")
   end
 
+  # Get Games By Date
+  # @param d [Datetime] # A DateTime object
+  # @return [ActiveRecord::Game] # Game AR Relation
+  def self.gamesYesterday()
+    Game.where(gdate: ((Date.yesterday.beginning_of_day)..(Date.yesterday.end_of_day))).where(:home => true).order("gdate")
+  end
+
 
 
 end
