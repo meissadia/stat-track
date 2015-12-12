@@ -1,1 +1,100 @@
-index.html.erb
+<main>
+  <div class="columns-two" id=games_today>
+    <h1>Today's Games</h1>
+    <div class="col1">
+      <% @games[0].each do |game| %>
+      <div class="game_small">
+        <div class="columns-two game_teams">
+          <div class="col1">
+            <%= link_to game.t_abbr, "/team/#{game.team_id}" %>
+          </div><div class="col2">
+            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %>
+          </div>
+          <div class="game_time">
+            <%= game.gdate.strftime('%I:%M %p') %> EST
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div><div class="col2">
+      <% @games[1].each do |game| %>
+      <div class="game_small">
+        <div class="columns-two game_teams">
+          <div class="col1">
+            <%= link_to game.t_abbr, "/team/#{game.team_id}" %>
+          </div><div class="col2">
+            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %>
+          </div>
+          <div class="game_time">
+            <%= game.gdate.strftime('%I:%M %p') %> EST
+          </div>
+        </div>
+      </div>
+      <% end %>
+      <% (@games[0].size - @games[1].size).times do %>
+      <div class="game_small_empty">
+        <div class="columns-two game_teams">
+          <div class="col1">&nbsp;</div><div class="col2">&nbsp;</div>
+          <div class="game_time">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class='columns-two' id=standings>
+    <h1>Conference Standings</h1>
+    <div class="col1" id=conference_west>
+      <table class="tablesorter center">
+        <caption>West</caption>
+        <thead><tr>
+          <th>Rank</th>
+          <th>Team</th>
+          <th>Wins</th>
+          <th>Losses</th>
+          <th>Win %</th>
+        </tr></thead>
+        <tbody>
+          <% @ranks_west.each do |win_pct, t_name, ranked_team| %>
+          <tr>
+            <td><%= @r_cnt += 1 %></td>
+            <td><%= link_to t_name, "/team/#{ranked_team.team_id}" %></td>
+            <td><%= ranked_team.wins %></td>
+            <td><%= ranked_team.losses %></td>
+            <td><%= win_pct %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </table>
+  </div><div class="col2" id=conference_east>
+    <table class="tablesorter center">
+      <caption>East</caption>
+      <thead><tr>
+        <th>Rank</th>
+        <th>Team</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Win %</th>
+      </tr></thead>
+      <tbody>
+        <% @r_cnt = 0 %>
+        <% @ranks_east.each do |win_pct, t_name, ranked_team| %>
+        <tr>
+          <td><%= @r_cnt += 1 %></td>
+          <td><%= link_to t_name, "/team/#{ranked_team.team_id}" %></td>
+          <td><%= ranked_team.wins %></td>
+          <td><%= ranked_team.losses %></td>
+          <td><%= win_pct %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </table>
+
+
+</div>
+</div>
+</main>

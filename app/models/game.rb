@@ -64,4 +64,14 @@ class Game < ActiveRecord::Base
     end
     return gs_msgs << "Update completed in #{time} sec"
   end
+
+  # Get Today's Games
+  # @param d [Datetime] # A DateTime object
+  # @return [ActiveRecord::Game] # Game AR Relation
+  def self.gamesToday(d='')
+    Game.where(gdate: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).where(:home => true).order("gdate")
+  end
+
+
+
 end

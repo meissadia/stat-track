@@ -5,17 +5,23 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.3'
+  VERSION = '0.0.4'
 end
 
 
 ########################### Current Version  ###################################
+
+# 0.0.4
+# @new
+# 1. Add more functional (but ugly) landing page with Conference Standings
+#    and Today's Games.
+
+########################### Version History ####################################
+
 # 0.0.3
 # @fixed-issues
 # 1. Game.UpdateFromSchedule now correctly updates Gamestat info for
 #    games that have already been completed!
-
-########################### Version History ####################################
 
 # 0.0.2
 # @fixed-issues
@@ -33,7 +39,7 @@ end
 
 # 0.0.0
 # @known-issues
-# 1. Fix Game.UpdateDb (not updating)
+# 1. Fix Game.UpdateDb (not updating) x
 # @future-features
 # 1. Switch Database to MySQL
 # 2. Port Team Summary

@@ -20,4 +20,21 @@ class Team < ActiveRecord::Base
     return (!t.nil? ? t.t_abbr : nil)
   end
 
+  # Conference Rankings
+  # @param conf_id [Char] #Conference Identifier
+  # @return [Array[[Float,]]] # Team Abbr
+  def self.rankings_conf(conf_id)
+    c_id = conf_id.to_s.upcase
+    c_name = (c_id.eql?('W') ? 'Western' : 'Eastern')
+    teams = Team.select(:id).where("conference = ?", c_name)
+    t_list = []
+    t_rank = []
+    teams.each { |t| t_list << t.id }
+    @records = Game.where(team_id: t_list).where.not(:boxscore_id => 0).order("gdate desc").group(:team_id)
+    @records.each do |record|
+      w_pct = record.wins.to_f / (record.wins + record.losses)
+      t_rank << [w_pct.round(2), Team.find(record.team_id).t_name, record]
+    end
+    t_rank.sort!.reverse!
+  end
 end

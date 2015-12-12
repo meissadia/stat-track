@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   # root 'db_settings#new'
-  root 'team#index'
+  # root 'team#index'
+  root 'homepage#index'
 
 
   # Example of regular route:

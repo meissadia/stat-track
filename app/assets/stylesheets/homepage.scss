@@ -1,3 +1,23 @@
 // Place all the styles related to the homepage controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.game_small {
+  margin: 1em auto;
+}
+
+.game_teams {
+  border: 1px solid black;
+  background-color: white;
+  padding-top: .25em;
+}
+
+
+.col1, .game_time{
+  padding-left: 1em;
+}
+
+.game_time {
+  margin-top: .25em;
+  padding-bottom: .25em;
+}
