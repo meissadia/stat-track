@@ -15,6 +15,8 @@ end
 # @new
 # 1. Add more functional (but ugly) landing page with Conference Standings
 #    and Today's Games.
+# @fixed-issues
+# 1. View Game#show | Correct sorting of FG/FT/3P now
 
 ########################### Version History ####################################
 
