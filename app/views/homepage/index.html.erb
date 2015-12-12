@@ -3,8 +3,8 @@
     <h1>Today's Games</h1>
     <div class="col1">
       <% @games[0].each do |game| %>
-      <div class="game_small center">
-        <div class="columns-two game_teams">
+      <div class="game_small">
+        <div class="columns-two game_teams center">
           <div class="col1">
             <%= link_to game.t_abbr, "/team/#{game.team_id}" %>
           </div><div class="col2">
@@ -18,8 +18,8 @@
       <% end %>
     </div><div class="col2">
       <% @games[1].each do |game| %>
-      <div class="game_small center">
-        <div class="columns-two game_teams">
+      <div class="game_small">
+        <div class="columns-two game_teams center">
           <div class="col1">
             <%= link_to game.t_abbr, "/team/#{game.team_id}" %>
           </div><div class="col2">
