@@ -37,6 +37,7 @@ class Player < ActiveRecord::Base
   end
 
   # Get previous PlayerID
+  # @return [Integer] Player ID
   def previousPlayer
     if self.id == 1
       return nil
@@ -46,6 +47,7 @@ class Player < ActiveRecord::Base
   end
 
   # Get next PlayerID
+  # @return [Integer] Player ID
   def nextPlayer
     if self.id == Player.all.count
       return nil

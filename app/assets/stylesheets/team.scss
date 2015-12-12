@@ -4,8 +4,9 @@
 $roster: 8;
 $team : 4;
 
-#team_nav li:first-child {
-  // margin-left: 23em;
+#team_nav {
+  width: 50%;
+  margin: 0 auto;
 }
 
 #team_nav #nav_list {
