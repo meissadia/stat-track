@@ -18,6 +18,7 @@ end
 # 2. Add top performers (by GameScore) to View Game#show
 # 3. Add GameScore to Gamestats shown in Player#show and Game#show
 # 4. Add Top Performances to Homepage#index
+# 5. Improve nav menus look and feel
 # @fixed-issues
 # 1. View Game#show | Correct sorting of FG/FT/3P now
 # 2. Stop overwriting Gamestats.gdate in Game.UpdateFromSchedule

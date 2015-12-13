@@ -1,10 +1,4 @@
 <main>
-  <nav id=game_nav>
-    <ul id=g_nav_list>
-      <li><%= link_to "Home", "/"%></li>
-    </ul>
-  </nav>
-
   <h1><%= "%s (%i) %s %s (%i)" % [Team.getTeamName(@game.team_id), @game.team_score, @game.home ? 'vs' : '@', Team.getTeamName(@game.opp_id), @game.opp_score] %></h1>
 
   <div class="">

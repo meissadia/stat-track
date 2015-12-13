@@ -1,10 +1,12 @@
 <main>
-  <nav id=team_nav>
-    <ul id=nav_list>
-      <li><%= link_to "Team Info", "/team/#{params[:id]}" %></li>
-      <li><%= link_to "Schedule", "/team/schedule/#{params[:id]}" %></li>
-    </ul>
-  </nav>
+  <div class=center>
+    <nav id=team_nav>
+      <ul id=nav_list>
+        <li><%= link_to "Team Info", "/team/#{params[:id]}" %></li>
+        <li><%= link_to "Schedule", "/team/schedule/#{params[:id]}" %></li>
+      </ul>
+    </nav>
+  </div>
 
   <h2><%= @team.t_name %> Schedule</h2>
   <div class=width_90>
@@ -31,24 +33,24 @@
     </table>
   </div>
   <div class=width_90>
-  <h3>Future Games</h3>
-  <table class="tablesorter center">
-    <thead>
-      <tr>
-        <th>Num</th>
-        <th>Date</th>
-        <th>Opponent</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @future_games.each do |pg| %>
-      <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
-        <td><%= pg.game_num %></td>
-        <td><span class=hide><%= pg.gdate.strftime('%y/%m/%d') %></span><%= pg.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
-        <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+    <h3>Future Games</h3>
+    <table class="tablesorter center">
+      <thead>
+        <tr>
+          <th>Num</th>
+          <th>Date</th>
+          <th>Opponent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @future_games.each do |pg| %>
+        <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+          <td><%= pg.game_num %></td>
+          <td><span class=hide><%= pg.gdate.strftime('%y/%m/%d') %></span><%= pg.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
+          <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </main>

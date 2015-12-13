@@ -1,7 +1,11 @@
 // Place all the styles related to the Games controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-// #home_team, #away_team {
-//   width: 100%;
-//   background-color: yellow;
-// }
+
+
+#game_nav #nav_list {
+  width: 50%;
+  margin: 0 auto;
+  border-top: 1px solid #FFFFFF;
+  border-radius: 50px;
+}

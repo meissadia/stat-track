@@ -1,10 +1,12 @@
 <main>
-  <nav id=team_nav>
-    <ul id=nav_list>
-      <li><%= link_to "Team Info", "/team/#{params[:id]}" %></li>
-      <li><%= link_to "Schedule", "/team/schedule/#{params[:id]}" %></li>
-    </ul>
-  </nav>
+  <div class="center">
+    <nav id=team_nav>
+      <ul id=nav_list>
+        <li><%= link_to "Team Info", "/team/#{params[:id]}" %></li>
+        <li><%= link_to "Schedule", "/team/schedule/#{params[:id]}" %></li>
+      </ul>
+    </nav>
+  </div>
 
   <h1><%= @team.t_name %></h1>
   <h2>Team</h2>
