@@ -101,7 +101,7 @@
           <td><%= row.tpm %> / <%= row.tpa %></td>
           <td><%= row.plus %></td>
           <td><%= row.pf %></td>
-          <td><%= "%.2f" % [row.gamescore] %></td>
+          <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
         </tr>
         <% end %>
       </tbody>

@@ -78,7 +78,7 @@
             <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
             <td><%= row.plus %></td>
             <td><%= row.pf %></td>
-            <td><%= "%.2f" % [row.gamescore] %></td>
+            <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
           </tr>
           <% end %>
         </tbody>
@@ -153,7 +153,7 @@
             <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
             <td><%= row.plus %></td>
             <td><%= row.pf %></td>
-            <td><%= "%.2f" % [row.gamescore] %></td>
+            <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
           </tr>
           <% end %>
         </tbody>

@@ -4,7 +4,6 @@ class HomepageController < ApplicationController
     @ranks_east = Team.rankings_conf('E')
     @r_cnt = 0
     @games = Game.gamesToday.in_groups(2, false)
-
     @results = Game.gamesYesterday.in_groups(2, false)
   end
 

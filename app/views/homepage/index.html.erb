@@ -11,7 +11,7 @@
             <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %>
           </div>
           <div class="game_time">
-            <%= game.gdate.strftime('%I:%M %p') %> EST
+            <%= !game.boxscore_id.eql?(0) ? (link_to "Boxscore", "/game/#{game.boxscore_id}") : "%s EST" % [game.gdate.strftime('%I:%M %p')] %>
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@
             <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %>
           </div>
           <div class="game_time">
-            <%= game.gdate.strftime('%I:%M %p') %> EST
+            <%= !game.boxscore_id.eql?(0) ? (link_to "Boxscore", "/game/#{game.boxscore_id}") : "%s EST" % [game.gdate.strftime('%I:%M %p')] %>
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
   </div>
 
   <div class="columns-two" id=games_today>
-    <h1>Latest Results</h1>
+    <h1>Yesterday's Results</h1>
     <div class="col1">
       <% @results[0].each do |game| %>
       <div class="game_small">
