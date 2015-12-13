@@ -5,7 +5,7 @@
     </ul>
   </nav>
 
-  <h1><%= "%s (%i) %s %s (%i)" % [@game.t_abbr, @game.team_score, @game.home ? 'vs' : '@', @game.opp_abbr, @game.opp_score] %></h1>
+  <h1><%= "%s (%i) %s %s (%i)" % [Team.getTeamName(@game.team_id), @game.team_score, @game.home ? 'vs' : '@', Team.getTeamName(@game.opp_id), @game.opp_score] %></h1>
 
   <div class="">
     <h2>Game Stats</h2>

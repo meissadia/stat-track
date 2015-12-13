@@ -136,7 +136,7 @@
           <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
             <td><%= pg.game_num %></td>
             <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
-            <td><span class=hide><%= pg.gdate.strftime('%d %b') %></span> <%= pg.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
+            <td><span class=hide><%= pg.gdate.strftime('%y/%m/%d') %></span><%= pg.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
           </tr>
           <% end %>
         </tbody>

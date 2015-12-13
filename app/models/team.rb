@@ -20,6 +20,10 @@ class Team < ActiveRecord::Base
     return (!t.nil? ? t.t_abbr : nil)
   end
 
+  def self.getTeamName(id)
+    return Team.find(id).t_name
+  end
+
   # Conference Rankings
   # @param conf_id [Char] #Conference Identifier
   # @return [Array[[Float,]]] # Team Abbr
