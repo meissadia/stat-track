@@ -6,23 +6,21 @@
 #buttons {
   margin: 0 auto;
   width: 100%;
-  // background-color: yellow;
 }
 
-#buttons ul {
-  width: 100%;
+#buttons div {
+  width: 20%;
   vertical-align: middle;
-  margin: 0 auto;
-  // background-color: blue;
+  margin: auto;
 }
 
-#buttons ul li {
-  margin: 0 35%;
+#buttons p{
+  margin: 0 auto;
   height: 4em;
   line-height: 4em;
-  width:10em;
+  width:100%;
   display: inline-block;
   background-color: #33cc33;
   text-align: center;
-  border-radius: 20px;
+  border-radius: 30px;
 }

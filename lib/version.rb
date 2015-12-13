@@ -21,6 +21,7 @@ end
 # @fixed-issues
 # 1. View Game#show | Correct sorting of FG/FT/3P now
 # 2. Stop overwriting Gamestats.gdate in Game.UpdateFromSchedule
+# 3. MaintainDB#index display corrections
 
 ########################### Version History ####################################
 

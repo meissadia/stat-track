@@ -96,9 +96,9 @@
           <td><%= row.stl %></td>
           <td><%= row.blk %></td>
           <td><%= row.tos %></td>
-          <td><%= row.fgm %> / <%= row.fga %></td>
-          <td><%= row.ftm %> / <%= row.fta %></td>
-          <td><%= row.tpm %> / <%= row.tpa %></td>
+          <td><span class=hide><%= row.fga.eql?(0) ? 0 : 100*(row.fgm*1.0/row.fga).round(2) %></span><%= "%i / %i" % [row.fgm, row.fga] %></td>
+          <td><span class=hide><%= row.fta.eql?(0) ? 0 : 100*(row.ftm*1.0/row.fta).round(2) %></span><%= "%i / %i" % [row.ftm, row.fta] %></td>
+          <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
           <td><%= row.plus %></td>
           <td><%= row.pf %></td>
           <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>

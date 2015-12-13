@@ -16,6 +16,7 @@
  */
 
  * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+ * { font-family: 'Titillium Web'}
 
 body {
   width: 100%;
@@ -59,6 +60,7 @@ main {
 
 h1 {
   margin: .25em auto;
+  font-size: 1.25em;
 }
 
 h2 {
