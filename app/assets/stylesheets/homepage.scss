@@ -2,17 +2,39 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.game_small {
+.game_small, .game_small_empty {
   margin: 1em auto;
+}
+
+.game_teams, .game_teams_empty {
+  padding-top: .25em;
 }
 
 .game_teams {
   border: 1px solid black;
   background-color: white;
-  padding-top: .25em;
 }
 
 .game_time, .game_boxscore_link {
   margin-top: .25em;
   padding-bottom: .25em;
+}
+
+.columns-five {
+  width: 90%;
+  margin: 0 auto;
+  // background-color: yellow;
+}
+
+.columns-five .col {
+  width: 19%;
+  margin: 0;
+  display: inline-block;
+  border: 1px solid black;
+  background-color: white;
+}
+
+.columns-five .col table {
+  width: 100%;
+  margin: 0;
 }

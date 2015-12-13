@@ -15,7 +15,7 @@ class Game < ActiveRecord::Base
   def self.UpdateFromSchedule()
     gs_msgs = [] # Gamestat message
     ignore_fields_on_create = [:gtime, :g_datetime]
-    ignore_fields_on_update = [:gtime, :g_datetime, :tv, :game_num]
+    ignore_fields_on_update = [:gtime, :g_datetime, :tv, :game_num, :gdate]
     time = Benchmark.realtime do
       puts "Updating GameStats : #{Date.today.strftime("%F")}"
       es = EspnScrape.new

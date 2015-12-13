@@ -1,36 +1,62 @@
 <main>
+  <div class="center" id=todays_best>
+    <h1>Top Performances</h1>
+    <div class="columns-five">
+      <% @todays_best.each do |top_player| %>
+      <div class="col">
+        <table class=center>
+          <caption><%= link_to "%s" % [top_player.p_name], "/player/#{top_player.player_id}" %></caption>
+          <caption><%= link_to "#{top_player.t_abbr}", "/team/abbr/#{top_player.t_abbr}" %></caption>
+          <tr><td>PTS:</td><td><%= top_player.pts %></td><td>AST:</td><td><%= top_player.ast %></td></tr>
+          <tr><td>REB:</td><td><%= top_player.reb %></td><td>BLK:</td><td><%= top_player.blk %></td></tr>
+          <tr><td>STL:</td><td><%= top_player.stl %></td><td>BLK:</td><td><%= top_player.tos %></td></tr>
+        </table>
+        <caption><%= link_to "Boxscore", "/game/#{top_player.boxscore_id}" %></caption>
+      </div>
+      <% end %>
+    </div>
+  </div>
   <div class="columns-two" id=games_today>
-    <h1>Today's Games</h1>
+    <h1>Games for <%= Date.today.strftime('%b %e, %Y') %></h1>
     <div class="col1">
+      <!-- Column 1 -->
       <% @games[0].each do |game| %>
       <div class="game_small">
         <div class="columns-two game_teams center">
           <div class="col1">
-            <%= link_to game.t_abbr, "/team/#{game.team_id}" %>
+            <!-- Home Team -->
+            <%= link_to game.t_abbr, "/team/#{game.team_id}" %><%= if !game.boxscore_id.eql?(0) then " (%i)" % [game.team_score] end %>
           </div><div class="col2">
-            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %>
+            <!-- Away Team -->
+            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %><%= if !game.boxscore_id.eql?(0) then " (%i)" % [game.opp_score] end %>
           </div>
           <div class="game_time">
+            <!-- Game Time or Boxscore link -->
             <%= !game.boxscore_id.eql?(0) ? (link_to "Boxscore", "/game/#{game.boxscore_id}") : "%s EST" % [game.gdate.strftime('%I:%M %p')] %>
           </div>
         </div>
       </div>
       <% end %>
     </div><div class="col2">
+      <!-- Column 2 -->
       <% @games[1].each do |game| %>
       <div class="game_small">
         <div class="columns-two game_teams center">
           <div class="col1">
-            <%= link_to game.t_abbr, "/team/#{game.team_id}" %>
+            <!-- Home Team -->
+            <%= link_to game.t_abbr, "/team/#{game.team_id}" %><%= if !game.boxscore_id.eql?(0) then " (%i)" % [game.team_score] end %>
           </div><div class="col2">
-            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %>
+            <!-- Away Team -->
+            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %><%= if !game.boxscore_id.eql?(0) then " (%i)" % [game.opp_score] end %>
           </div>
           <div class="game_time">
+            <!-- Game Time or Boxscore link -->
             <%= !game.boxscore_id.eql?(0) ? (link_to "Boxscore", "/game/#{game.boxscore_id}") : "%s EST" % [game.gdate.strftime('%I:%M %p')] %>
           </div>
         </div>
       </div>
       <% end %>
+      <!-- Filler -->
       <% (@games[0].size - @games[1].size).times do %>
       <div class="game_small_empty">
         <div class="columns-two game_teams">
@@ -45,16 +71,18 @@
   </div>
 
   <div class="columns-two" id=games_today>
-    <h1>Yesterday's Results</h1>
+    <h1>Games for <%= Date.today.yesterday.strftime('%b %e, %Y') %></h1>
     <div class="col1">
+      <!-- Column 1 -->
       <% @results[0].each do |game| %>
       <div class="game_small">
         <div class="columns-two game_teams center">
           <div class="col1">
-            <%= link_to game.t_abbr, "/team/#{game.team_id}" %> (<%= game.team_score %>)<br/>
-            <!-- <%= "%s - %s" % [game.wins, game.losses] %> -->
+            <!-- Home Team -->
+            <%= link_to game.t_abbr, "/team/#{game.team_id}" %><%= " (%i)" % [game.team_score] %>
           </div><div class="col2">
-            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %> (<%= game.opp_score %>)
+            <!-- Away Team -->
+            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %><%= " (%i)" % [game.opp_score] %>
           </div>
           <div class="game_boxscore_link">
             <%= link_to "Boxscore", "/game/#{game.boxscore_id}" %>
@@ -63,14 +91,16 @@
       </div>
       <% end %>
     </div><div class="col2">
+      <!-- Column 2 -->
       <% @results[1].each do |game| %>
       <div class="game_small">
         <div class="columns-two game_teams center">
           <div class="col1">
-            <%= link_to game.t_abbr, "/team/#{game.team_id}" %> (<%= game.team_score %>)<br/>
-            <!-- <%= "%s - %s" % [game.wins, game.losses] %> -->
+            <!-- Home Team -->
+            <%= link_to game.t_abbr, "/team/#{game.team_id}" %><%= " (%i)" % [game.team_score] %>
           </div><div class="col2">
-            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %> (<%= game.opp_score %>)
+            <!-- Away Team -->
+            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %><%= " (%i)" % [game.opp_score] %>
           </div>
           <div class="game_boxscore_link">
             <%= link_to "Boxscore", "/game/#{game.boxscore_id}" %>
@@ -78,9 +108,10 @@
         </div>
       </div>
       <% end %>
-      <% (@games[0].size - @games[1].size).times do %>
+      <!-- Filler -->
+      <% (@results[0].size - @results[1].size).times do %>
       <div class="game_small_empty">
-        <div class="columns-two game_teams">
+        <div class="columns-two game_teams_empty">
           <div class="col1">&nbsp;</div><div class="col2">&nbsp;</div>
           <div class="game_time">
             &nbsp;
@@ -94,15 +125,18 @@
   <div class='columns-two' id=standings>
     <h1>Conference Standings</h1>
     <div class="col1" id=conference_west>
+      <!-- Conference  -->
       <table class="tablesorter center">
         <caption>West</caption>
-        <thead><tr>
-          <th>Rank</th>
-          <th>Team</th>
-          <th>Wins</th>
-          <th>Losses</th>
-          <th>Win %</th>
-        </tr></thead>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Win %</th>
+          </tr>
+        </thead>
         <tbody>
           <% @ranks_west.each do |win_pct, t_name, ranked_team| %>
           <tr>
@@ -117,15 +151,18 @@
       </table>
     </table>
   </div><div class="col2" id=conference_east>
+    <!-- Conference  -->
     <table class="tablesorter center">
       <caption>East</caption>
-      <thead><tr>
-        <th>Rank</th>
-        <th>Team</th>
-        <th>Wins</th>
-        <th>Losses</th>
-        <th>Win %</th>
-      </tr></thead>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Team</th>
+          <th>Wins</th>
+          <th>Losses</th>
+          <th>Win %</th>
+        </tr>
+      </thead>
       <tbody>
         <% @r_cnt = 0 %>
         <% @ranks_east.each do |win_pct, t_name, ranked_team| %>
@@ -140,8 +177,6 @@
       </tbody>
     </table>
   </table>
-
-
 </div>
 </div>
 </main>
