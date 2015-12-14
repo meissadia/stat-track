@@ -18,6 +18,8 @@ class PlayerController < ApplicationController
     @p_maxs = @player.select_max_stats(@p_maxs_cols, {:float_div => true, :decimals => 2, :round_f => ["fgp","ftp","tpp"]})
     @previous = @player.previousPlayer
     @next = @player.nextPlayer
+    @team_name = Team.getTeamName(Team.getTeamId(@player.t_abbr))
+    @team_logo = StatTrack::Application.config.logos[@team_name]
   end
 
 

@@ -1,8 +1,14 @@
 // Place all the styles related to the team controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-$roster: 8;
-$team : 4;
+th {
+  background-color: gray;
+}
+
+.hide {
+  position: absolute;
+  left: -999em;
+}
 
 #team_nav {
   width: 50%;
@@ -13,7 +19,8 @@ $team : 4;
   width: 100%;
   margin: 0 auto;
   border-top: 1px solid #FFFFFF;
-  border-radius: 50px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
 }
 
 #team_info {
@@ -24,19 +31,17 @@ $team : 4;
   width: 25%;
 }
 
-th {
-  background-color: gray;
+#team_logo {
+  padding-top: 2px;
+  margin: 0 auto;
+  width: 50%;
+  background-color: white;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
 }
 
-#roster td, #roster th {
-  // width: 12.5%;
-}
-
-#win_loss_pct td, #win_loss_pct th {
-  // width: 33.33%;
-}
-
-.hide {
-  position: absolute;
-  left: -999em;
+#next_game img,
+#team_results img {
+  width: 60px;
+  vertical-align: middle;
 }

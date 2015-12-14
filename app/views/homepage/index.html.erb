@@ -2,16 +2,16 @@
   <div class="center" id=todays_best>
     <h1>Top Performances</h1>
     <div class="columns-five width_90 removeTextNodes">
-      <% @todays_best.each do |top_player| %>
+      <% @todays_best.each do |player| %>
       <div class="col">
         <table class=center>
-          <caption><%= link_to "%s" % [top_player.p_name], "/player/#{top_player.player_id}" %></caption>
-          <caption><%= link_to "#{top_player.t_abbr}", "/team/abbr/#{top_player.t_abbr}" %></caption>
-          <tr><td>PTS:</td><td><%= top_player.pts %></td><td>AST:</td><td><%= top_player.ast %></td></tr>
-          <tr><td>REB:</td><td><%= top_player.reb %></td><td>BLK:</td><td><%= top_player.blk %></td></tr>
-          <tr><td>STL:</td><td><%= top_player.stl %></td><td>BLK:</td><td><%= top_player.tos %></td></tr>
+          <caption><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></caption>
+          <caption><%= link_to (image_tag player.bg), "/team/abbr/#{player.t_abbr}" %></caption>
+          <tr><td>PTS:</td><td><%= player.pts %></td><td>AST:</td><td><%= player.ast %></td></tr>
+          <tr><td>REB:</td><td><%= player.reb %></td><td>BLK:</td><td><%= player.blk %></td></tr>
+          <tr><td>STL:</td><td><%= player.stl %></td><td>BLK:</td><td><%= player.tos %></td></tr>
         </table>
-        <caption><%= link_to "Boxscore", "/game/#{top_player.boxscore_id}" %></caption>
+        <caption><%= link_to "Boxscore", "/game/#{player.boxscore_id}" %></caption>
       </div>
       <% end %>
     </div>
@@ -23,12 +23,14 @@
       <% @games[0].each do |game| %>
       <div class="game_small">
         <div class="columns-two game_teams center">
-          <div class="col1">
+          <div class="center col1">
             <!-- Home Team -->
-            <%= link_to game.t_abbr, "/team/#{game.team_id}" %><%= if !game.boxscore_id.eql?(0) then " (%i)" % [game.team_score] end %>
-          </div><div class="col2">
+            <%= link_to (image_tag @logos[Team.getTeamName(game.team_id)]), "/team/#{game.team_id}" %><br/>
+            <%= if !game.boxscore_id.eql?(0) then "%i" % [game.team_score] end %>
+          </div><div class="center col2">
             <!-- Away Team -->
-            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %><%= if !game.boxscore_id.eql?(0) then " (%i)" % [game.opp_score] end %>
+            <%= link_to (image_tag @logos[Team.getTeamName(game.opp_id)]), "/team/#{game.opp_id}" %><br/>
+            <%= if !game.boxscore_id.eql?(0) then "%i" % [game.opp_score] end %>
           </div>
           <div class="game_time">
             <!-- Game Time or Boxscore link -->
@@ -42,12 +44,14 @@
       <% @games[1].each do |game| %>
       <div class="game_small">
         <div class="columns-two game_teams center">
-          <div class="col1">
+          <div class="center col1">
             <!-- Home Team -->
-            <%= link_to game.t_abbr, "/team/#{game.team_id}" %><%= if !game.boxscore_id.eql?(0) then " (%i)" % [game.team_score] end %>
-          </div><div class="col2">
+            <%= link_to (image_tag @logos[Team.getTeamName(game.team_id)]), "/team/#{game.team_id}" %><br/>
+            <%= if !game.boxscore_id.eql?(0) then "%i" % [game.team_score] end %>
+          </div><div class="center col2">
             <!-- Away Team -->
-            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %><%= if !game.boxscore_id.eql?(0) then " (%i)" % [game.opp_score] end %>
+            <%= link_to (image_tag @logos[Team.getTeamName(game.opp_id)]), "/team/#{game.opp_id}" %><br/>
+            <%= if !game.boxscore_id.eql?(0) then "%i" % [game.opp_score] end %>
           </div>
           <div class="game_time">
             <!-- Game Time or Boxscore link -->
@@ -77,12 +81,14 @@
       <% @results[0].each do |game| %>
       <div class="game_small">
         <div class="columns-two game_teams center">
-          <div class="col1">
+          <div class="center col1">
             <!-- Home Team -->
-            <%= link_to game.t_abbr, "/team/#{game.team_id}" %><%= " (%i)" % [game.team_score] %>
-          </div><div class="col2">
+            <%= link_to (image_tag @logos[Team.getTeamName(game.team_id)]), "/team/#{game.team_id}" %><br/>
+            <%= if !game.boxscore_id.eql?(0) then "%i" % [game.team_score] end %>
+          </div><div class="center col2">
             <!-- Away Team -->
-            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %><%= " (%i)" % [game.opp_score] %>
+            <%= link_to (image_tag @logos[Team.getTeamName(game.opp_id)]), "/team/#{game.opp_id}" %><br/>
+            <%= if !game.boxscore_id.eql?(0) then "%i" % [game.opp_score] end %>
           </div>
           <div class="game_boxscore_link">
             <%= link_to "Boxscore", "/game/#{game.boxscore_id}" %>
@@ -95,12 +101,14 @@
       <% @results[1].each do |game| %>
       <div class="game_small">
         <div class="columns-two game_teams center">
-          <div class="col1">
+          <div class="center col1">
             <!-- Home Team -->
-            <%= link_to game.t_abbr, "/team/#{game.team_id}" %><%= " (%i)" % [game.team_score] %>
-          </div><div class="col2">
+            <%= link_to (image_tag @logos[Team.getTeamName(game.team_id)]), "/team/#{game.team_id}" %><br/>
+            <%= if !game.boxscore_id.eql?(0) then "%i" % [game.team_score] end %>
+          </div><div class="center col2">
             <!-- Away Team -->
-            <%= link_to game.opp_abbr, "/team/#{game.opp_id}" %><%= " (%i)" % [game.opp_score] %>
+            <%= link_to (image_tag @logos[Team.getTeamName(game.opp_id)]), "/team/#{game.opp_id}" %><br/>
+            <%= if !game.boxscore_id.eql?(0) then "%i" % [game.opp_score] end %>
           </div>
           <div class="game_boxscore_link">
             <%= link_to "Boxscore", "/game/#{game.boxscore_id}" %>

@@ -1,15 +1,19 @@
 <main>
   <div class=center>
     <nav id=player_nav>
-      <ul id=nav_list>
-        <li><%= @previous.nil? ? "<< Previous Player" : (link_to "<< Previous Player", "/player/#{@previous}") %></li>
+      <ul id=nav_list class=removeTextNodes>
+        <li><%= @previous.nil? ? "< Prev. Player" : (link_to "< Prev. Player", "/player/#{@previous}") %></li>
         <li><%= link_to "Team: #{@player.t_abbr}", "/team/#{Team.getTeamId(@player.t_abbr)}" %></li>
-        <li><%= @next.nil? ? "Next Player >>" : (link_to "Next Player >>", "/player/#{@next}") %></li>
+        <li><%= @next.nil? ? "Next Player >" : (link_to "Next Player >", "/player/#{@next}") %></li>
       </ul>
     </nav>
   </div>
+  <div class="center" id=team_logo>
+    <%= (image_tag @team_logo) %>
+    <!-- <h1><%= @team_name %></h1> -->
+    <h1><%= @player.p_name %></h1>
+  </div>
   <!-- Player Info -->
-  <h1><%= @player.p_name %></h1>
   <h2>Player Info</h2>
   <table class="width_90 center"  id=player_info>
     <tr>

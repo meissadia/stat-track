@@ -1,5 +1,5 @@
 <main>
-  <div class=center>
+  <div class="center">
     <nav id=team_nav>
       <ul id=nav_list>
         <li><%= link_to "Team Info", "/team/#{params[:id]}" %></li>
@@ -7,8 +7,10 @@
       </ul>
     </nav>
   </div>
-
-  <h2><%= @team.t_name %> Schedule</h2>
+  <div class="center removeTextNodes" id=team_logo>
+    <%= (image_tag @team_logo) %>
+    <h1><%= @team.t_name %></h1>
+  </div>
   <div class="center width_90">
     <h3>Past Games</h3>
     <table class="tablesorter center">

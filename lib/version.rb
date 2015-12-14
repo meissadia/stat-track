@@ -5,12 +5,18 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.4'
+  VERSION = '0.0.5'
 end
 
 
 ########################### Current Version  ###################################
+# 0.0.5
+# @new
+# 1. TEAM LOGOS! (Currently require network connection)
+# 2. Team's Top 5
+# 3. Lots of other UI improvements
 
+########################### Version History ####################################
 # 0.0.4
 # @new
 # 1. Add more functional (but ugly) landing page with Conference Standings
@@ -21,14 +27,12 @@ end
 # 5. Improve nav menus look and feel
 # 6. Add a bunch of Gamestat SQL formulas
 # 7. Add "Last Updated" in MaintainDB#index and MaintainDB#updateDb
-# 8. Add games.js with code to fix display of Top Performer 
+# 8. Add games.js with code to fix display of Top Performer
 # @fixed-issues
 # 1. View Game#show | Correct sorting of FG/FT/3P now
 # 2. Stop overwriting Gamestats.gdate in Game.UpdateFromSchedule
 # 3. MaintainDB#index display corrections
 # 4. Correct sorting of Dates
-
-########################### Version History ####################################
 
 # 0.0.3
 # @fixed-issues

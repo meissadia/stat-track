@@ -4,15 +4,12 @@
 .r0 { background-color: white;}
 .r1 { background-color: lightblue;}
 
-#player_nav li:first-child {
-  // margin-left: 16em;
-}
-
 #player_nav #nav_list {
-  width: 80%;
+  width: 50%;
   margin: 0 auto;
   border-top: 1px solid #FFFFFF;
-  border-radius: 50px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
 }
 
 #player_nav #nav_list li {

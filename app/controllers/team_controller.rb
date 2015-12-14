@@ -16,13 +16,17 @@ class TeamController < ApplicationController
     @next_game = Game.find_by(["team_id = ? and boxscore_id = 0", @team.id])
 
     @last10_games = Game.where("team_id = ? and boxscore_id > 0", @team.id ).order("game_num desc").limit(10)
+    @next10_games = Game.where(:team_id => @team.id).where("boxscore_id = 0").limit(10)
 
+    @rank = league_rank(@team.t_abbr)
     @wins = @last10_games.first.wins.to_i
     @losses = @last10_games.first.losses.to_i
     @win_pct = (@wins.to_f / (@wins + @losses)).round(2)
 
-    @next10_games = Game.where(:team_id => @team.id).where("boxscore_id = 0").limit(10)
-    @rank = rank(@team.t_abbr)
+    @team_logo = StatTrack::Application.config.logos[@team.t_name]
+    @next_logo = StatTrack::Application.config.logos[Team.getTeamName(@next_game.opp_id)]
+
+    @team_best = Gamestat.topGameScoresTeamSeason(@team.t_abbr)
   end
 
   def schedule
@@ -30,12 +34,13 @@ class TeamController < ApplicationController
     @team = Team.find(params[:id])
     @past_games = Game.where(:team_id => @team.id).where("boxscore_id > 0")
     @future_games = Game.where(:team_id => @team.id).where(:boxscore_id => '0')
+    @team_logo = StatTrack::Application.config.logos[@team.t_name]
   end
 
 
 
   private
-    def rank(abbr="")
+    def league_rank(abbr="")
       t_rank = []
       s = "t_abbr, wins, losses"
       @records = Game.select(s).where("boxscore_id > 0").group(:t_abbr).order(:wins)

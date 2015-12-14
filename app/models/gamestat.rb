@@ -93,6 +93,7 @@ class Gamestat < ActiveRecord::Base
   # @return [ActiveRecord::Gamestat] # Gamestat AR Relation
   def self.topGameScoresTeam(bs_id=0, lim=1, team='')
     s = "p_name, player_id, boxscore_id, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
+    s << ', "" as bg'
     Gamestat.select(s).where(:boxscore_id => bs_id, :t_abbr => team).order("gamescore desc").limit(lim)
   end
 
@@ -102,6 +103,25 @@ class Gamestat < ActiveRecord::Base
   # @return [ActiveRecord::Gamestat] # Gamestat AR Relation
   def self.topGameScores(glist=[], lim=5, home='')
     s = "p_name, player_id, boxscore_id, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
+    s << ', "" as bg'
     Gamestat.select(s).where(boxscore_id: glist).order("gamescore desc").limit(lim)
+  end
+
+  # Get top average GameScores for a single team
+  # @param team [String] # Team Abbreviation
+  # @param lim [Integer] # Max number of statlines returned
+  # @return [ActiveRecord::Gamestat] # Gamestat AR Relation
+  def self.topGameScoresTeamSeason(team, lim=5)
+    s = "p_name, player_id, t_abbr,"
+    s << Gamestat.formulaPtsSeason + ','
+    s << Gamestat.formulaRebSeason + ','
+    s << Gamestat.formulaAstSeason + ','
+    s << Gamestat.formulaBlkSeason + ','
+    s << Gamestat.formulaStlSeason + ','
+    s << Gamestat.formulaStlSeason + ','
+    s << Gamestat.formulaTosSeason + ','
+    s << Gamestat.formulaTosSeason + ','
+    s << Gamestat.formulaGameScoreSeason
+    Gamestat.select(s).where(:t_abbr => team).group(:player_id).order("gamescore desc").limit(lim)
   end
 end

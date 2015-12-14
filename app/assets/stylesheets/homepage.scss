@@ -30,15 +30,15 @@
   margin: 0 .5%;
   display: inline-block;
   border: 1px solid black;
-  // border-right: none;
   background-color: white;
-}
-
-.columns-five .col:last-child {
-  // border-right: 1px solid black;
+  color: black;
 }
 
 .columns-five .col table {
   width: 100%;
   margin: 0;
+}
+
+caption img {
+  width: 40%;
 }

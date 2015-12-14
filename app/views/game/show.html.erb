@@ -1,19 +1,19 @@
 <main>
-  <h1><%= "%s (%i) %s %s (%i)" % [Team.getTeamName(@game.team_id), @game.team_score, @game.home ? 'vs' : '@', Team.getTeamName(@game.opp_id), @game.opp_score] %></h1>
+  <!-- <h2>Game Stats</h2> -->
+  <h2><%= "%s (%i) %s %s (%i)" % [@home_name, @game.team_score, @game.home ? 'vs' : '@', @away_name, @game.opp_score] %></h2>
   <div class="">
-    <h2>Game Stats</h2>
     <div class="center width_90">
-      <h3><%= link_to @game.t_abbr, "/team/#{Team.getTeamId(@game.t_abbr)}" %></h3>
+      <h3><%= link_to @home_name, "/team/abbr/#{@game.t_abbr}" %></h3>
       <div class="center" id=home_best>
         <div class="columns-five removeTextNodes">
-          <% @home_best.each do |top_player| %>
+          <% @home_best.each do |player| %>
           <div class="col">
             <table class=center>
-              <caption><%= link_to "%s" % [top_player.p_name], "/player/#{top_player.player_id}" %></caption>
-              <caption><%= link_to "#{top_player.t_abbr}", "/team/abbr/#{top_player.t_abbr}" %></caption>
-              <tr><td>PTS:</td><td><%= top_player.pts %></td><td>AST:</td><td><%= top_player.ast %></td></tr>
-              <tr><td>REB:</td><td><%= top_player.reb %></td><td>BLK:</td><td><%= top_player.blk %></td></tr>
-              <tr><td>STL:</td><td><%= top_player.stl %></td><td>BLK:</td><td><%= top_player.tos %></td></tr>
+              <caption><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></caption>
+              <caption><%= link_to (image_tag @home_logo), "/team/#{@game.team_id}" %></caption>
+              <tr><td>PTS:</td><td><%= player.pts %></td><td>AST:</td><td><%= player.ast %></td></tr>
+              <tr><td>REB:</td><td><%= player.reb %></td><td>BLK:</td><td><%= player.blk %></td></tr>
+              <tr><td>STL:</td><td><%= player.stl %></td><td>BLK:</td><td><%= player.tos %></td></tr>
             </table>
           </div>
           <% end %>
@@ -42,7 +42,7 @@
         <tbody>
           <% @home_stats.each do |row| %>
           <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
-            <td><%= link_to row.p_name, "/player/#{Player.getPlayerId(row.p_name)}" %></td>
+            <td><%= link_to row.p_name, "/player/#{row.player_id}" %></td>
             <td><%= row.pos %></td>
             <td><%= row.min == '' ? 'Blank MIN' : row.min %></td>
             <td><%= row.pts %></td>
@@ -63,14 +63,14 @@
       </table>
     </div>
     <div class="center width_90">
-      <h3><%= link_to @game.opp_abbr, "/team/#{Team.getTeamId(@game.opp_abbr)}" %></h3>
+      <h3><%= link_to @away_name, "/team/abbr/#{@game.opp_abbr}" %></h3>
       <div class="center" id=away_best>
         <div class="columns-five removeTextNodes">
           <% @away_best.each do |top_player| %>
           <div class="col">
             <table class=center>
               <caption><%= link_to "%s" % [top_player.p_name], "/player/#{top_player.player_id}" %></caption>
-              <caption><%= link_to "#{top_player.t_abbr}", "/team/abbr/#{top_player.t_abbr}" %></caption>
+              <caption><%= link_to (image_tag @away_logo), "/team/#{@game.opp_id}" %></caption>
               <tr><td>PTS:</td><td><%= top_player.pts %></td><td>AST:</td><td><%= top_player.ast %></td></tr>
               <tr><td>REB:</td><td><%= top_player.reb %></td><td>BLK:</td><td><%= top_player.blk %></td></tr>
               <tr><td>STL:</td><td><%= top_player.stl %></td><td>BLK:</td><td><%= top_player.tos %></td></tr>
@@ -102,7 +102,7 @@
         <tbody>
           <% @away_stats.each do |row| %>
           <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
-            <td><%= link_to row.p_name, "/player/#{Player.getPlayerId(row.p_name)}" %></td>
+            <td><%= link_to row.p_name, "/player/#{row.player_id}" %></td>
             <td><%= row.pos %></td>
             <td><%= row.min == '' ? 'Blank MIN' : row.min %></td>
             <td><%= row.pts %></td>

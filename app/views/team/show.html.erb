@@ -7,14 +7,15 @@
       </ul>
     </nav>
   </div>
-
-  <h1><%= @team.t_name %></h1>
-  <h2>Team</h2>
+  <div class="center" id=team_logo>
+    <%= (image_tag @team_logo) %>
+    <h1><%= @team.t_name %></h1>
+  </div>
+  <h2></h2>
   <table class="center" id=team_info>
     <thead>
       <tr>
         <th>Team Name</th>
-        <th>Team ID</th>
         <th>Division</th>
         <th>Conference</th>
       </tr>
@@ -22,16 +23,13 @@
     <tbody>
       <tr class=r0>
         <td><%= link_to @team.t_name, "/team/#{@team.id}"  %></td>
-        <td><%= @team.id %></td>
         <td><%= @team.division %></td>
         <td><%= @team.conference %></td>
       </tr>
     </tbody>
   </table>
-
-  <h2>Team Summary</h2>
   <div class="center width_90 columns-two">
-    <div class="col1">
+    <div class="col1" id=team_results>
       <h3>Team Results</h3>
       <table class=center id=win_loss_pct>
         <thead>
@@ -44,14 +42,14 @@
         </thead>
         <tbody>
           <tr class=r0>
-            <td><%= @rank %></td>
+            <td><%= (image_tag @team_logo) %>#<%= @rank %></td>
             <td><%= @last10_games.first.wins %></td>
             <td><%= @last10_games.first.losses %></td>
             <td><%= "#{@win_pct}"  %></td>
           </tr>
         </tbody>
       </table>
-    </div><div class="col2">
+    </div><div class="col2" id=next_game>
       <h3>Next Game</h3>
       <table class=center>
         <thead>
@@ -62,14 +60,27 @@
         </thead>
         <tbody>
           <tr class=r0>
-            <td><%= link_to "%s %s" % [@next_game.home ? "vs" : "@",  @next_game.opp_abbr], "/team/#{Team.getTeamId(@next_game.opp_abbr)}" %></td>
+            <td><a href="/team/<%= @next_game.opp_id %>"><%= @next_game.home ? "vs" : "@" %><%= (image_tag @next_logo) %></a></td>
             <td><%= @next_game.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-
+  <div class="center columns-five width_90 removeTextNodes" id=team_best>
+    <h2>Top 5</h2>
+    <% @team_best.each do |player| %>
+    <div class="col">
+      <table class=center>
+        <caption><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></caption>
+        <caption><%= link_to (image_tag @team_logo), "/team/#{@team.id}" %></caption>
+        <tr><td>PTS:</td><td><%= "%.1f" % [player.apts] %></td><td>AST:</td><td><%= "%.1f" % [player.aast] %></td></tr>
+        <tr><td>REB:</td><td><%= "%.1f" % [player.areb] %></td><td>BLK:</td><td><%= "%.1f" % [player.ablk] %></td></tr>
+        <tr><td>STL:</td><td><%= "%.1f" % [player.astl] %></td><td>BLK:</td><td><%= "%.1f" % [player.atos] %></td></tr>
+      </table>
+    </div>
+    <% end %>
+  </div>
   <div class="center width_90">
     <h2>Roster</h2>
     <table class="tablesorter center" id=roster>

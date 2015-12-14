@@ -17,12 +17,19 @@
 
  * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
  * { font-family: 'Titillium Web'}
+ /** { overflow: hidden;}*/
 
 body {
   width: 100%;
   background-color: lightgray;
   padding: 0;
   margin: 0;
+}
+
+main {
+  margin: 0 auto;
+  padding-bottom: 3em;
+  width: 100%;
 }
 
 nav {
@@ -53,39 +60,15 @@ nav li {
   padding: 0 1em;
 }
 
-main {
-  margin: 0 auto;
-  width: 90%;
-}
 
 h1 {
   margin: .25em auto;
   font-size: 1.25em;
 }
 
-h2 {
-  margin: 1em auto;
-}
-
-#site_nav{
-  background-color: white;
-}
-
-#site_nav ul {
-  width: 80%;
-}
-
-#site_nav li {
-  width: 20%;
-}
-
-#logo {
-  width: 20%;
-  background-color: #0099ff;
-  text-align: center;
-}
-
 h2, h3 {
+  margin: 1em auto;
+  margin-bottom: .25em;
   width: 100%;
   text-align: center;
   color: grey;
@@ -100,11 +83,6 @@ footer {
   line-height: 2em;
   padding-left: 2em;
   background-color: darkgrey;
-}
-
-main {
-  padding-bottom: 3em;
-  width: 100%;
 }
 
 a:link {
@@ -145,4 +123,22 @@ a:hover {
 
 .width_90 {
   width: 90%;
+}
+
+#site_nav{
+  background-color: white;
+}
+
+#site_nav ul {
+  width: 80%;
+}
+
+#site_nav li {
+  width: 20%;
+}
+
+#logo {
+  width: 20%;
+  background-color: #0099ff;
+  text-align: center;
 }
