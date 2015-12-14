@@ -86,22 +86,21 @@ class Gamestat < ActiveRecord::Base
     "ROUND(AVG(min),2) as amin"
   end
 
-  # Get stat lines for top GameScores
+  # Get top GameScores for a single team, single game
   # @param bs_id [Integer] #Boxscore ID
   # @param lim [Integer] #Number of players to return
-  # @param home [Bool] #Limit selection to home team(true), away team(false), all('')
+  # @param home [Bool] #Limit selection to home team(true), away team(false)
   # @return [ActiveRecord::Gamestat] # Gamestat AR Relation
-  def self.topGameScores(bs_id=0, lim=1, home='')
-    s = "p_name, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
-    home = (home.eql?('') ? "('t','f')" : "(\'#{home}\')")
-    Gamestat.select(s).where(:boxscore_id => bs_id, t_home: home).order("gamescore desc").limit(lim)
+  def self.topGameScoresTeam(bs_id=0, lim=1, team='')
+    s = "p_name, player_id, boxscore_id, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
+    Gamestat.select(s).where(:boxscore_id => bs_id, :t_abbr => team).order("gamescore desc").limit(lim)
   end
 
   # Get top GameScores
   # @param glist [Array[Integer]] # BoxscoreID array
   # @param lim [Integer] # Max number of statlines returned
   # @return [ActiveRecord::Gamestat] # Gamestat AR Relation
-  def self.topGameScores(glist=[], lim=5)
+  def self.topGameScores(glist=[], lim=5, home='')
     s = "p_name, player_id, boxscore_id, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
     Gamestat.select(s).where(boxscore_id: glist).order("gamescore desc").limit(lim)
   end

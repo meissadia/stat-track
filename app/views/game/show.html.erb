@@ -1,38 +1,22 @@
 <main>
   <h1><%= "%s (%i) %s %s (%i)" % [Team.getTeamName(@game.team_id), @game.team_score, @game.home ? 'vs' : '@', Team.getTeamName(@game.opp_id), @game.opp_score] %></h1>
-
   <div class="">
     <h2>Game Stats</h2>
-    <div class="width_90">
+    <div class="center width_90">
       <h3><%= link_to @game.t_abbr, "/team/#{Team.getTeamId(@game.t_abbr)}" %></h3>
-      <div class="columns-two center">
-        <!-- <h4>Team MVPs</h4> -->
-        <div class="col1">
-          <table class=center>
-            <caption><%= "%s (%.2f)" % [@home_top[0].p_name, @home_top[0].gamescore] %></caption>
-            <tr>
-              <th>PTS:</th><td><%= @home_top[0].pts %></td><th>AST:</th><td><%= @home_top[0].ast %></td>
-            </tr>
-            <tr>
-              <th>REB:</th><td><%= @home_top[0].reb %></td><th>BLK:</th><td><%= @home_top[0].blk %></td>
-            </tr>
-            <tr>
-              <th>STL:</th><td><%= @home_top[0].stl %></td><th>BLK:</th><td><%= @home_top[0].tos %></td>
-            </tr>
-          </table>
-        </div><div class="col2">
-          <table class=center>
-            <caption><%= "%s (%.2f)" % [@home_top[1].p_name, @home_top[1].gamescore] %></caption>
-            <tr>
-              <th>PTS:</th><td><%= @home_top[1].pts %></td><th>AST:</th><td><%= @home_top[1].ast %></td>
-            </tr>
-            <tr>
-              <th>REB:</th><td><%= @home_top[1].reb %></td><th>BLK:</th><td><%= @home_top[1].blk %></td>
-            </tr>
-            <tr>
-              <th>STL:</th><td><%= @home_top[1].stl %></td><th>BLK:</th><td><%= @home_top[1].tos %></td>
-            </tr>
-          </table>
+      <div class="center" id=home_best>
+        <div class="columns-five removeTextNodes">
+          <% @home_best.each do |top_player| %>
+          <div class="col">
+            <table class=center>
+              <caption><%= link_to "%s" % [top_player.p_name], "/player/#{top_player.player_id}" %></caption>
+              <caption><%= link_to "#{top_player.t_abbr}", "/team/abbr/#{top_player.t_abbr}" %></caption>
+              <tr><td>PTS:</td><td><%= top_player.pts %></td><td>AST:</td><td><%= top_player.ast %></td></tr>
+              <tr><td>REB:</td><td><%= top_player.reb %></td><td>BLK:</td><td><%= top_player.blk %></td></tr>
+              <tr><td>STL:</td><td><%= top_player.stl %></td><td>BLK:</td><td><%= top_player.tos %></td></tr>
+            </table>
+          </div>
+          <% end %>
         </div>
       </div>
       <table class="tablesorter center" id=home_stats>
@@ -78,36 +62,21 @@
         </tbody>
       </table>
     </div>
-    <div class=width_90>
+    <div class="center width_90">
       <h3><%= link_to @game.opp_abbr, "/team/#{Team.getTeamId(@game.opp_abbr)}" %></h3>
-      <div class="columns-two center">
-        <!-- <h4>Team MVPs</h4> -->
-        <div class="col1">
-          <table class=center>
-            <caption><%= "%s (%.2f)" % [@away_top[0].p_name, @away_top[0].gamescore] %></caption>
-            <tr>
-              <th>PTS:</th><td><%= @away_top[0].pts %></td><th>AST:</th><td><%= @away_top[0].ast %></td>
-            </tr>
-            <tr>
-              <th>REB:</th><td><%= @away_top[0].reb %></td><th>BLK:</th><td><%= @away_top[0].blk %></td>
-            </tr>
-            <tr>
-              <th>STL:</th><td><%= @away_top[0].stl %></td><th>BLK:</th><td><%= @away_top[0].tos %></td>
-            </tr>
-          </table>
-        </div><div class="col2">
-          <table class=center>
-            <caption><%= "%s (%.2f)" % [@away_top[1].p_name, @away_top[1].gamescore] %></caption>
-            <tr>
-              <th>PTS:</th><td><%= @away_top[1].pts %></td><th>AST:</th><td><%= @away_top[1].ast %></td>
-            </tr>
-            <tr>
-              <th>REB:</th><td><%= @away_top[1].reb %></td><th>BLK:</th><td><%= @away_top[1].blk %></td>
-            </tr>
-            <tr>
-              <th>STL:</th><td><%= @away_top[1].stl %></td><th>BLK:</th><td><%= @away_top[1].tos %></td>
-            </tr>
-          </table>
+      <div class="center" id=away_best>
+        <div class="columns-five removeTextNodes">
+          <% @away_best.each do |top_player| %>
+          <div class="col">
+            <table class=center>
+              <caption><%= link_to "%s" % [top_player.p_name], "/player/#{top_player.player_id}" %></caption>
+              <caption><%= link_to "#{top_player.t_abbr}", "/team/abbr/#{top_player.t_abbr}" %></caption>
+              <tr><td>PTS:</td><td><%= top_player.pts %></td><td>AST:</td><td><%= top_player.ast %></td></tr>
+              <tr><td>REB:</td><td><%= top_player.reb %></td><td>BLK:</td><td><%= top_player.blk %></td></tr>
+              <tr><td>STL:</td><td><%= top_player.stl %></td><td>BLK:</td><td><%= top_player.tos %></td></tr>
+            </table>
+          </div>
+          <% end %>
         </div>
       </div>
       <table class="tablesorter center" id=away_stats>

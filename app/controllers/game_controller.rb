@@ -14,9 +14,13 @@ class GameController < ApplicationController
     @home_stats = Gamestat.select(s).where("t_abbr = ? and boxscore_id = ?", @game.t_abbr, @game.boxscore_id)
     @away_stats = Gamestat.select(s).where("t_abbr = ? and boxscore_id = ?", @game.opp_abbr, @game.boxscore_id)
 
-    s = "p_name, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
-    @home_top = Gamestat.select(s).where(:boxscore_id => @game.boxscore_id, :t_abbr => @game.t_abbr).order("gamescore desc").limit(2)
-    @away_top = Gamestat.select(s).where(:boxscore_id => @game.boxscore_id, :t_abbr => @game.opp_abbr).order("gamescore desc").limit(2)
+    # s = "p_name, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
+    # @home_top = Gamestat.select(s).where(:boxscore_id => @game.boxscore_id, :t_abbr => @game.t_abbr).order("gamescore desc").limit(2)
+    # @away_top = Gamestat.select(s).where(:boxscore_id => @game.boxscore_id, :t_abbr => @game.opp_abbr).order("gamescore desc").limit(2)
+
+    @games_best = Gamestat.topGameScores([@game.boxscore_id])
+    @home_best = Gamestat.topGameScoresTeam(@game.boxscore_id, 5, @game.t_abbr)
+    @away_best = Gamestat.topGameScoresTeam(@game.boxscore_id, 5, @game.opp_abbr)
   end
 
   private

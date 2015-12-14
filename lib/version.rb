@@ -21,6 +21,7 @@ end
 # 5. Improve nav menus look and feel
 # 6. Add a bunch of Gamestat SQL formulas
 # 7. Add "Last Updated" in MaintainDB#index and MaintainDB#updateDb
+# 8. Add games.js with code to fix display of Top Performer 
 # @fixed-issues
 # 1. View Game#show | Correct sorting of FG/FT/3P now
 # 2. Stop overwriting Gamestats.gdate in Game.UpdateFromSchedule

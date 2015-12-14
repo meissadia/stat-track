@@ -21,17 +21,21 @@
 }
 
 .columns-five {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
-  // background-color: yellow;
 }
 
 .columns-five .col {
   width: 19%;
-  margin: 0;
+  margin: 0 .5%;
   display: inline-block;
   border: 1px solid black;
+  // border-right: none;
   background-color: white;
+}
+
+.columns-five .col:last-child {
+  // border-right: 1px solid black;
 }
 
 .columns-five .col table {
