@@ -3,7 +3,7 @@ class MaintainDbController < ApplicationController
     @status = [""]
     @settings = DbSetting.first
     @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1)
-    @last_update = (@last_update.first.created_at - 7.hours).strftime('%D %r')
+    @last_update = (@last_update.first.created_at.in_time_zone('Arizona')).strftime('%D %r')
     render 'maintain_db/index'
   end
 
@@ -11,7 +11,7 @@ class MaintainDbController < ApplicationController
     @status = ["updateTeams"]
     @status = Game.UpdateFromSchedule()
     @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1)
-    @last_update = @last_update.first.created_at.strftime('%D %r')
+    @last_update = (@last_update.first.created_at.in_time_zone('Arizona')).strftime('%D %r')
     render '/maintain_db/index'
   end
 

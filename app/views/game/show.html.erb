@@ -1,6 +1,10 @@
 <main>
   <!-- <h2>Game Stats</h2> -->
-  <h2><%= "%s (%i) %s %s (%i)" % [@home_name, @game.team_score, @game.home ? 'vs' : '@', @away_name, @game.opp_score] %></h2>
+  <h2>
+    <%= @home_name %> (<span class="<%= if !@game.boxscore_id.eql?(0) && @game.win then 'win' end %>"><%= @game.team_score %></span>)
+    <%= @game.home ? ' vs ' : ' @ ' %>
+    <%= @away_name %> (<span class="<%= if !@game.boxscore_id.eql?(0) && !@game.win then 'win' end %>"><%= @game.opp_score %></span>)
+  </h2>
   <div class="">
     <div class="center width_90">
       <h3><%= link_to @home_name, "/team/abbr/#{@game.t_abbr}" %></h3>
@@ -9,7 +13,7 @@
           <% @home_best.each do |player| %>
           <div class="col">
             <table class=center>
-              <caption><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></caption>
+              <div class=pname><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></pname></div>
               <caption><%= link_to (image_tag @home_logo), "/team/#{@game.team_id}" %></caption>
               <tr><td>PTS:</td><td><%= player.pts %></td><td>AST:</td><td><%= player.ast %></td></tr>
               <tr><td>REB:</td><td><%= player.reb %></td><td>BLK:</td><td><%= player.blk %></td></tr>
@@ -66,14 +70,14 @@
       <h3><%= link_to @away_name, "/team/abbr/#{@game.opp_abbr}" %></h3>
       <div class="center" id=away_best>
         <div class="columns-five removeTextNodes">
-          <% @away_best.each do |top_player| %>
+          <% @away_best.each do |player| %>
           <div class="col">
             <table class=center>
-              <caption><%= link_to "%s" % [top_player.p_name], "/player/#{top_player.player_id}" %></caption>
+              <div class=pname><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></pname></div>
               <caption><%= link_to (image_tag @away_logo), "/team/#{@game.opp_id}" %></caption>
-              <tr><td>PTS:</td><td><%= top_player.pts %></td><td>AST:</td><td><%= top_player.ast %></td></tr>
-              <tr><td>REB:</td><td><%= top_player.reb %></td><td>BLK:</td><td><%= top_player.blk %></td></tr>
-              <tr><td>STL:</td><td><%= top_player.stl %></td><td>BLK:</td><td><%= top_player.tos %></td></tr>
+              <tr><td>PTS:</td><td><%= player.pts %></td><td>AST:</td><td><%= player.ast %></td></tr>
+              <tr><td>REB:</td><td><%= player.reb %></td><td>BLK:</td><td><%= player.blk %></td></tr>
+              <tr><td>STL:</td><td><%= player.stl %></td><td>BLK:</td><td><%= player.tos %></td></tr>
             </table>
           </div>
           <% end %>

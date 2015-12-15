@@ -60,7 +60,7 @@
         </thead>
         <tbody>
           <tr class=r0>
-            <td><a href="/team/<%= @next_game.opp_id %>"><%= @next_game.home ? "vs" : "@" %><%= (image_tag @next_logo) %></a></td>
+            <td><a href="/team/<%= @next_game.opp_id %>"><%= @next_game.home ? "vs" : "@" %> <%= (image_tag @next_logo) %></a></td>
             <td><%= @next_game.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
           </tr>
         </tbody>
@@ -72,7 +72,7 @@
     <% @team_best.each do |player| %>
     <div class="col">
       <table class=center>
-        <caption><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></caption>
+        <div class=pname><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></pname></div>
         <caption><%= link_to (image_tag @team_logo), "/team/#{@team.id}" %></caption>
         <tr><td>PTS:</td><td><%= "%.1f" % [player.apts] %></td><td>AST:</td><td><%= "%.1f" % [player.aast] %></td></tr>
         <tr><td>REB:</td><td><%= "%.1f" % [player.areb] %></td><td>BLK:</td><td><%= "%.1f" % [player.ablk] %></td></tr>

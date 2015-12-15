@@ -9,7 +9,7 @@ class NbaLogo
 
 
   def self.allSmall
-    list = self.getDoc.css(".logoWall li a")
+    list = self.getDoc.css("#team .logoWall li a")
     logos = {}
     list.each do |x|
       logos[x.text.strip.chomp] = x.css('img').attr('src').text

@@ -104,11 +104,13 @@ a:hover {
   text-align: center;
 }
 
-.columns-two {
+.columns-two,
+.columns-five {
   width: 100%;
   margin: 0 auto;
 }
-.columns-two .col1, .columns-two .col2 {
+.columns-two .col1,
+.columns-two .col2 {
   width: 50%;
   display: inline-block;
 }
@@ -121,8 +123,34 @@ a:hover {
   padding-left: .5em
 }
 
+.columns-five .col {
+  width: 19%;
+  margin: 0 .5%;
+  display: inline-block;
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+}
+
+.columns-five .col table {
+  width: 100%;
+  margin: 0;
+}
+
 .width_90 {
   width: 90%;
+}
+
+.pname {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 1.8em;
+}
+
+.win {
+  color: green;
+  font-weight: bold;
 }
 
 #site_nav{
