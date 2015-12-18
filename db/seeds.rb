@@ -51,13 +51,13 @@ time = Benchmark.realtime do
   gs_c_list.uniq.sort.each do |boxscore_id|
     print "BoxscoreID:" + boxscore_id.to_s + ".."
     if Gamestat.find_by("boxscore_id = ?", boxscore_id).nil?
-      print "..NF.."
+      # print "..NF.."
+      print '.'
       bs = es.getBoxscore(boxscore_id)
       fl_a_home = from_array2d(Gamestat::FIELD_NAMES, bs.getHomeTeamPlayers)
       fl_a_away = from_array2d(Gamestat::FIELD_NAMES, bs.getAwayTeamPlayers)
 
       # Set Foreign Keys
-      # print ".home."
       fl_a_home.each do |fl|
         print "."
         fl[:player_id] = Player.getPlayerId(fl[:p_name])
@@ -65,7 +65,6 @@ time = Benchmark.realtime do
         fl[:opp_abbr] = bs.getTid(bs.getAwayTeamName)
         fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
       end
-      # print ".away."
       fl_a_away.each do |fl|
         print "."
         fl[:player_id] = Player.getPlayerId(fl[:p_name])
@@ -73,12 +72,15 @@ time = Benchmark.realtime do
         fl[:opp_abbr] = bs.getTid(bs.getHomeTeamName)
         fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
       end
-      puts "Done."
+      # puts "Done."
+      puts "."
     else
-      puts "..F..Done."
+      # puts "..F..Done."
+      puts "."
     end
     Gamestat.create(fl_a_away)
     Gamestat.create(fl_a_home)
+    puts "Done."
   end
 
 end

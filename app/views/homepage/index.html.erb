@@ -6,7 +6,7 @@
       <div class="col">
         <table class=center>
           <div class=pname><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></pname></div>
-          <caption><%= link_to (image_tag player.bg), "/team/abbr/#{player.t_abbr}" %></caption>
+          <caption><%= link_to (image_tag teamLogo(player.t_abbr)), "/team/abbr/#{player.t_abbr}" %></caption>
           <tr><td>PTS:</td><td><%= player.pts %></td><td>AST:</td><td><%= player.ast %></td></tr>
           <tr><td>REB:</td><td><%= player.reb %></td><td>BLK:</td><td><%= player.blk %></td></tr>
           <tr><td>STL:</td><td><%= player.stl %></td><td>BLK:</td><td><%= player.tos %></td></tr>
@@ -22,16 +22,17 @@
       <!-- Column 1 -->
       <% @games[0].each do |game| %>
       <div class="game_small">
-        <div class="columns-two game_teams center">
+        <div class="background" style="background-image: url('<%= image_path "courts/#{game.t_abbr}.gif"%>')"></div>
+        <div class="columns-two game_teams center content">
           <div class="center col1">
             <!-- Home Team -->
-            <%= link_to (image_tag @logos[Team.getTeamName(game.team_id)]), "/team/#{game.team_id}" %><br/>
+            <%= link_to (image_tag teamLogo(game.t_abbr)), "/team/#{game.team_id}" %><br/>
             <div class="<%= if !game.boxscore_id.eql?(0) && game.win then 'win' end %>">
               <%= if !game.boxscore_id.eql?(0) then "%i" % [game.team_score] end %>
             </div>
           </div><div class="center col2">
             <!-- Away Team -->
-            <%= link_to (image_tag @logos[Team.getTeamName(game.opp_id)]), "/team/#{game.opp_id}" %><br/>
+            <%= link_to (image_tag teamLogo(game.opp_abbr)), "/team/#{game.opp_id}" %><br/>
             <div class="<%= if !game.boxscore_id.eql?(0) && !game.win then 'win' end %>">
               <%= if !game.boxscore_id.eql?(0) then "%i" % [game.opp_score] end %>
             </div>
@@ -47,16 +48,17 @@
       <!-- Column 2 -->
       <% @games[1].each do |game| %>
       <div class="game_small">
-        <div class="columns-two game_teams center">
+        <div class="background" style="background-image: url('<%= image_path "courts/#{game.t_abbr}.gif"%>')"></div>
+        <div class="columns-two game_teams center content">
           <div class="center col1">
             <!-- Home Team -->
-            <%= link_to (image_tag @logos[Team.getTeamName(game.team_id)]), "/team/#{game.team_id}" %><br/>
+            <%= link_to (image_tag teamLogo(game.t_abbr)), "/team/#{game.team_id}" %><br/>
             <div class="<%= if !game.boxscore_id.eql?(0) && game.win then 'win' end %>">
               <%= if !game.boxscore_id.eql?(0) then "%i" % [game.team_score] end %>
             </div>
           </div><div class="center col2">
             <!-- Away Team -->
-            <%= link_to (image_tag @logos[Team.getTeamName(game.opp_id)]), "/team/#{game.opp_id}" %><br/>
+            <%= link_to (image_tag teamLogo(game.opp_abbr)), "/team/#{game.opp_id}" %><br/>
             <div class="<%= if !game.boxscore_id.eql?(0) && !game.win then 'win' end %>">
               <%= if !game.boxscore_id.eql?(0) then "%i" % [game.opp_score] end %>
             </div>
@@ -88,16 +90,17 @@
       <!-- Column 1 -->
       <% @results[0].each do |game| %>
       <div class="game_small">
-        <div class="columns-two game_teams center">
+        <div class="background" style="background-image: url('<%= image_path "courts/#{game.t_abbr}.gif"%>')"></div>
+        <div class="columns-two game_teams center content">
           <div class="center col1">
             <!-- Home Team -->
-            <%= link_to (image_tag @logos[Team.getTeamName(game.team_id)]), "/team/#{game.team_id}" %><br/>
+            <%= link_to (image_tag teamLogo(game.t_abbr)), "/team/#{game.team_id}" %><br/>
             <div class="<%= if !game.boxscore_id.eql?(0) && game.win then 'win' end %>">
               <%= if !game.boxscore_id.eql?(0) then "%i" % [game.team_score] end %>
             </div>
           </div><div class="center col2">
             <!-- Away Team -->
-            <%= link_to (image_tag @logos[Team.getTeamName(game.opp_id)]), "/team/#{game.opp_id}" %><br/>
+            <%= link_to (image_tag teamLogo(game.opp_abbr)), "/team/#{game.opp_id}" %><br/>
             <div class="<%= if !game.boxscore_id.eql?(0) && !game.win then 'win' end %>">
               <%= if !game.boxscore_id.eql?(0) then "%i" % [game.opp_score] end %>
             </div>
@@ -112,16 +115,17 @@
       <!-- Column 2 -->
       <% @results[1].each do |game| %>
       <div class="game_small">
-        <div class="columns-two game_teams center">
+        <div class="background" style="background-image: url('<%= image_path "courts/#{game.t_abbr}.gif"%>')"></div>
+        <div class="columns-two game_teams center content">
           <div class="center col1">
             <!-- Home Team -->
-            <%= link_to (image_tag @logos[Team.getTeamName(game.team_id)]), "/team/#{game.team_id}" %><br/>
+            <%= link_to (image_tag teamLogo(game.t_abbr)), "/team/#{game.team_id}" %><br/>
             <div class="<%= if !game.boxscore_id.eql?(0) && game.win then 'win' end %>">
               <%= if !game.boxscore_id.eql?(0) then "%i" % [game.team_score] end %>
             </div>
           </div><div class="center col2">
             <!-- Away Team -->
-            <%= link_to (image_tag @logos[Team.getTeamName(game.opp_id)]), "/team/#{game.opp_id}" %><br/>
+            <%= link_to (image_tag teamLogo(game.opp_abbr)), "/team/#{game.opp_id}" %><br/>
             <div class="<%= if !game.boxscore_id.eql?(0) && !game.win then 'win' end %>">
               <%= if !game.boxscore_id.eql?(0) then "%i" % [game.opp_score] end %>
             </div>
@@ -135,10 +139,21 @@
       <!-- Filler -->
       <% (@results[0].size - @results[1].size).times do %>
       <div class="game_small_empty">
-        <div class="columns-two game_teams_empty">
-          <div class="col1">&nbsp;</div><div class="col2">&nbsp;</div>
-          <div class="game_time">
-            &nbsp;
+        <div class="background" style="background-image: url('')"></div>
+        <div class="columns-two game_teams center content">
+          <div class="center col1">
+            <%= link_to (image_tag teamLogo('uta')), "/team/30" %><br/>
+            <div class="">
+              100
+            </div>
+          </div><div class="center col2">
+            <%= link_to (image_tag teamLogo('uta')), "/team/30" %><br/>
+            <div class="">
+              100
+            </div>
+          </div>
+          <div class="game_boxscore_link">
+            Boxscore
           </div>
         </div>
       </div>

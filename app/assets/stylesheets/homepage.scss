@@ -5,6 +5,7 @@
 .game_small,
 .game_small_empty {
   margin: 1em auto;
+  position: relative;
 }
 
 .game_teams,
@@ -12,9 +13,12 @@
   padding-top: .25em;
 }
 
+.game_small_empty {
+  opacity: 0;
+}
+
 .game_teams {
   border: 1px solid black;
-  background-color: white;
 }
 
 .game_teams img {
@@ -32,3 +36,27 @@ caption img {
   width: 40%;
   width: 10vw;
 }
+
+.background {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-position: center;
+  background-size: cover;
+  /* These three lines are for transparency in all browsers. */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  opacity: .2;
+}
+
+.content {
+   position: relative;
+   z-index: 5;
+ }
+
+ .container {
+   position: relative;
+ }

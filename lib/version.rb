@@ -12,9 +12,10 @@ end
 ########################### Current Version  ###################################
 # 0.0.5
 # @new
-# 1. TEAM LOGOS! (Currently require network connection)
+# 1. TEAM LOGOS!
 # 2. Team's Top 5
-# 3. Lots of other UI improvements
+# 3. Team Court Images
+# 4. Lots of other UI improvements
 
 ########################### Version History ####################################
 # 0.0.4
