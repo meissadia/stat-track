@@ -76,7 +76,7 @@
         <caption><%= link_to (image_tag teamLogo(@team.t_abbr)), "/team/#{@team.id}" %></caption>
         <tr><td>PTS:</td><td><%= "%.1f" % [player.apts] %></td><td>AST:</td><td><%= "%.1f" % [player.aast] %></td></tr>
         <tr><td>REB:</td><td><%= "%.1f" % [player.areb] %></td><td>BLK:</td><td><%= "%.1f" % [player.ablk] %></td></tr>
-        <tr><td>STL:</td><td><%= "%.1f" % [player.astl] %></td><td>BLK:</td><td><%= "%.1f" % [player.atos] %></td></tr>
+        <tr><td>STL:</td><td><%= "%.1f" % [player.astl] %></td><td>TOS:</td><td><%= "%.1f" % [player.atos] %></td></tr>
       </table>
     </div>
     <% end %>

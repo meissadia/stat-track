@@ -17,7 +17,7 @@
               <caption><%= link_to (image_tag teamLogo(@game.t_abbr)), "/team/#{@game.team_id}" %></caption>
               <tr><td>PTS:</td><td><%= player.pts %></td><td>AST:</td><td><%= player.ast %></td></tr>
               <tr><td>REB:</td><td><%= player.reb %></td><td>BLK:</td><td><%= player.blk %></td></tr>
-              <tr><td>STL:</td><td><%= player.stl %></td><td>BLK:</td><td><%= player.tos %></td></tr>
+              <tr><td>STL:</td><td><%= player.stl %></td><td>TOS:</td><td><%= player.tos %></td></tr>
             </table>
           </div>
           <% end %>
@@ -77,7 +77,7 @@
               <caption><%= link_to (image_tag teamLogo(@game.opp_abbr)), "/team/#{@game.opp_id}" %></caption>
               <tr><td>PTS:</td><td><%= player.pts %></td><td>AST:</td><td><%= player.ast %></td></tr>
               <tr><td>REB:</td><td><%= player.reb %></td><td>BLK:</td><td><%= player.blk %></td></tr>
-              <tr><td>STL:</td><td><%= player.stl %></td><td>BLK:</td><td><%= player.tos %></td></tr>
+              <tr><td>STL:</td><td><%= player.stl %></td><td>TOS:</td><td><%= player.tos %></td></tr>
             </table>
           </div>
           <% end %>
