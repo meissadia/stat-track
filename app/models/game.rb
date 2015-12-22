@@ -50,7 +50,7 @@ class Game < ActiveRecord::Base
             fl_temp.each do |fl| #set foreign keys
               fl[:player_id] = Player.getPlayerId(fl[:p_name])
               fl[:boxscore_id] = pg[:boxscore_id]
-              fl[:opp_abbr] = (pg[:home] ? bs.getTid(bs.getHomeTeamName) : bs.getTid(bs.getAwayTeamName))
+              fl[:opp_abbr] = pg[:opp_abbr]
               fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
               fl[:starter] = fl[:starter] == 'X' ? true : false
             end
