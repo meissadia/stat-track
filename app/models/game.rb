@@ -5,8 +5,6 @@ include WAR
 
 class Game < ActiveRecord::Base
   belongs_to :team
-  # has_many :players, through: :team
-  # has_many :gamestats, through: :players
   FIELD_NAMES_PG = EspnScrape::FS_SCHEDULE_PAST
   FIELD_NAMES_FG = EspnScrape::FS_SCHEDULE_FUTURE
 
@@ -64,12 +62,14 @@ class Game < ActiveRecord::Base
           if game.nil?
             # Boxscore not processed
             # Validate that game number and opponent are correct
-            game = Game.find_by("team_id = ? AND game_num = ? AND opp_abbr" ,
+            game = Game.find_by("team_id = ? AND game_num = ? AND opp_abbr = ?" ,
                                  team.id, pg[:game_num], pg[:opp_abbr])
             if !game.nil?
               ignore_on_update.each { |f| pg.delete(f) }
+              # gs_msgs << "Updating #{team.t_abbr}, #{pg[:game_num]}, #{pg[:opp_abbr]}"
               game.update(pg)
             else
+              # gs_msgs << "Creating #{team.t_abbr}, #{pg[:game_num]}, #{pg[:opp_abbr]}"
               ignore_on_create.each { |f| pg.delete(f) }
               # If oppenent or game # are incorrect, delete existing record and replace
               Game.where("team_id = ? AND game_num = ?" , team.id, pg[:game_num]).destroy_all
@@ -81,18 +81,19 @@ class Game < ActiveRecord::Base
             % [pg[:home] ? "vs" : "@"]
 
             cnt += 1
-            if pg[:boxscore_id] > 0
+            if pg[:boxscore_id].to_i > 0
               # Delete any conflicting Gamestat information
-              Gamestate.where(boxscore_id: pg[:boxscore_id]).destroy_all
+              Gamestat.where(boxscore_id: pg[:boxscore_id], t_abbr: pg[:t_abbr]).destroy_all
 
               # Collect boxcore data
-              bs = es.getBoxscore(pg[:boxscore_id])
+              bs = scraper.getBoxscore(pg[:boxscore_id])
               fl_temp = from_array2d(Gamestat::FIELD_NAMES, (pg[:home] ? bs.getHomeTeamPlayers : bs.getAwayTeamPlayers))
 
               # Process boxscore data
               fl_temp.each do |fl| #set foreign keys
-                fl = Player.setForeignKeys(fl, pg[:boxscore_id], bs)
+                fl = Player.setForeignKeys(fl, pg[:boxscore_id], bs, pg[:home])
               end
+              # gs_msgs << "Creating #{fl_temp.size} GameStat records."
 
               # Save processed data for insertion into database
               fl_a << fl_temp
