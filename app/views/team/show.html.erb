@@ -59,10 +59,12 @@
           </tr>
         </thead>
         <tbody>
+          <% if !@next_game.nil? %>
           <tr class=r0>
             <td><a href="/team/<%= @next_game.opp_id %>"><%= @next_game.home ? "vs" : "@" %> <%= (image_tag teamLogo(@next_game.opp_abbr)) %></a></td>
             <td><%= @next_game.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
           </tr>
+          <% end %>
         </tbody>
       </table>
     </div>

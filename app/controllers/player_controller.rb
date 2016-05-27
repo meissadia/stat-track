@@ -11,7 +11,7 @@ class PlayerController < ApplicationController
     end
     @alt_bg = 0
     s = "Gamestats.*, " + Gamestat.formulaGameScore
-    @stats = Gamestat.select(s).where("p_name = \"#{@player.p_name}\"")
+    @stats = Gamestat.select(s).where("p_name = \"#{@player.p_name}\"").order("game_num")
 
     @p_maxs_cols = ["min"] << "pts" << "ast" << "reb" << "stl" << "blk" << "tos"
     @p_maxs_cols << "(fgm/fga) as fgp" << "(ftm/fta) as ftp" << "(tpm/tpa) as tpp" << "plus" << "pf"

@@ -7,36 +7,72 @@ class Game < ActiveRecord::Base
   belongs_to :team
   # has_many :players, through: :team
   # has_many :gamestats, through: :players
-  FIELD_NAMES_PG = [:t_abbr,:game_num,:gtime,:tv,:gdate,:home,:opp_abbr,:win,:team_score,:opp_score,:boxscore_id,:wins,:losses, :g_datetime]
-  FIELD_NAMES_FG = [:t_abbr,:game_num,:win,:boxscore_id, :gdate,:home,:opp_abbr,:gtime, :tv, :g_datetime]
+  FIELD_NAMES_PG = EspnScrape::FS_SCHEDULE_PAST
+  FIELD_NAMES_FG = EspnScrape::FS_SCHEDULE_FUTURE
+
+
+  def self.getGameNum(t_abbr, boxscore_id)
+    g = Game.where("t_abbr = ? AND boxscore_id = ?", t_abbr, boxscore_id)
+    if !g.nil?
+      return g[0].game_num
+    else
+      return 0
+    end
+  end
+
+  # Erase existing Schedule data and replace
+  def self.refreshSchedule(team, teamSchedule)
+    # Delete all Schedule records for this team
+    Game.where(team_id: team.id).destroy_all
+
+    fl_a = from_array2d(Game::FIELD_NAMES_PG, teamSchedule.getPastGames)
+    fl_a += from_array2d(Game::FIELD_NAMES_FG, teamSchedule.getFutureGames)
+    # Set Foreign Keys
+    fl_a.each do |fl|
+      print "."
+      fl[:team_id] = team.id
+      fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
+      fl[:gdate] = fl[:g_datetime]    # Utilize Game DateTime as Game Date
+      fl.delete(:g_datetime)          # Eliminate DateTime, now stored in gdate
+      fl.delete(:gtime)               # Eliminate Game Time, now stored in gdate
+    end
+
+    Game.create(fl_a)                 # Create all Games for current team
+  end
 
   # Update Games and Gamestats tables for any games that have been completed
   # @return [Array[STRING]] Process Messages
   def self.UpdateFromSchedule()
     gs_msgs = [] # Gamestat message
-    ignore_fields_on_create = [:gtime, :g_datetime]
-    ignore_fields_on_update = [:gtime, :g_datetime, :tv, :game_num, :gdate]
+    ignore_on_create = [:gtime, :g_datetime]
+    ignore_on_update = [:gtime, :g_datetime, :tv, :game_num, :gdate]
+
     time = Benchmark.realtime do
       puts "Updating GameStats : #{Date.today.strftime("%F")}"
-      es = EspnScrape.new
+      scraper = EspnScrape.new
       Team.all.each do |team|
         print "Processing #{team.t_name}..."
         gs_msgs << "Processing #{team.t_name}..."
         cnt = 0
         fl_a  = []
-        pgs = from_array2d(Game::FIELD_NAMES_PG, es.getSchedule(team.t_abbr).getPastGames())
-        pgs.each do |pg|
+        pastGames = from_array2d(Game::FIELD_NAMES_PG, scraper.getSchedule(team.t_abbr).getPastGames())
+        pastGames.each do |pg|
+          # puts pg.inspect
           print '.'
           # Check if this boxscore_id has already been processed
           game = Game.find_by("team_id = ? AND boxscore_id = ?" , team.id, pg[:boxscore_id])
           if game.nil?
-            # Boxscore not processed => Get info by Team.id, game_num
-            game = Game.find_by("team_id = ? AND game_num = ?" , team.id, pg[:game_num])
+            # Boxscore not processed
+            # Validate that game number and opponent are correct
+            game = Game.find_by("team_id = ? AND game_num = ? AND opp_abbr" ,
+                                 team.id, pg[:game_num], pg[:opp_abbr])
             if !game.nil?
-              ignore_fields_on_update.each { |f| pg.delete(f) }
+              ignore_on_update.each { |f| pg.delete(f) }
               game.update(pg)
             else
-              ignore_fields_on_create.each { |f| pg.delete(f) }
+              ignore_on_create.each { |f| pg.delete(f) }
+              # If oppenent or game # are incorrect, delete existing record and replace
+              Game.where("team_id = ? AND game_num = ?" , team.id, pg[:game_num]).destroy_all
               Game.create(pg)
             end
 
@@ -45,17 +81,23 @@ class Game < ActiveRecord::Base
             % [pg[:home] ? "vs" : "@"]
 
             cnt += 1
-            bs = es.getBoxscore(pg[:boxscore_id])
-            fl_temp = from_array2d(Gamestat::FIELD_NAMES, (pg[:home] ? bs.getHomeTeamPlayers : bs.getAwayTeamPlayers))
-            fl_temp.each do |fl| #set foreign keys
-              fl[:player_id] = Player.getPlayerId(fl[:p_name])
-              fl[:boxscore_id] = pg[:boxscore_id]
-              fl[:opp_abbr] = pg[:opp_abbr]
-              fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
-              fl[:starter] = fl[:starter] == 'X' ? true : false
+            if pg[:boxscore_id] > 0
+              # Delete any conflicting Gamestat information
+              Gamestate.where(boxscore_id: pg[:boxscore_id]).destroy_all
+
+              # Collect boxcore data
+              bs = es.getBoxscore(pg[:boxscore_id])
+              fl_temp = from_array2d(Gamestat::FIELD_NAMES, (pg[:home] ? bs.getHomeTeamPlayers : bs.getAwayTeamPlayers))
+
+              # Process boxscore data
+              fl_temp.each do |fl| #set foreign keys
+                fl = Player.setForeignKeys(fl, pg[:boxscore_id], bs)
+              end
+
+              # Save processed data for insertion into database
+              fl_a << fl_temp
+              gs_msgs << "\n..GameStats: Game #{pg[:game_num]} vs #{pg[:opp_abbr]  } saved."
             end
-            fl_a << fl_temp
-            gs_msgs << "\n..GameStats: Game #{pg[:game_num]} vs #{pg[:opp_abbr]  } saved."
           end
         end
         Gamestat.create(fl_a)

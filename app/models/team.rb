@@ -2,7 +2,7 @@ class Team < ActiveRecord::Base
   has_many :games
   has_many :players
   # has_many :gamestats, through: [:players, :games]
-  FIELD_NAMES = [:t_abbr,:t_name,:division,:conference]
+  FIELD_NAMES = EspnScrape::FS_TEAM
 
   # Derive Team ID from Team Abbreviation
   # @param s [String] #Team Abbreviation

@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20151128124750) do
     t.string   "opp_abbr"
     t.integer  "game_num"
     t.string   "p_name"
+    t.integer  "p_eid"
     t.string   "pos"
     t.integer  "min"
     t.integer  "fgm"
@@ -112,6 +113,7 @@ ActiveRecord::Schema.define(version: 20151128124750) do
   create_table "players", force: :cascade do |t|
     t.integer  "team_id"
     t.string   "t_abbr"
+    t.integer  "p_eid"
     t.string   "p_name"
     t.integer  "p_num"
     t.string   "pos"
@@ -125,6 +127,7 @@ ActiveRecord::Schema.define(version: 20151128124750) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "players", ["p_eid"], name: "index_players_on_p_eid"
   add_index "players", ["t_abbr"], name: "index_players_on_t_abbr"
   add_index "players", ["team_id"], name: "index_players_on_team_id"
 

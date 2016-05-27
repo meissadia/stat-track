@@ -8,6 +8,7 @@ class CreateGamestats < ActiveRecord::Migration
       t.string :opp_abbr, index: true
       t.integer :game_num
       t.string :p_name
+      t.integer :p_eid
       t.string :pos
       t.integer :min
       t.integer :fgm

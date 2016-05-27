@@ -22,6 +22,19 @@ class HomepageController < ApplicationController
     @todays_best.each do |p|
       p.bg = @logos[Team.getTeamName(Team.getTeamId(p.t_abbr))]
     end
+
+    # Update Database
+    # @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1).first.created_at
+    # @last_update2 = Time.now.in_time_zone("UTC")
+    #
+    # @diff = ((@last_update2 - @last_update) / 1.minute).round
+    # if @diff > 30
+    #   @updating = "Updating database...please reload"
+    #   Thread.new do
+    #     @status = Game.UpdateFromSchedule()
+    #     ActiveRecord::Base.connection.close
+    #   end
+    # end
   end
 
 end

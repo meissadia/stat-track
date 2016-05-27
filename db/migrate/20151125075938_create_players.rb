@@ -4,6 +4,7 @@ class CreatePlayers < ActiveRecord::Migration
       t.references :team, index: true
       # t.references :game, index: true
       t.string :t_abbr, index: true
+      t.integer :p_eid, index: true
       t.string :p_name
       t.integer :p_num
       t.string :pos

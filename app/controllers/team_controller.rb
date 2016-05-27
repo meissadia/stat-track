@@ -24,7 +24,7 @@ class TeamController < ApplicationController
     @win_pct = (@wins.to_f / (@wins + @losses)).round(2)
 
     @team_logo = StatTrack::Application.config.logos[@team.t_name]
-    @next_logo = StatTrack::Application.config.logos[Team.getTeamName(@next_game.opp_id)]
+    @next_logo = @next_game.nil? ? nil : StatTrack::Application.config.logos[Team.getTeamName(@next_game.opp_id)]
 
     @team_best = Gamestat.topGameScoresTeamSeason(@team.t_abbr)
   end

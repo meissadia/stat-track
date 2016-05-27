@@ -5,11 +5,17 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.5'
+  VERSION = '0.0.6'
 end
 
 
 ########################### Current Version  ###################################
+# 0.0.6
+# @fixed-issues
+# 1. New version of EspnScrape to correctly pull data
+# 2. Tons of re-writes and fixes to get system back to functional
+
+########################### Version History ####################################
 # 0.0.5
 # @new
 # 1. TEAM LOGOS!
@@ -17,7 +23,6 @@ end
 # 3. Team Court Images
 # 4. Lots of other UI improvements
 
-########################### Version History ####################################
 # 0.0.4
 # @new
 # 1. Add more functional (but ugly) landing page with Conference Standings

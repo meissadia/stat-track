@@ -45,6 +45,7 @@
         </thead>
         <tbody>
           <% @home_stats.each do |row| %>
+          <% if row.min > 0 %>
           <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
             <td><%= link_to row.p_name, "/player/#{row.player_id}" %></td>
             <td><%= row.pos %></td>
@@ -62,6 +63,7 @@
             <td><%= row.pf %></td>
             <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
           </tr>
+          <% end %>
           <% end %>
         </tbody>
       </table>
@@ -105,6 +107,7 @@
         </thead>
         <tbody>
           <% @away_stats.each do |row| %>
+          <% if row.min > 0 %>
           <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
             <td><%= link_to row.p_name, "/player/#{row.player_id}" %></td>
             <td><%= row.pos %></td>
@@ -122,6 +125,7 @@
             <td><%= row.pf %></td>
             <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
           </tr>
+          <% end %>
           <% end %>
         </tbody>
       </table>

@@ -1,74 +1,71 @@
-# Database Seed :: db:seed or db:setup
+  # Database Seed :: db:seed or db:setup
 require 'benchmark'
 require 'espnscrape'
 require 'war'
 include WAR
 
 time = Benchmark.realtime do
-  es = EspnScrape.new()
+  scraper = EspnScrape.new  # Data Scraper
 
   print "\nSeeding Teams..."
-  tl = es.getTeamList().getTeamList()
-  fl_a = from_array2d(Team::FIELD_NAMES, tl) # Field List Array :: [Dictionary]
-  Team.create(fl_a)
+  if(Team.all.count == 0)                             # Avoid reprocessing already populated data
+    team_list = scraper.getTeamList.getTeamList
+    fl_a = from_array2d(Team::FIELD_NAMES, team_list) # Field List Array => [Dictionary]
+    Team.create(fl_a)                                 # Create all Teams
+  end
+  puts "#{Team.all.count}...Done."                    # Confirm Team count
 
-  puts "#{Team.all.count}...Done."
-
-  gs_c_list = [] # Gamestat Collection List
+  completedGameBoxscores = [] # Gamestat Collection List
   Team.all.each do |team|
+    # Process Team Schedule
     print "-- #{team.t_name} Games..."
-    s = es.getSchedule(team.t_abbr)
-    fl_a = from_array2d(Game::FIELD_NAMES_PG, s.getPastGames)
-    s.getPastGames.each { |pg| gs_c_list << pg[10] } # Construct [boxscore_id] for Gamestats population
-    fl_a += from_array2d(Game::FIELD_NAMES_FG, s.getFutureGames)
+    teamSchedule = scraper.getSchedule(team.t_abbr)
 
-    # Set Foreign Keys
-    fl_a.each do |fl|
-      print "."
-      fl[:team_id] = team.id
-      fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
-      fl[:gdate] = fl[:g_datetime]    # Utilize Game DateTime as Game Date
-      fl.delete(:g_datetime)
-      fl.delete(:gtime)               # Eliminate Game Time, now stored in gdate
+    # Collect boxscore ids for Gamestats population
+    teamSchedule.getPastGames.each { |pg| completedGameBoxscores << (pg[10].nil? ? 0 : pg[10]) }
+
+    # Avoid reprocessing already populated data
+    if(Game.where("team_id = ?", team.id).size == 0)
+      Game.refreshSchedule(team, teamSchedule)
     end
-    Game.create(fl_a)
+
+    # Confirm Game count
     puts "%i...Done." % [Game.where("team_id = ?", team.id).size]
 
+    # Process Team Roster
     print "-- #{team.t_name} Players..."
-    tr = es.getRoster(team.t_abbr)
-    fl_a = from_array2d(Player::FIELD_NAMES, tr.getRoster)
 
-    # Set Foreign Keys
-    fl_a.each do |fl|
-      print "."
-      fl[:team_id] = team.id
+    # Avoid reprocessing already populated data
+    if(Player.where("team_id = ?", team.id).size == 0)
+      roster = scraper.getRoster(team.t_abbr)
+      Player.refreshRoster(team, roster.getRoster)
     end
-    Player.create(fl_a)
+
+    # Confirm Player count
     puts "%i...Done." % [Player.where("team_id = ?", team.id).size]
   end
 
-  print "-- Gamestats..."
-  gs_c_list.uniq.sort.each do |boxscore_id|
+  # Process Gamestats for all completed games
+  puts "-- Gamestats..."
+  completedGameBoxscores = completedGameBoxscores.reject {|c| c.to_s.nil? || c.to_s.empty?}
+  completedGameBoxscores.uniq.each do |boxscore_id|
     print "."
+    # Ignore already processed boxscore_ids
     if Gamestat.find_by("boxscore_id = ?", boxscore_id).nil?
-      bs = es.getBoxscore(boxscore_id)
-      fl_a_home = from_array2d(Gamestat::FIELD_NAMES, bs.getHomeTeamPlayers)
-      fl_a_away = from_array2d(Gamestat::FIELD_NAMES, bs.getAwayTeamPlayers)
+      boxscore = scraper.getBoxscore(boxscore_id)
+
+      fl_a_home = from_array2d(Gamestat::FIELD_NAMES, boxscore.getHomeTeamPlayers)
+      fl_a_away = from_array2d(Gamestat::FIELD_NAMES, boxscore.getAwayTeamPlayers)
 
       # Set Foreign Keys
       fl_a_home.each do |fl|
-        fl[:player_id] = Player.getPlayerId(fl[:p_name])
-        fl[:boxscore_id] = boxscore_id
-        fl[:opp_abbr] = bs.getTid(bs.getAwayTeamName)
-        fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
+        fl = Player.setForeignKeys(fl, boxscore_id, boxscore, true)
+        fl[:game_num] = Game.getGameNum(fl[:t_abbr], boxscore_id)
       end
       fl_a_away.each do |fl|
-        fl[:player_id] = Player.getPlayerId(fl[:p_name])
-        fl[:boxscore_id] = boxscore_id
-        fl[:opp_abbr] = bs.getTid(bs.getHomeTeamName)
-        fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
+        fl = Player.setForeignKeys(fl, boxscore_id, boxscore, false)
+        fl[:game_num] = Game.getGameNum(fl[:t_abbr], boxscore_id)
       end
-    else
     end
     Gamestat.create(fl_a_away)
     Gamestat.create(fl_a_home)

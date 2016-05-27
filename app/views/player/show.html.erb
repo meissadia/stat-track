@@ -89,24 +89,26 @@
       </thead>
       <tbody>
         <% @stats.each do |row| %>
-        <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
-          <td><%= link_to row.t_abbr, "/team/#{Team.getTeamId(row.t_abbr)}" %></td>
-          <td><%= link_to row.opp_abbr, "/game/#{row.boxscore_id}" %></td>
-          <td><%= row.pos %></td>
-          <td><%= row.min == '' ? 'Blank MIN' : row.min %></td>
-          <td><%= row.pts %></td>
-          <td><%= row.ast %></td>
-          <td><%= row.reb %> (<%= row.oreb %>)</td>
-          <td><%= row.stl %></td>
-          <td><%= row.blk %></td>
-          <td><%= row.tos %></td>
-          <td><span class=hide><%= row.fga.eql?(0) ? 0 : 100*(row.fgm*1.0/row.fga).round(2) %></span><%= "%i / %i" % [row.fgm, row.fga] %></td>
-          <td><span class=hide><%= row.fta.eql?(0) ? 0 : 100*(row.ftm*1.0/row.fta).round(2) %></span><%= "%i / %i" % [row.ftm, row.fta] %></td>
-          <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
-          <td><%= row.plus %></td>
-          <td><%= row.pf %></td>
-          <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
-        </tr>
+          <% if row.min > 0 %>
+            <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
+              <td><%= link_to row.t_abbr, "/team/#{Team.getTeamId(row.t_abbr)}" %></td>
+              <td><%= link_to row.opp_abbr, "/game/#{row.boxscore_id}" %></td>
+              <td><%= row.pos %></td>
+              <td><%= row.min == '' ? 'Blank MIN' : row.min %></td>
+              <td><%= row.pts %></td>
+              <td><%= row.ast %></td>
+              <td><%= row.reb %> (<%= row.oreb %>)</td>
+              <td><%= row.stl %></td>
+              <td><%= row.blk %></td>
+              <td><%= row.tos %></td>
+              <td><span class=hide><%= row.fga.eql?(0) ? 0 : 100*(row.fgm*1.0/row.fga).round(2) %></span><%= "%i / %i" % [row.fgm, row.fga] %></td>
+              <td><span class=hide><%= row.fta.eql?(0) ? 0 : 100*(row.ftm*1.0/row.fta).round(2) %></span><%= "%i / %i" % [row.ftm, row.fta] %></td>
+              <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
+              <td><%= row.plus %></td>
+              <td><%= row.pf %></td>
+              <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
