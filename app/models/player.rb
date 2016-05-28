@@ -14,7 +14,7 @@ class Player < ActiveRecord::Base
   # Delete existing Roster data and repopulate
   def self.refreshRoster(team, roster)
     Player.where(team_id: team.id).destroy_all
-    fl_a = EspnScrape.from_array2d(Player::FIELD_NAMES, roster)
+    fl_a = EspnScrape.to_hashes(Player::FIELD_NAMES, roster)
     # Set Foreign Keys
     fl_a.each do |fl|
       print "."

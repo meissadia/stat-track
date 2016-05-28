@@ -6,7 +6,7 @@ time = Benchmark.realtime do
   print "\nSeeding Teams..."
   if(Team.all.count == 0)                             # Avoid reprocessing already populated data
     team_list = EspnScrape.teamList.teamList
-    fl_a = EspnScrape.from_array2d(Team::FIELD_NAMES, team_list) # Field List Array => [Dictionary]
+    fl_a = EspnScrape.to_hashes(Team::FIELD_NAMES, team_list) # Field List Array => [Dictionary]
     Team.create(fl_a)                                 # Create all Teams
   end
   puts "#{Team.all.count}...Done."                    # Confirm Team count
@@ -50,8 +50,8 @@ time = Benchmark.realtime do
     if Gamestat.find_by("boxscore_id = ?", boxscore_id).nil?
       boxscore = EspnScrape.boxscore(boxscore_id)
 
-      fl_a_home = EspnScrape.from_array2d(Gamestat::FIELD_NAMES, boxscore.homePlayers)
-      fl_a_away = EspnScrape.from_array2d(Gamestat::FIELD_NAMES, boxscore.awayPlayers)
+      fl_a_home = EspnScrape.to_hashes(Gamestat::FIELD_NAMES, boxscore.homePlayers)
+      fl_a_away = EspnScrape.to_hashes(Gamestat::FIELD_NAMES, boxscore.awayPlayers)
 
       # Set Foreign Keys
       fl_a_home.each do |fl|
