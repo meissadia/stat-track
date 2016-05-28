@@ -8,7 +8,22 @@ class Game < ActiveRecord::Base
   FIELD_NAMES_PG = EspnScrape::FS_SCHEDULE_PAST
   FIELD_NAMES_FG = EspnScrape::FS_SCHEDULE_FUTURE
 
+  # Find the latest completed games
+  def self.latestComplete
+    Game.where(gdate: Game.latestDate, home: true).order("gdate")
+  end
 
+  # Find games on a specified Date
+  def self.gamesOnDate(d)
+    Game.where(gdate: d, home: true).order("gdate")
+  end
+
+  # Find the Date for the latest completed games
+  def self.latestDate
+    Game.where('boxscore_id > ?', 0).order('gdate desc').limit(1).pluck(:gdate)
+  end
+
+  # Find the Game # - used during db population
   def self.getGameNum(t_abbr, boxscore_id)
     g = Game.where("t_abbr = ? AND boxscore_id = ?", t_abbr, boxscore_id)
     if !g.nil?
@@ -40,7 +55,7 @@ class Game < ActiveRecord::Base
 
   # Update Games and Gamestats tables for any games that have been completed
   # @return [Array[STRING]] Process Messages
-  def self.UpdateFromSchedule()
+  def self.updateFromSchedule()
     gs_msgs = [] # Gamestat message
     ignore_on_create = [:gtime, :g_datetime]
     ignore_on_update = [:gtime, :g_datetime, :tv, :game_num, :gdate]
@@ -107,21 +122,5 @@ class Game < ActiveRecord::Base
     end
     return gs_msgs << "Update completed in #{time} sec"
   end
-
-  # Get Today's Games
-  # @param d [Datetime] # A DateTime object
-  # @return [ActiveRecord::Game] # Game AR Relation
-  def self.gamesToday(d='')
-    Game.where(gdate: (Date.today.beginning_of_day..Date.today.end_of_day)).where(:home => true).order("gdate")
-  end
-
-  # Get Games By Date
-  # @param d [Datetime] # A DateTime object
-  # @return [ActiveRecord::Game] # Game AR Relation
-  def self.gamesYesterday()
-    Game.where(gdate: ((Date.today.yesterday.beginning_of_day)..(Date.today.yesterday.end_of_day))).where(:home => true).order("gdate")
-  end
-
-
 
 end

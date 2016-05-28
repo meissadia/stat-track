@@ -5,8 +5,15 @@ class HomepageController < ApplicationController
     @ranks_west = Team.rankings_conf('W')
     @ranks_east = Team.rankings_conf('E')
     @r_cnt = 0
-    @games = Game.gamesToday.in_groups(2, false)
-    @results = Game.gamesYesterday.in_groups(2, false)
+    @todays_best = []
+    @games = [[],[]]
+    @results = [[],[]]
+    # Latest Completed Regular Season Games
+    @games_date = Game.latestDate[0]
+    @games = Game.latestComplete.in_groups(2, false)
+    # Day Prior to Latest Completed
+    @results_date = @games_date - 1.day
+    @results = Game.gamesOnDate(@results_date).in_groups(2, false)
 
     # Show best of Today.  If there are no completed games for today,
     # show best of Yesterday.
@@ -19,22 +26,10 @@ class HomepageController < ApplicationController
       @results[1].each {|x| game_list << x.boxscore_id}
     end
     @todays_best = Gamestat.topGameScores(game_list)
-    @todays_best.each do |p|
-      p.bg = @logos[Team.getTeamName(Team.getTeamId(p.t_abbr))]
-    end
-
-    # Update Database
-    # @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1).first.created_at
-    # @last_update2 = Time.now.in_time_zone("UTC")
-    #
-    # @diff = ((@last_update2 - @last_update) / 1.minute).round
-    # if @diff > 30
-    #   @updating = "Updating database...please reload"
-    #   Thread.new do
-    #     @status = Game.UpdateFromSchedule()
-    #     ActiveRecord::Base.connection.close
-    #   end
+    # @todays_best.each do |p|
+    #   p.bg = @logos[Team.getTeamName(Team.getTeamId(p.t_abbr))]
     # end
+
   end
 
 end

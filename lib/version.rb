@@ -40,18 +40,18 @@ end
 # 8. Add games.js with code to fix display of Top Performer
 # @fixed-issues
 # 1. View Game#show | Correct sorting of FG/FT/3P now
-# 2. Stop overwriting Gamestats.gdate in Game.UpdateFromSchedule
+# 2. Stop overwriting Gamestats.gdate in Game.updateFromSchedule
 # 3. MaintainDB#index display corrections
 # 4. Correct sorting of Dates
 
 # 0.0.3
 # @fixed-issues
-# 1. Game.UpdateFromSchedule now correctly updates Gamestat info for
+# 1. Game.updateFromSchedule now correctly updates Gamestat info for
 #    games that have already been completed!
 
 # 0.0.2
 # @fixed-issues
-# 1. Game.UpdateFromSchedule now correctly updates Game info for
+# 1. Game.updateFromSchedule now correctly updates Game info for
 #    games that have already been completed!
 
 # 0.0.1

@@ -5,7 +5,7 @@ class MaintainDbController < ApplicationController
     @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1)
     @last_update = (@last_update.first.created_at.in_time_zone('Arizona')).strftime('%D %r')
     Thread.new do
-      @status = Game.UpdateFromSchedule()
+      @status = Game.updateFromSchedule()
       ActiveRecord::Base.connection.close
     end
     render 'maintain_db/index'
@@ -13,7 +13,7 @@ class MaintainDbController < ApplicationController
 
   def updateDb
     @status = ["updateTeams"]
-    @status = Game.UpdateFromSchedule()
+    @status = Game.updateFromSchedule()
     @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1)
     @last_update = (@last_update.first.created_at.in_time_zone('Arizona')).strftime('%D %r')
     render '/maintain_db/index'

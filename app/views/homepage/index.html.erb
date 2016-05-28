@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="columns-two width_90" id=games_today>
-    <h1>Games for <%= Date.today.strftime('%b %e, %Y') %></h1>
+    <h1>Games for <%= @games_date.strftime('%b %e, %Y') %></h1>
     <div class="col1">
       <!-- Column 1 -->
       <% @games[0].each do |game| %>
@@ -101,7 +101,7 @@
   </div>
 
   <div class="columns-two width_90" id=games_yesterday>
-    <h1>Games for <%= Date.today.yesterday.strftime('%b %e, %Y') %></h1>
+    <h1>Games for <%= @results_date.strftime('%b %e, %Y') %></h1>
     <div class="col1">
       <!-- Column 1 -->
       <% @results[0].each do |game| %>
