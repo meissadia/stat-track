@@ -18,7 +18,7 @@ REQUIREMENTS
     Built on Ruby 2.2.3p173 / Rails 4.2.5
 
 * Dependencies ()
-    (GEM) espnscrape 0.0.8
+    (GEM) espnscrape 0.1.0
     (GEM) jquery-tablesorter
 
 * Database creation

@@ -14,7 +14,7 @@ class Player < ActiveRecord::Base
   # Delete existing Roster data and repopulate
   def self.refreshRoster(team, roster)
     Player.where(team_id: team.id).destroy_all
-    fl_a = from_array2d(Player::FIELD_NAMES, roster)
+    fl_a = EspnScrape.from_array2d(Player::FIELD_NAMES, roster)
     # Set Foreign Keys
     fl_a.each do |fl|
       print "."
@@ -37,7 +37,7 @@ class Player < ActiveRecord::Base
     end
 
     fl[:boxscore_id] = boxscore_id
-    team_name = home ? boxscore.getAwayTeamName : boxscore.getHomeTeamName
+    team_name = home ? boxscore.awayName : boxscore.homeName
     fl[:opp_abbr] = boxscore.getTid(team_name)
     fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
     return fl
@@ -45,7 +45,7 @@ class Player < ActiveRecord::Base
 
   def self.createFromEspn(p_eid, t_abbr="")
     # puts "Creating Player: " + p_eid.to_s + ", team: " + t_abbr
-    player = EspnScrape.getPlayer(p_eid)
+    player = EspnScrape.player(p_eid)
     if (!player.nil?)
       new_player = {
         :p_name => player.name,

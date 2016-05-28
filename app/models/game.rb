@@ -1,7 +1,5 @@
 require 'benchmark'
 require 'espnscrape'
-require 'war'
-include WAR
 
 class Game < ActiveRecord::Base
   belongs_to :team
@@ -38,8 +36,8 @@ class Game < ActiveRecord::Base
     # Delete all Schedule records for this team
     Game.where(team_id: team.id).destroy_all
 
-    fl_a = from_array2d(Game::FIELD_NAMES_PG, teamSchedule.getPastGames)
-    fl_a += from_array2d(Game::FIELD_NAMES_FG, teamSchedule.getFutureGames)
+    fl_a = EspnScrape.from_array2d(Game::FIELD_NAMES_PG, teamSchedule.getPastGames)
+    fl_a += EspnScrape.from_array2d(Game::FIELD_NAMES_FG, teamSchedule.getFutureGames)
     # Set Foreign Keys
     fl_a.each do |fl|
       print "."
@@ -62,13 +60,12 @@ class Game < ActiveRecord::Base
 
     time = Benchmark.realtime do
       puts "Updating GameStats : #{Date.today.strftime("%F")}"
-      scraper = EspnScrape.new
       Team.all.each do |team|
         print "Processing #{team.t_name}..."
         gs_msgs << "Processing #{team.t_name}..."
         cnt = 0
         fl_a  = []
-        pastGames = from_array2d(Game::FIELD_NAMES_PG, scraper.getSchedule(team.t_abbr).getPastGames())
+        pastGames = EspnScrape.from_array2d(Game::FIELD_NAMES_PG, EspnScrape.schedule(team.t_abbr).getPastGames())
         pastGames.each do |pg|
           # puts pg.inspect
           print '.'
@@ -101,8 +98,8 @@ class Game < ActiveRecord::Base
               Gamestat.where(boxscore_id: pg[:boxscore_id], t_abbr: pg[:t_abbr]).destroy_all
 
               # Collect boxcore data
-              bs = scraper.getBoxscore(pg[:boxscore_id])
-              fl_temp = from_array2d(Gamestat::FIELD_NAMES, (pg[:home] ? bs.getHomeTeamPlayers : bs.getAwayTeamPlayers))
+              bs = EspnScrape.boxscore(pg[:boxscore_id])
+              fl_temp = EspnScrape.from_array2d(Gamestat::FIELD_NAMES, (pg[:home] ? bs.homePlayers : bs.awayPlayers))
 
               # Process boxscore data
               fl_temp.each do |fl| #set foreign keys

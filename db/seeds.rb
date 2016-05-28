@@ -1,16 +1,12 @@
   # Database Seed :: db:seed or db:setup
 require 'benchmark'
 require 'espnscrape'
-require 'war'
-include WAR
 
 time = Benchmark.realtime do
-  scraper = EspnScrape.new  # Data Scraper
-
   print "\nSeeding Teams..."
   if(Team.all.count == 0)                             # Avoid reprocessing already populated data
-    team_list = scraper.getTeamList.getTeamList
-    fl_a = from_array2d(Team::FIELD_NAMES, team_list) # Field List Array => [Dictionary]
+    team_list = EspnScrape.teamList.teamList
+    fl_a = EspnScrape.from_array2d(Team::FIELD_NAMES, team_list) # Field List Array => [Dictionary]
     Team.create(fl_a)                                 # Create all Teams
   end
   puts "#{Team.all.count}...Done."                    # Confirm Team count
@@ -19,7 +15,7 @@ time = Benchmark.realtime do
   Team.all.each do |team|
     # Process Team Schedule
     print "-- #{team.t_name} Games..."
-    teamSchedule = scraper.getSchedule(team.t_abbr)
+    teamSchedule = EspnScrape.schedule(team.t_abbr)
 
     # Collect boxscore ids for Gamestats population
     teamSchedule.getPastGames.each { |pg| completedGameBoxscores << (pg[10].nil? ? 0 : pg[10]) }
@@ -37,8 +33,8 @@ time = Benchmark.realtime do
 
     # Avoid reprocessing already populated data
     if(Player.where("team_id = ?", team.id).size == 0)
-      roster = scraper.getRoster(team.t_abbr)
-      Player.refreshRoster(team, roster.getRoster)
+      roster = EspnScrape.roster(team.t_abbr)
+      Player.refreshRoster(team, roster.players)
     end
 
     # Confirm Player count
@@ -52,10 +48,10 @@ time = Benchmark.realtime do
     print "."
     # Ignore already processed boxscore_ids
     if Gamestat.find_by("boxscore_id = ?", boxscore_id).nil?
-      boxscore = scraper.getBoxscore(boxscore_id)
+      boxscore = EspnScrape.boxscore(boxscore_id)
 
-      fl_a_home = from_array2d(Gamestat::FIELD_NAMES, boxscore.getHomeTeamPlayers)
-      fl_a_away = from_array2d(Gamestat::FIELD_NAMES, boxscore.getAwayTeamPlayers)
+      fl_a_home = EspnScrape.from_array2d(Gamestat::FIELD_NAMES, boxscore.homePlayers)
+      fl_a_away = EspnScrape.from_array2d(Gamestat::FIELD_NAMES, boxscore.awayPlayers)
 
       # Set Foreign Keys
       fl_a_home.each do |fl|

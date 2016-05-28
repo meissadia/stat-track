@@ -5,16 +5,20 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.7'
+  VERSION = '0.0.8'
 end
 
 
 ########################### Current Version  ###################################
+# 0.0.8
+# @new
+# 1. Integrated new version of EspnScrape
+
+########################### Version History ####################################
 # 0.0.7
 # @fixed-issues
 # 1. Games.updateFromSchedule fixed
 
-########################### Version History ####################################
 # 0.0.6
 # @fixed-issues
 # 1. New version of EspnScrape to correctly pull data
