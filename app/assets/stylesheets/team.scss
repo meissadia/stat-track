@@ -45,3 +45,12 @@ th {
   width: 60px;
   vertical-align: middle;
 }
+
+#team_best table {
+  table-layout: fixed;
+  min-width: 168px;
+}
+
+#team_best .col{
+  min-width: 170px !important;
+}

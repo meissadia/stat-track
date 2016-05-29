@@ -4,10 +4,10 @@ class MaintainDbController < ApplicationController
     @settings = DbSetting.first
     @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1)
     @last_update = (@last_update.first.created_at.in_time_zone('Arizona')).strftime('%D %r')
-    Thread.new do
-      @status = Game.updateFromSchedule()
-      ActiveRecord::Base.connection.close
-    end
+    # Thread.new do
+    #   @status = Game.updateFromSchedule()
+    #   ActiveRecord::Base.connection.close
+    # end
     render 'maintain_db/index'
   end
 

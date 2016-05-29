@@ -42,7 +42,7 @@ time = Benchmark.realtime do
   end
 
   # Process Gamestats for all completed games
-  puts "-- Gamestats..."
+  print "-- Gamestats..."
   completedGameBoxscores = completedGameBoxscores.reject {|c| c.to_s.nil? || c.to_s.empty?}
   completedGameBoxscores.uniq.each do |boxscore_id|
     print "."
