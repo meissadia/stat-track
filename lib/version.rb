@@ -5,17 +5,22 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.8'
+  VERSION = '0.0.10'
 end
 
 
 ########################### Current Version  ###################################
+# 0.0.10
+# 1. Add rake server:stop to kill background server
+#    Specify port: rake server:stop port=4000
+
+########################### Version History ####################################
 # 0.0.9
 # 1. Added boot configuration to bind server ip to local machine ip,
 #    making the instance reachable from other devices on the local network.
 # 2. Fixed Top Players display issue where table data was overflowing when the
 #    viewport was small.
-########################### Version History ####################################
+
 # 0.0.8
 # @new
 # 1. Integrated new version of EspnScrape
