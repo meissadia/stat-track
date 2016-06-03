@@ -5,19 +5,21 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.11'
+  VERSION = '0.0.12'
 end
 
 
 ########################### Current Version  ###################################
+# 0.0.12
+# 1. + Homepage improvements
+
+########################### Version History ####################################
 
 # 0.0.11
 # 1. + EspnScrape 0.1.1
 # 2. + Include Preseason and Playoff data
 # 3. + Homepage layout improvements
 #      Added some partials
-
-########################### Version History ####################################
 
 # 0.0.10
 # 1. Add rake server:stop to kill background server

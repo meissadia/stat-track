@@ -15,7 +15,7 @@
 
   <!-- Latest Games  -->
   <% if @games[0].size > 0 %>
-  <% if @results[0].size > 0 %>
+  <% if @games[1].size > 0 %>
   <div class="columns-two width_90" id=games_today>
   <% else %>
   <div class="center width_90" id=games_today>
@@ -42,14 +42,18 @@
 
   <!-- Previous Day's Games -->
   <% if @results[0].size > 0 %>
+  <% if @results[1].size > 0 %>
   <div class="columns-two width_90" id=games_yesterday>
+  <% else %>
+  <div class="center width_90" id=games_yesterday>
+  <% end %>
     <h1>Games for <%= @results_date.strftime('%b %e, %Y') %></h1>
     <div class="col1">
       <!-- Column 1 -->
       <% @results[0].each do |game| %>
       <%= render partial: "game_small", locals: { game: game} %>
       <% end %>
-    </div><div class="col2">
+    </div><% if @results[1].size > 0 %><div class="col2">
       <!-- Column 2 -->
       <% @results[1].each do |game| %>
       <%= render partial: "game_small", locals: { game: game} %>
@@ -59,7 +63,7 @@
       <% game = @results[0].last %>
       <%= render partial: "game_small_empty", locals: { game: game } %>
       <% end %>
-    </div>
+    </div><% end %>
   </div>
   <% end %>
 

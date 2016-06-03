@@ -18,7 +18,11 @@ class Game < ActiveRecord::Base
 
   # Find the Date for the latest completed games
   def self.latestDate
-    Game.where('boxscore_id > ?', 0).order('gdate desc').limit(1).pluck(:gdate)
+    Game.where('boxscore_id > ?', 0).order('gdate desc').limit(1).pluck(:gdate).first
+  end
+
+  def self.dateBeforeLatest
+    Game.where('boxscore_id > 0 and gdate < ?', Game.latestDate).order('gdate desc').limit(1).pluck(:gdate).first
   end
 
   # Find the Game # - used during db population

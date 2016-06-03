@@ -9,10 +9,10 @@ class HomepageController < ApplicationController
     @games = [[],[]]
     @results = [[],[]]
     # Latest Completed Regular Season Games
-    @games_date = Game.latestDate[0]
+    @games_date = Game.latestDate
     @games = Game.latestComplete.in_groups(2, false)
     # Day Prior to Latest Completed
-    @results_date = @games_date - 1.day
+    @results_date = Game.dateBeforeLatest
     @results = Game.gamesOnDate(@results_date).in_groups(2, false)
 
     # Show best of Today.  If there are no completed games for today,
