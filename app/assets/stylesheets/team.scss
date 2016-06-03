@@ -18,6 +18,7 @@ th {
 #team_nav #nav_list {
   width: 100%;
   margin: 0 auto;
+  margin-top: 15px;
   border-top: 1px solid #FFFFFF;
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
@@ -53,4 +54,8 @@ th {
 
 #team_best .col{
   min-width: 170px !important;
+}
+
+.h_62{
+  height: 62px;
 }

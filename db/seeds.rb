@@ -15,15 +15,17 @@ time = Benchmark.realtime do
   Team.all.each do |team|
     # Process Team Schedule
     print "-- #{team.t_name} Games..."
-    teamSchedule = EspnScrape.schedule(team.t_abbr)
+    [1,2,3].each { |season_type|
+      teamSchedule = EspnScrape.schedule(team.t_abbr, season_type)
 
-    # Collect boxscore ids for Gamestats population
-    teamSchedule.getPastGames.each { |pg| completedGameBoxscores << (pg[10].nil? ? 0 : pg[10]) }
+      # Collect boxscore ids for Gamestats population
+      teamSchedule.getPastGames.each { |pg| completedGameBoxscores << (pg[10].nil? ? 0 : pg[10]) }
 
-    # Avoid reprocessing already populated data
-    if(Game.where("team_id = ?", team.id).size == 0)
-      Game.refreshSchedule(team, teamSchedule)
-    end
+      # Avoid reprocessing already populated data
+      if(Game.where("team_id = ? AND season_type = ?", team.id, season_type).size == 0)
+        Game.refreshSchedule(team, teamSchedule, season_type)
+      end
+    }
 
     # Confirm Game count
     puts "%i...Done." % [Game.where("team_id = ?", team.id).size]

@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20151128124750) do
     t.integer  "boxscore_id"
     t.integer  "wins"
     t.integer  "losses"
+    t.integer  "season_type"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

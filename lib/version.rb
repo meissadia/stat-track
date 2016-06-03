@@ -5,16 +5,24 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.10'
+  VERSION = '0.0.11'
 end
 
 
 ########################### Current Version  ###################################
+
+# 0.0.11
+# 1. + EspnScrape 0.1.1
+# 2. + Include Preseason and Playoff data
+# 3. + Homepage layout improvements
+#      Added some partials
+
+########################### Version History ####################################
+
 # 0.0.10
 # 1. Add rake server:stop to kill background server
 #    Specify port: rake server:stop port=4000
 
-########################### Version History ####################################
 # 0.0.9
 # 1. Added boot configuration to bind server ip to local machine ip,
 #    making the instance reachable from other devices on the local network.

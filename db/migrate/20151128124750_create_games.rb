@@ -15,6 +15,7 @@ class CreateGames < ActiveRecord::Migration
       t.integer :boxscore_id, index: true
       t.integer :wins
       t.integer :losses
+      t.integer :season_type
 
       t.timestamps null: false
     end

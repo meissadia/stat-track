@@ -20,15 +20,22 @@
           <th>Opponent</th>
           <th>Result</th>
           <th>Record</th>
+          <th>Season</th>
         </tr>
       </thead>
       <tbody>
         <% @past_games.each do |pg| %>
         <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
           <td><%= pg.game_num %></td>
-          <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
-          <td><a href='/game/<%= pg.boxscore_id %>'><%= pg.win ? 'W' : 'L' %> <%= pg.team_score %> - <%=pg.opp_score%></a></td>
+          <% if Team.getTeamId(pg.opp_abbr).nil? %>
+            <td><%= "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}" %></td>
+            <td><%= pg.win ? 'W' : 'L' %> <%= pg.team_score %> - <%=pg.opp_score%></td>
+          <% else %>
+            <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+            <td><a href='/game/<%= pg.boxscore_id %>'><%= pg.win ? 'W' : 'L' %> <%= pg.team_score %> - <%=pg.opp_score%></a></td>
+          <% end %>
           <td><%= pg.wins %> - <%= pg.losses %></td>
+          <td><%= seasonString(pg.season_type) %></td>
         </tr>
         <% end %>
       </tbody>
@@ -42,6 +49,7 @@
           <th>Num</th>
           <th>Date</th>
           <th>Opponent</th>
+          <th>Season</th>
         </tr>
       </thead>
       <tbody>
@@ -50,6 +58,7 @@
           <td><%= pg.game_num %></td>
           <td><span class=hide><%= pg.gdate.strftime('%y/%m/%d') %></span><%= pg.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
           <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+          <td><%= seasonString(pg.season_type) %></td>
         </tr>
         <% end %>
       </tbody>

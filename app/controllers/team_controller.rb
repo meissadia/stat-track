@@ -15,12 +15,13 @@ class TeamController < ApplicationController
 
     @next_game = Game.find_by(["team_id = ? and boxscore_id = 0", @team.id])
 
-    @last10_games = Game.where("team_id = ? and boxscore_id > 0", @team.id ).order("game_num desc").limit(10)
+    @last10_games = Game.where("team_id = ? and boxscore_id > 0", @team.id ).order("gdate desc").limit(10)
     @next10_games = Game.where(:team_id => @team.id).where("boxscore_id = 0").limit(10)
 
     @rank = league_rank(@team.t_abbr)
-    @wins = @last10_games.first.wins.to_i
-    @losses = @last10_games.first.losses.to_i
+    last_game = Game.where("team_id = ? and boxscore_id > 0 and season_type = 2", @team.id ).order("gdate desc").first
+    @wins = last_game.wins.to_i
+    @losses = last_game.losses.to_i
     @win_pct = (@wins.to_f / (@wins + @losses)).round(2)
 
     @team_logo = StatTrack::Application.config.logos[@team.t_name]
@@ -43,7 +44,7 @@ class TeamController < ApplicationController
     def league_rank(abbr="")
       t_rank = []
       s = "t_abbr, wins, losses"
-      @records = Game.select(s).where("boxscore_id > 0").group(:t_abbr).order(:wins)
+      @records = Game.select(s).where("boxscore_id > 0 and season_type = 2").group(:t_abbr).order(:wins)
       @records.each do |record|
         w_pct = record.wins.to_f / (record.wins + record.losses)
         t_rank << [w_pct.round(2), record.t_abbr]

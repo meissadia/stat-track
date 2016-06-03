@@ -1,0 +1,23 @@
+<table class="tablesorter center">
+  <caption><%= conf %></caption>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Team</th>
+      <th>Wins</th>
+      <th>Losses</th>
+      <th>Win %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% ranks.each do |win_pct, t_name, ranked_team| %>
+    <tr>
+      <td><%= @r_cnt += 1 %></td>
+      <td><%= link_to t_name, "/team/#{ranked_team.team_id}" %></td>
+      <td><%= ranked_team.wins %></td>
+      <td><%= ranked_team.losses %></td>
+      <td><%= win_pct %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

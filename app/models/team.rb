@@ -21,7 +21,10 @@ class Team < ActiveRecord::Base
   end
 
   def self.getTeamName(id)
-    return Team.find(id).t_name
+    if(!id.nil?)
+      return Team.find(id).t_name
+    end
+    return nil
   end
 
   # Conference Rankings
@@ -34,7 +37,7 @@ class Team < ActiveRecord::Base
     t_list = []
     t_rank = []
     teams.each { |t| t_list << t.id }
-    @records = Game.where(team_id: t_list).where.not(:boxscore_id => 0).order("gdate desc").group(:team_id)
+    @records = Game.where(team_id: t_list, season_type: 2).where.not(:boxscore_id => 0).order("gdate desc").group(:team_id)
     @records.each do |record|
       w_pct = record.wins.to_f / (record.wins + record.losses)
       t_rank << [w_pct.round(2), Team.find(record.team_id).t_name, record]

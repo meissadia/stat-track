@@ -2,6 +2,10 @@ class GameController < ApplicationController
   def show
     @alt_bg = 0
     @game = Game.find_by("home = 't' and boxscore_id = ?", params[:boxscore_id])
+    if(@game.nil?)
+      redirect_to '/'
+      return nil
+    end
 
     s = "Gamestats.*, " + Gamestat.formulaGameScore
     @home_stats = Gamestat.select(s).where("t_abbr = ? and boxscore_id = ?", @game.t_abbr, @game.boxscore_id)

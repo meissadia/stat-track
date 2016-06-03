@@ -24,19 +24,19 @@ class Game < ActiveRecord::Base
   # Find the Game # - used during db population
   def self.getGameNum(t_abbr, boxscore_id)
     g = Game.where("t_abbr = ? AND boxscore_id = ?", t_abbr, boxscore_id)
-    if !g.nil?
-      return g[0].game_num
+    if !g.first.nil?
+      return g.first.game_num
     else
       return 0
     end
   end
 
   # Erase existing Schedule data and replace
-  def self.refreshSchedule(team, teamSchedule)
-    # Delete all Schedule records for this team
-    Game.where(team_id: team.id).destroy_all
+  def self.refreshSchedule(team, teamSchedule, season)
+    # Delete conflicting Schedule records for this team
+    Game.where(team_id: team.id, season_type: season).destroy_all
 
-    fl_a = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, teamSchedule.getPastGames)
+    fl_a  = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, teamSchedule.getPastGames)
     fl_a += EspnScrape.to_hashes(Game::FIELD_NAMES_FG, teamSchedule.getFutureGames)
     # Set Foreign Keys
     fl_a.each do |fl|
@@ -65,14 +65,22 @@ class Game < ActiveRecord::Base
         gs_msgs << "Processing #{team.t_name}..."
         cnt = 0
         fl_a  = []
-        pastGames = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, EspnScrape.schedule(team.t_abbr).getPastGames())
+        # Update from the last accessible
+        pastGames  = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, EspnScrape.schedule(team.t_abbr).getPastGames)
         pastGames.each do |pg|
           # puts pg.inspect
           print '.'
+
           # Check if this boxscore_id has already been processed
           game = Game.find_by("team_id = ? AND boxscore_id = ?" , team.id, pg[:boxscore_id])
           if game.nil?
             # Boxscore not processed
+
+            # Set Foreign Keys
+            pg[:team_id] = team.id
+            pg[:opp_id] = Team.getTeamId(pg[:opp_abbr])
+            pg[:gdate] = pg[:g_datetime]    # Utilize Game DateTime as Game Date
+
             # Validate that game number and opponent are correct
             game = Game.find_by("team_id = ? AND game_num = ? AND opp_abbr = ?" ,
                                  team.id, pg[:game_num], pg[:opp_abbr])

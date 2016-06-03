@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   post 'maintain_db/updateDb' => 'maintain_db#updateDb'
 
   get 'teams' => 'team#index'
+  get 'team' => 'team#index'
   get 'team/:id' => 'team#show'
   get 'team/abbr/:t_abbr' => 'team#by_team'
   get 'team/schedule/:id' => 'team#schedule'
@@ -33,6 +34,8 @@ Rails.application.routes.draw do
 
   get 'players' => 'player#index'
   get 'player/:id' => 'player#show'
+
+  # get 'date/:date' => 'homepage#date'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
