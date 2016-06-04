@@ -10,12 +10,12 @@ The Development database is already populated with the latest data available at 
 > rails server
 ```
 
-In your web browser, navigate to http://localhost:3000
+In your web browser, navigate to [localhost:3000]http://localhost:3000
 
 *To update any newly available data, access the '[DB](http://localhost:3000/maintain_db)' page within the running application.*
 
 ###Database creation
-`Not required if using the included Development database`  
+`Not required if using the pre-populated Development database`  
 If you modify the database schema, deploy to a non-Development environment, or just want to start fresh:
 ```
 > rake db:migrate
@@ -24,9 +24,9 @@ If you modify the database schema, deploy to a non-Development environment, or j
 *A full seasons worth of data takes approx. 20 mins to populate.*
 
 ###Configuring seeds.rb
-There are a few options if you want to restrict what data is pulled into the database. These settings can be found in the 'db/seeds_config.rb' file.    
+There are a few options if you want to restrict the data being pulled into the database. These settings can be found in the 'db/seeds_config.rb' file.    
 ######*seasonTypes*  
-Restrict data to your preferred season types:  
+Restrict data by season type:  
 ```
 # 1-Preseason, 2-Regular, 3-Playoff  
 @seasonTypes = [1,2,3]
@@ -44,5 +44,5 @@ When seeding, you can pull the most up-to-date data from the internet or use an 
 *Built on Ruby 2.2.3p173 / Rails 4.2.5*
 
 ###Dependencies
-*espnscrape 0.1.1  
-jquery-tablesorter*
+espnscrape 0.1.1  
+jquery-tablesorter
