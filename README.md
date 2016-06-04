@@ -10,7 +10,7 @@ The Development database is already populated with the latest data available at 
 > rails server
 ```
 
-In your web browser, navigate to [localhost:3000]http://localhost:3000
+In your web browser, navigate to [localhost:3000](http://localhost:3000)
 
 *To update any newly available data, access the '[DB](http://localhost:3000/maintain_db)' page within the running application.*
 
