@@ -1,74 +1,89 @@
-  # Database Seed :: db:seed or db:setup
+# Database Seed :: db:seed or db:setup
 require 'benchmark'
 require 'espnscrape'
+require_relative './seeds_config'
 
-time = Benchmark.realtime do
-  print "\nSeeding Teams..."
-  if(Team.all.count == 0)                             # Avoid reprocessing already populated data
-    team_list = EspnScrape.teamList.teamList
-    fl_a = EspnScrape.to_hashes(Team::FIELD_NAMES, team_list) # Field List Array => [Dictionary]
-    Team.create(fl_a)                                 # Create all Teams
+## Process Data ##
+if( @useStoredData )
+  puts "Seeding DB with seeds_stored.rb - (approx. 10mins)"
+  time = Benchmark.realtime do
+    Team.delete_all
+    Player.delete_all
+    Game.delete_all
+    Gamestat.delete_all
+    require_relative "./#{@fileName}"
   end
-  puts "#{Team.all.count}...Done."                    # Confirm Team count
+  puts "Completed in #{time} sec."
+else
+  file = @overwriteStoredData ? File.open('db/'+@fileName, "w") : nil # Destination file for saving
+  time = Benchmark.realtime do
+    ## Process Team List
+    print "\nSeeding Teams..."
+    if(Team.all.count == 0)                                     # Skip already populated data
+      team_list = EspnScrape.teamList.teamList
+      fl_a = EspnScrape.to_hashes(Team::FIELD_NAMES, team_list) # Field List Array => [Dictionary]
+      Team.create(fl_a)                                         # Create all Teams
+      file.puts "Team.create(#{fl_a})" if @overwriteStoredData  # Save Create command
+    end
+    puts "#{Team.all.count}...Done."                            # Confirm Team count
 
-  completedGameBoxscores = [] # Gamestat Collection List
-  Team.all.each do |team|
-    # Process Team Schedule
-    print "-- #{team.t_name} Games..."
-    [1,2,3].each { |season_type|
-      teamSchedule = EspnScrape.schedule(team.t_abbr, season_type)
+    ## Process Team Schedule
+    completedGameBoxscores = []                                 # Gamestat Collection List
+    Team.all.each do |team|
+      print "-- #{team.t_name} Games..."
+      @seasonTypes.each { |season_type|                         # Process configured season types
+        teamSchedule = EspnScrape.schedule(team.t_abbr, season_type)
 
-      # Collect boxscore ids for Gamestats population
-      teamSchedule.getPastGames.each { |pg| completedGameBoxscores << (pg[10].nil? ? 0 : pg[10]) }
+        # Collect boxscore ids for Gamestats population
+        teamSchedule.getPastGames.each { |pg| completedGameBoxscores << (pg[10].nil? ? 0 : pg[10]) }
 
-      # Avoid reprocessing already populated data
-      if(Game.where("team_id = ? AND season_type = ?", team.id, season_type).size == 0)
-        Game.refreshSchedule(team, teamSchedule, season_type)
+        # Skip already populated data
+        if(Game.where("team_id = ? AND season_type = ?", team.id, season_type).size == 0)
+          fl_a = Game.refreshSchedule(team, teamSchedule, season_type)
+          file.puts "Game.create(#{fl_a})" if @overwriteStoredData && !fl_a.empty? # Save Crate command
+        end
+      }
+      puts "%i...Done." % [Game.where("team_id = ?", team.id).size]  # Confirm Game count
+
+      ## Process Team Roster
+      print "-- #{team.t_name} Players..."
+      if(Player.where("team_id = ?", team.id).size == 0)        # Skip already populated data
+        roster = EspnScrape.roster(team.t_abbr)
+        fl_a = Player.refreshRoster(team, roster.players)
+        file.puts "Player.create(#{fl_a})" if @overwriteStoredData  # Save Create command
       end
-    }
-
-    # Confirm Game count
-    puts "%i...Done." % [Game.where("team_id = ?", team.id).size]
-
-    # Process Team Roster
-    print "-- #{team.t_name} Players..."
-
-    # Avoid reprocessing already populated data
-    if(Player.where("team_id = ?", team.id).size == 0)
-      roster = EspnScrape.roster(team.t_abbr)
-      Player.refreshRoster(team, roster.players)
+      puts "%i...Done." % [Player.where("team_id = ?", team.id).size] # Confirm Player count
     end
 
-    # Confirm Player count
-    puts "%i...Done." % [Player.where("team_id = ?", team.id).size]
-  end
+    ## Process Gamestats - Save boxscore data for completed games
+    print "-- Gamestats..."
+    completedGameBoxscores = completedGameBoxscores.reject { |c| c.to_s.nil? || c.to_s.empty? || c == 0 }
+    completedGameBoxscores.uniq.each do |boxscore_id|
+      print "."
+      if Gamestat.find_by("boxscore_id = ?", boxscore_id).nil?  # Skip already processed Games
+        boxscore = EspnScrape.boxscore(boxscore_id)
 
-  # Process Gamestats for all completed games
-  print "-- Gamestats..."
-  completedGameBoxscores = completedGameBoxscores.reject {|c| c.to_s.nil? || c.to_s.empty?}
-  completedGameBoxscores.uniq.each do |boxscore_id|
-    print "."
-    # Ignore already processed boxscore_ids
-    if Gamestat.find_by("boxscore_id = ?", boxscore_id).nil?
-      boxscore = EspnScrape.boxscore(boxscore_id)
+        fl_a_home = EspnScrape.to_hashes(Gamestat::FIELD_NAMES, boxscore.homePlayers)
+        fl_a_away = EspnScrape.to_hashes(Gamestat::FIELD_NAMES, boxscore.awayPlayers)
 
-      fl_a_home = EspnScrape.to_hashes(Gamestat::FIELD_NAMES, boxscore.homePlayers)
-      fl_a_away = EspnScrape.to_hashes(Gamestat::FIELD_NAMES, boxscore.awayPlayers)
-
-      # Set Foreign Keys
-      fl_a_home.each do |fl|
-        fl = Player.setForeignKeys(fl, boxscore_id, boxscore, true)
-        fl[:game_num] = Game.getGameNum(fl[:t_abbr], boxscore_id)
+        # Set Foreign Keys - Used to simplify site navigation
+        fl_a_home.each do |fl|
+          fl = Player.setForeignKeys(fl, boxscore_id, boxscore, true, file)
+          fl[:game_num] = Game.getGameNum(fl[:t_abbr], boxscore_id)
+        end
+        fl_a_away.each do |fl|
+          fl = Player.setForeignKeys(fl, boxscore_id, boxscore, false, file)
+          fl[:game_num] = Game.getGameNum(fl[:t_abbr], boxscore_id)
+        end
       end
-      fl_a_away.each do |fl|
-        fl = Player.setForeignKeys(fl, boxscore_id, boxscore, false)
-        fl[:game_num] = Game.getGameNum(fl[:t_abbr], boxscore_id)
-      end
+      Gamestat.create(fl_a_away)
+      Gamestat.create(fl_a_home)
+      file.puts "Gamestat.create(#{fl_a_away})" if @overwriteStoredData # Save Create command
+      file.puts "Gamestat.create(#{fl_a_home})" if @overwriteStoredData # Save Create command
     end
-    Gamestat.create(fl_a_away)
-    Gamestat.create(fl_a_home)
-  end
-  puts "Done."
+    puts "Done."
+    file.close
 
+  end
+  puts "\nCompleted in #{time} sec"
 end
-puts "\nCompleted in #{time} sec"

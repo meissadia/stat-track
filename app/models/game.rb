@@ -53,6 +53,7 @@ class Game < ActiveRecord::Base
     end
 
     Game.create(fl_a)                 # Create all Games for current team
+    return fl_a
   end
 
   # Update Games and Gamestats tables for any games that have been completed
@@ -77,9 +78,7 @@ class Game < ActiveRecord::Base
 
           # Check if this boxscore_id has already been processed
           game = Game.find_by("team_id = ? AND boxscore_id = ?" , team.id, pg[:boxscore_id])
-          if game.nil?
-            # Boxscore not processed
-
+          if game.nil?                                 # Boxscore not processed
             # Set Foreign Keys
             pg[:team_id] = team.id
             pg[:opp_id] = Team.getTeamId(pg[:opp_abbr])

@@ -9,7 +9,7 @@
     </nav>
   </div>
   <div class="center" id=team_logo>
-    <%= (image_tag teamLogo(@player.t_abbr)) %>
+    <%= (image_tag teamLogo(@player.t_abbr)) if !Team.getTeamId(@player.t_abbr).nil? %>
     <h1><%= @player.p_name %></h1>
   </div>
   <h2>Player Info</h2>

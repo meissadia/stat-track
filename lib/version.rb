@@ -5,15 +5,21 @@
 # puts VERSION #=> '0.0.1'
 module Version
   # GEM version
-  VERSION = '0.0.12'
+  VERSION = '0.0.13'
 end
 
 
 ########################### Current Version  ###################################
-# 0.0.12
-# 1. + Homepage improvements
+# 0.0.13
+# 1. + Include populated Development database, to avoid long initial setup times
+# 2. + Added configuration options for db:seed in db/seeds_config.rb
+# 3. + Revamped README and converted to Markdown
+# 4. + Cleaned up Routes file
+# 5. + Added seeds_stored.rb for faster database resets (set seeds_config -> @useStoredData = true)
 
 ########################### Version History ####################################
+# 0.0.12
+# 1. + Homepage improvements
 
 # 0.0.11
 # 1. + EspnScrape 0.1.1

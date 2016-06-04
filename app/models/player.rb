@@ -22,13 +22,14 @@ class Player < ActiveRecord::Base
     end
 
     Player.create(fl_a)               # Create all Players for current team
+    return fl_a
   end
 
   # Set Foreign Keys and clean up some data
-  def self.setForeignKeys(fl, boxscore_id, boxscore, home)
+  def self.setForeignKeys(fl, boxscore_id, boxscore, home, file=nil)
     currPlayer = Player.find_by("p_eid = ? ", fl[:p_eid])
     if currPlayer.nil?
-      Player.createFromEspn(fl[:p_eid], fl[:t_abbr])
+      Player.createFromEspn(fl[:p_eid], fl[:t_abbr], file)
       currPlayer = Player.find_by("p_eid = ? ", fl[:p_eid])
     end
     if(!currPlayer.nil?)
@@ -43,7 +44,7 @@ class Player < ActiveRecord::Base
     return fl
   end
 
-  def self.createFromEspn(p_eid, t_abbr="")
+  def self.createFromEspn(p_eid, t_abbr="", file=nil)
     # puts "Creating Player: " + p_eid.to_s + ", team: " + t_abbr
     player = EspnScrape.player(p_eid)
     if (!player.nil?)
@@ -59,6 +60,7 @@ class Player < ActiveRecord::Base
         :t_abbr => t_abbr
       }
       Player.create(new_player)
+      file.puts "Player.create(#{new_player})" if !file.nil? # Save Create command
     end
   end
 
