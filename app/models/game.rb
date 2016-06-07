@@ -40,8 +40,8 @@ class Game < ActiveRecord::Base
     # Delete conflicting Schedule records for this team
     Game.where(team_id: team.id, season_type: season).destroy_all
 
-    fl_a  = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, teamSchedule.getPastGames)
-    fl_a += EspnScrape.to_hashes(Game::FIELD_NAMES_FG, teamSchedule.getFutureGames)
+    fl_a  = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, teamSchedule.pastGames)
+    fl_a += EspnScrape.to_hashes(Game::FIELD_NAMES_FG, teamSchedule.futureGames)
     # Set Foreign Keys
     fl_a.each do |fl|
       print "."
@@ -71,7 +71,7 @@ class Game < ActiveRecord::Base
         cnt = 0
         fl_a  = []
         # Update from the last accessible
-        pastGames  = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, EspnScrape.schedule(team.t_abbr).getPastGames)
+        pastGames  = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, EspnScrape.schedule(team.t_abbr).pastGames)
         pastGames.each do |pg|
           # puts pg.inspect
           print '.'

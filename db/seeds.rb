@@ -35,7 +35,7 @@ else
         teamSchedule = EspnScrape.schedule(team.t_abbr, season_type)
 
         # Collect boxscore ids for Gamestats population
-        teamSchedule.getPastGames.each { |pg| completedGameBoxscores << (pg[10].nil? ? 0 : pg[10]) }
+        teamSchedule.pastGames.each { |pg| completedGameBoxscores << (pg[10].nil? ? 0 : pg[10]) }
 
         # Skip already populated data
         if(Game.where("team_id = ? AND season_type = ?", team.id, season_type).size == 0)

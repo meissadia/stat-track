@@ -24,7 +24,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # EspnScrape
-gem 'espnscrape', '~> 0.1.1'
+gem 'espnscrape', '~> 0.3.0'
 
 # TableSorter
 gem 'jquery-tablesorter'
