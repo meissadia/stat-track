@@ -3,8 +3,8 @@ require 'espnscrape'
 
 class Game < ActiveRecord::Base
   belongs_to :team
-  FIELD_NAMES_PG = EspnScrape::FS_SCHEDULE_PAST
-  FIELD_NAMES_FG = EspnScrape::FS_SCHEDULE_FUTURE
+  # FIELD_NAMES_PG = EspnScrape::FS_SCHEDULE_PAST
+  # FIELD_NAMES_FG = EspnScrape::FS_SCHEDULE_FUTURE
 
   # Find the latest completed games
   def self.latestComplete
@@ -39,15 +39,14 @@ class Game < ActiveRecord::Base
   def self.refreshSchedule(team, teamSchedule, season)
     # Delete conflicting Schedule records for this team
     Game.where(team_id: team.id, season_type: season).destroy_all
-
-    fl_a  = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, teamSchedule.pastGames)
-    fl_a += EspnScrape.to_hashes(Game::FIELD_NAMES_FG, teamSchedule.futureGames)
+    fl_a  = teamSchedule.pastGames.to_hashes
+    fl_a += teamSchedule.futureGames.to_hashes
     # Set Foreign Keys
     fl_a.each do |fl|
       print "."
       fl[:team_id] = team.id
-      fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
-      fl[:gdate] = fl[:g_datetime]    # Utilize Game DateTime as Game Date
+      fl[:opp_id]  = Team.getTeamId(fl[:opp_abbr])
+      fl[:gdate]   = fl[:g_datetime]  # Utilize Game DateTime as Game Date
       fl.delete(:g_datetime)          # Eliminate DateTime, now stored in gdate
       fl.delete(:gtime)               # Eliminate Game Time, now stored in gdate
     end
@@ -71,7 +70,7 @@ class Game < ActiveRecord::Base
         cnt = 0
         fl_a  = []
         # Update from the last accessible
-        pastGames  = EspnScrape.to_hashes(Game::FIELD_NAMES_PG, EspnScrape.schedule(team.t_abbr).pastGames)
+        pastGames  = EspnScrape.schedule(team.t_abbr).pastGames.to_hashes
         pastGames.each do |pg|
           # puts pg.inspect
           print '.'

@@ -49,17 +49,17 @@ ActiveRecord::Schema.define(version: 20151128124750) do
     t.boolean  "home"
     t.string   "opp_abbr"
     t.integer  "opp_id"
-    t.boolean  "win"
+    t.boolean  "win",         default: false
     t.integer  "team_score"
     t.integer  "opp_score"
     t.datetime "gdate"
-    t.boolean  "tv"
-    t.integer  "boxscore_id"
+    t.boolean  "tv",          default: false
+    t.integer  "boxscore_id", default: 0
     t.integer  "wins"
     t.integer  "losses"
     t.integer  "season_type"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   add_index "games", ["boxscore_id"], name: "index_games_on_boxscore_id"

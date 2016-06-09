@@ -1,15 +1,15 @@
 class CreateGamestats < ActiveRecord::Migration
   def change
     create_table :gamestats do |t|
-      t.references :player, index: true
+      t.references :player,   index: true
       t.integer :boxscore_id, index: true
-      t.string :t_abbr, index: true
-      t.integer :opp_id, index: true
-      t.string :opp_abbr, index: true
+      t.string  :t_abbr,      index: true
+      t.integer :opp_id,      index: true
+      t.string  :opp_abbr,    index: true
       t.integer :game_num
-      t.string :p_name
+      t.string  :p_name
       t.integer :p_eid
-      t.string :pos
+      t.string  :pos
       t.integer :min
       t.integer :fgm
       t.integer :fga

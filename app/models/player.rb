@@ -3,8 +3,6 @@ class Player < ActiveRecord::Base
   # belongs_to :game
   has_many :gamestats
 
-  FIELD_NAMES = EspnScrape::FS_ROSTER
-
   # Derive Player ID from Team Abbreviation
   def self.getPlayerId(s="")
     t = Player.find_by("p_name = ? ", s.to_s)
@@ -14,7 +12,7 @@ class Player < ActiveRecord::Base
   # Delete existing Roster data and repopulate
   def self.refreshRoster(team, roster)
     Player.where(team_id: team.id).destroy_all
-    fl_a = EspnScrape.to_hashes(Player::FIELD_NAMES, roster)
+    fl_a = roster.to_hashes
     # Set Foreign Keys
     fl_a.each do |fl|
       print "."
@@ -34,13 +32,12 @@ class Player < ActiveRecord::Base
     end
     if(!currPlayer.nil?)
       fl[:player_id] = currPlayer.id
-      fl[:p_name] = currPlayer.p_name
+      fl[:p_name]    = currPlayer.p_name
     end
 
     fl[:boxscore_id] = boxscore_id
-    team_name = home ? boxscore.awayName : boxscore.homeName
-    fl[:opp_abbr] = boxscore.getTid(team_name)
-    fl[:opp_id] = Team.getTeamId(fl[:opp_abbr])
+    fl[:opp_abbr]    = boxscore.getTid(home ? boxscore.awayName : boxscore.homeName)
+    fl[:opp_id]      = Team.getTeamId(fl[:opp_abbr])
     return fl
   end
 
@@ -49,15 +46,15 @@ class Player < ActiveRecord::Base
     player = EspnScrape.player(p_eid)
     if (!player.nil?)
       new_player = {
-        :p_name => player.name,
-        :pos => player.position,
-        :age => player.age,
-        :h_ft => player.h_ft,
-        :h_in => player.h_in,
-        :college => player.college,
-        :weight => player.weight,
-        :p_eid => p_eid,
-        :t_abbr => t_abbr
+        :pos     => player.position,
+        :age     => player.age,
+        :h_ft    => player.h_ft,
+        :h_in    => player.h_in,
+        :p_eid   => p_eid,
+        :t_abbr  => t_abbr,
+        :p_name  => player.name,
+        :weight  => player.weight,
+        :college => player.college
       }
       Player.create(new_player)
       file.puts "Player.create(#{new_player})" if !file.nil? # Save Create command
