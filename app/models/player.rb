@@ -5,14 +5,14 @@ class Player < ActiveRecord::Base
 
   # Derive Player ID from Team Abbreviation
   def self.getPlayerId(s="")
-    t = Player.find_by("p_name = ? ", s.to_s)
+    t = Player.find_by("name = ? ", s.to_s)
     return (!t.nil? ? t.id : nil)
   end
 
   # Delete existing Roster data and repopulate
   def self.refreshRoster(team, roster)
     Player.where(team_id: team.id).destroy_all
-    fl_a = roster.to_hashes
+    fl_a = roster
     # Set Foreign Keys
     fl_a.each do |fl|
       print "."
@@ -25,36 +25,37 @@ class Player < ActiveRecord::Base
 
   # Set Foreign Keys and clean up some data
   def self.setForeignKeys(fl, boxscore_id, boxscore, home, file=nil)
-    currPlayer = Player.find_by("p_eid = ? ", fl[:p_eid])
+    currPlayer = Player.find_by("eid = ? ", fl[:eid])
     if currPlayer.nil?
-      Player.createFromEspn(fl[:p_eid], fl[:t_abbr], file)
-      currPlayer = Player.find_by("p_eid = ? ", fl[:p_eid])
+      # puts boxscore_id.to_s
+      Player.createFromEspn(fl[:eid], fl[:abbr], file)
+      currPlayer = Player.find_by("eid = ? ", fl[:eid])
     end
     if(!currPlayer.nil?)
       fl[:player_id] = currPlayer.id
-      fl[:p_name]    = currPlayer.p_name
+      fl[:name]      = currPlayer.name
     end
 
     fl[:boxscore_id] = boxscore_id
-    fl[:opp_abbr]    = boxscore.getTid(home ? boxscore.awayName : boxscore.homeName)
-    fl[:opp_id]      = Team.getTeamId(fl[:opp_abbr])
+    fl[:opponent]    = boxscore.getTid(home ? boxscore.awayName : boxscore.homeName)
+    fl[:opponent_id] = Team.getTeamId(fl[:opponent])
     return fl
   end
 
-  def self.createFromEspn(p_eid, t_abbr="", file=nil)
-    # puts "Creating Player: " + p_eid.to_s + ", team: " + t_abbr
-    player = EspnScrape.player(p_eid)
-    if (!player.nil?)
+  def self.createFromEspn(eid, t_abbr="", file=nil)
+    # puts "Creating Player: " + eid.to_s + ", team: " + t_abbr
+    player = EspnScrape.player(eid)
+    if (!player.name.nil?)
       new_player = {
-        :pos     => player.position,
-        :age     => player.age,
-        :h_ft    => player.h_ft,
-        :h_in    => player.h_in,
-        :p_eid   => p_eid,
-        :t_abbr  => t_abbr,
-        :p_name  => player.name,
-        :weight  => player.weight,
-        :college => player.college
+        :position     => player.position,
+        :age          => player.age,
+        :height_ft    => player.h_ft,
+        :height_in    => player.h_in,
+        :eid          => eid,
+        :abbr         => t_abbr,
+        :name         => player.name,
+        :weight       => player.weight,
+        :college      => player.college
       }
       Player.create(new_player)
       file.puts "Player.create(#{new_player})" if !file.nil? # Save Create command

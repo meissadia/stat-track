@@ -18,10 +18,10 @@
         <% @players.each do |player| %>
         <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
           <td><%= player.id %></td>
-          <td><%= player.t_abbr %></td>
-          <td><%= player.p_num %></td>
-          <td><%= link_to player.p_name, "/player/#{player.id}" %></td>
-          <td><%= "%i\'%i\"" % [player.h_ft, player.h_in] %></td>
+          <td><%= Team.getTeamId(player.abbr) ? link_to(player.abbr, "/team/#{Team.getTeamId(player.abbr)}") : player.abbr %></td>
+          <td><%= player.jersey %></td>
+          <td><%= link_to player.name, "/player/#{player.id}" %></td>
+          <td><span class=hide><%= player.height_ft*12+player.height_in%></span><%= "%i' %i\"" % [player.height_ft,player.height_in] %></td>
           <td><%= player.weight %></td>
           <td><%= player.college %></td>
           <td><%= number_to_currency(player.salary, {:precision => 0}) %></td>

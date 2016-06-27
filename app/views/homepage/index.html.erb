@@ -72,10 +72,10 @@
     <h1>Conference Standings</h1>
     <div class="col1" id=conference_west>
       <!-- Conference  -->
-      <%= render partial: "ranks", locals: { ranks: @ranks_west, conf: "West" } %>
+      <%= render partial: "ranks", locals: { ranks: @ranks_west, conf: "West", counter: 0 } %>
     </div><div class="col2" id=conference_east>
       <!-- Conference  -->
-      <%= render partial: "ranks", locals: { ranks: @ranks_east, conf: "East" } %>
+      <%= render partial: "ranks", locals: { ranks: @ranks_east, conf: "East", counter: 0 } %>
     </div>
   </div>
 </main>

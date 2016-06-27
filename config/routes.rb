@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get 'teams'             => 'team#index'
   get 'team'              => 'team#index'
   get 'team/:id'          => 'team#show'
-  get 'team/abbr/:t_abbr' => 'team#by_team'
+  get 'team/abbr/:abbr'   => 'team#by_team'
   get 'team/schedule/:id' => 'team#schedule'
 
   get 'game/:boxscore_id' => 'game#show'

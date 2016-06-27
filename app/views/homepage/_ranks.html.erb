@@ -12,7 +12,7 @@
   <tbody>
     <% ranks.each do |win_pct, t_name, ranked_team| %>
     <tr>
-      <td><%= @r_cnt += 1 %></td>
+      <td><%= counter += 1 %></td>
       <td><%= link_to t_name, "/team/#{ranked_team.team_id}" %></td>
       <td><%= ranked_team.wins %></td>
       <td><%= ranked_team.losses %></td>

@@ -4,3 +4,8 @@
 require File.expand_path('../config/application', __FILE__)
 
 Rails.application.load_tasks
+
+task :reset_db do
+  `rake db:migrate VERSION=0`
+  `rake db:migrate`
+end

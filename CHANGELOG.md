@@ -1,5 +1,10 @@
 ## Change Log :: StatTrack
 
+## 0.0.17
++ EspnScape 0.5.1
++ Fixed Players height sorting
++ Added Players team links
+
 ## 0.0.15
 ####&nbsp;&nbsp;&nbsp;changed
 + EspnScrape 0.3.0

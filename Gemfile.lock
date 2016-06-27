@@ -50,7 +50,7 @@ GEM
     coffee-script-source (1.10.0)
     debug_inspector (0.0.2)
     erubis (2.7.0)
-    espnscrape (0.4.0)
+    espnscrape (0.5.1)
       nokogiri (~> 1.6)
     execjs (2.6.0)
     globalid (0.3.6)
@@ -145,7 +145,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
-  espnscrape (~> 0.4.0)
+  espnscrape (~> 0.5.1)
   jbuilder (~> 2.0)
   jquery-rails
   jquery-tablesorter

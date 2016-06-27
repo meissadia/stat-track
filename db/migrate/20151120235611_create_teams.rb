@@ -1,8 +1,8 @@
 class CreateTeams < ActiveRecord::Migration
   def change
     create_table :teams do |t|
-      t.string :t_abbr, index: true
-      t.string :t_name
+      t.string :abbr, index: true
+      t.string :name
       t.string :city
       t.string :division
       t.string :conference

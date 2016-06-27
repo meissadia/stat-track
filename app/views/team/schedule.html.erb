@@ -8,8 +8,8 @@
     </nav>
   </div>
   <div class="center removeTextNodes" id=team_logo>
-    <%= (image_tag teamLogo(@team.t_abbr)) %>
-    <h1><%= @team.t_name %></h1>
+    <%= (image_tag teamLogo(@team.abbr)) %>
+    <h1><%= @team.name %></h1>
   </div>
   <div class="center width_90">
     <h3>Past Games</h3>
@@ -27,11 +27,11 @@
         <% @past_games.each do |pg| %>
         <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
           <td><%= pg.game_num %></td>
-          <% if Team.getTeamId(pg.opp_abbr).nil? %>
-            <td><%= "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}" %></td>
+          <% if Team.getTeamId(pg.opponent).nil? %>
+            <td><%= "#{pg.home ? 'vs ' : '@ '} #{pg.opponent}" %></td>
             <td><%= pg.win ? 'W' : 'L' %> <%= pg.team_score %> - <%=pg.opp_score%></td>
           <% else %>
-            <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+            <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opponent}", "/team/#{Team.getTeamId(pg.opponent)}" %></td>
             <td><a href='/game/<%= pg.boxscore_id %>'><%= pg.win ? 'W' : 'L' %> <%= pg.team_score %> - <%=pg.opp_score%></a></td>
           <% end %>
           <td><%= pg.wins %> - <%= pg.losses %></td>
@@ -57,7 +57,7 @@
         <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
           <td><%= pg.game_num %></td>
           <td><span class=hide><%= pg.gdate.strftime('%y/%m/%d') %></span><%= pg.gdate.strftime('%a, %b %d @ %I:%M %p') %></td>
-          <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+          <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opponent}", "/team/#{Team.getTeamId(pg.opponent)}" %></td>
           <td><%= seasonString(pg.season_type) %></td>
         </tr>
         <% end %>

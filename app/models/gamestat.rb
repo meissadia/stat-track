@@ -7,53 +7,53 @@ class Gamestat < ActiveRecord::Base
   # GameScore SQL single game
   # @return [String] #GameScore formula
   def self.formulaGameScore
-    "(pts + (fgm * 0.4) + (fga * -0.7) + ((fta-ftm) * -0.4) + "\
-        "(OREB * 0.7) + (DREB * 0.3) + STL + (AST * 0.7) + (BLK * 0.7) + "\
-          "(PF * -0.4) - tos) as gamescore"
+    "(POINTS + (fgm * 0.4) + (fga * -0.7) + ((fta-ftm) * -0.4) + "\
+        "(OREB * 0.7) + (DREB * 0.3) + STEALS + (ASSISTS * 0.7) + (BLOCKS * 0.7) + "\
+          "(FOULS * -0.4) - TURNOVERS) as gamescore"
   end
 
   # GameScore SQL for Season
   # @return [String] #GameScore formula
   def self.formulaGameScoreSeason
-    "ROUND((SUM(pts) + (SUM(fgm) * 0.4) + (SUM(fga) * -0.7) + ((SUM(fta)-SUM(ftm)) * -0.4) + "\
-       "(SUM(OREB) * 0.7) + (SUM(DREB) * 0.3) + SUM(STL) + (SUM(AST) * 0.7) + (SUM(BLK) * 0.7) + "\
-       "(SUM(PF) * -0.4) - SUM(tos))/count(*),2) as gamescore"
+    "ROUND((SUM(POINTS) + (SUM(fgm) * 0.4) + (SUM(fga) * -0.7) + ((SUM(fta)-SUM(ftm)) * -0.4) + "\
+       "(SUM(OREB) * 0.7) + (SUM(DREB) * 0.3) + SUM(STEALS) + (SUM(ASSISTS) * 0.7) + (SUM(BLOCKS) * 0.7) + "\
+       "(SUM(FOULS) * -0.4) - SUM(TURNOVERS))/count(*),2) as gamescore"
   end
 
   # Efficiency SQL for Season
   # @return [String] # Efficiency formula
   def self.formulaEfficiencySeason
-    "ROUND(((SUM(pts) + SUM(reb) + SUM(ast) + SUM(stl) + SUM(blk)) - ((SUM(fga) - SUM(fgm)) + ((SUM(fta) - SUM(ftm))*1.0) + SUM(tos)))/count(*),2) as eff"
+    "ROUND(((SUM(POINTS) + SUM(REBOUNDS) + SUM(ASSISTS) + SUM(STEALS) + SUM(BLOCKS)) - ((SUM(fga) - SUM(fgm)) + ((SUM(fta) - SUM(ftm))*1.0) + SUM(TURNOVERS)))/count(*),2) as eff"
   end
 
   # Points/Game SQL
   # @return [String] # Points/Game formula
   def self.formulaPtsSeason
-    "ROUND(AVG(pts),2) as apts"
+    "ROUND(AVG(POINTS),2) as apts"
   end
 
   # Asists/Game SQL
   # @return [String] # Ast/Game formula
   def self.formulaAstSeason
-    "ROUND(AVG(ast),2) as aast"
+    "ROUND(AVG(ASSISTS),2) as aast"
   end
 
   # Rebounds/Game SQL
   # @return [String] # REB/Game formula
   def self.formulaRebSeason
-    "ROUND(AVG(reb),2) as areb"
+    "ROUND(AVG(REBOUNDS),2) as areb"
   end
 
   # Blocks/Game SQL
   # @return [String] # BLK/Game formula
   def self.formulaBlkSeason
-    "ROUND(AVG(blk),2) as ablk"
+    "ROUND(AVG(BLOCKS),2) as ablk"
   end
 
   # Steals/Game SQL
   # @return [String] # Stl/Game formula
   def self.formulaStlSeason
-    "ROUND(AVG(stl),2) as astl"
+    "ROUND(AVG(STEALS),2) as astl"
   end
 
   # Field Goal %/Game SQL
@@ -77,13 +77,13 @@ class Gamestat < ActiveRecord::Base
   # Turnovers/Game SQL
   # @return [String] # TOs/Game formula
   def self.formulaTosSeason
-    "ROUND(AVG(tos),2) as atos"
+    "ROUND(AVG(TURNOVERS),2) as atos"
   end
 
   # Minutes/Game SQL
   # @return [String] # Mins/Game formula
   def self.formulaMinSeason
-    "ROUND(AVG(min),2) as amin"
+    "ROUND(AVG(MINUTES),2) as amin"
   end
 
   # Get top GameScores for a single team, single game
@@ -91,10 +91,10 @@ class Gamestat < ActiveRecord::Base
   # @param lim [Integer] #Number of players to return
   # @param home [Bool] #Limit selection to home team(true), away team(false)
   # @return [ActiveRecord::Gamestat] # Gamestat AR Relation
-  def self.topGameScoresTeam(bs_id=0, lim=1, team='')
-    s = "p_name, player_id, boxscore_id, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
+  def self.topGameScoresTeam(bs_id=0, lim=1, abbr='')
+    s = "name, player_id, boxscore_id, abbr, POINTS, REBOUNDS, ASSISTS, BLOCKS, STEALS, TURNOVERS," + Gamestat.formulaGameScore
     s << ', "" as bg'
-    Gamestat.select(s).where(:boxscore_id => bs_id, :t_abbr => team).order("gamescore desc").limit(lim)
+    Gamestat.select(s).where(:boxscore_id => bs_id, :abbr => abbr).order("gamescore desc").limit(lim)
   end
 
   # Get top GameScores
@@ -102,7 +102,7 @@ class Gamestat < ActiveRecord::Base
   # @param lim [Integer] # Max number of statlines returned
   # @return [ActiveRecord::Gamestat] # Gamestat AR Relation
   def self.topGameScores(glist=[], lim=5, home='')
-    s = "p_name, player_id, boxscore_id, t_abbr, pts, reb, ast, blk, stl, tos," + Gamestat.formulaGameScore
+    s = "name, player_id, boxscore_id, abbr, POINTS, REBOUNDS, ASSISTS, BLOCKS, STEALS, TURNOVERS," + Gamestat.formulaGameScore
     s << ', "" as bg'
     Gamestat.select(s).where(boxscore_id: glist).order("gamescore desc").limit(lim)
   end
@@ -111,8 +111,8 @@ class Gamestat < ActiveRecord::Base
   # @param team [String] # Team Abbreviation
   # @param lim [Integer] # Max number of statlines returned
   # @return [ActiveRecord::Gamestat] # Gamestat AR Relation
-  def self.topGameScoresTeamSeason(team, lim=5)
-    s = "p_name, player_id, t_abbr,"
+  def self.topGameScoresTeamSeason(abbr, lim=5)
+    s = "name, player_id, abbr,"
     s << Gamestat.formulaPtsSeason + ','
     s << Gamestat.formulaRebSeason + ','
     s << Gamestat.formulaAstSeason + ','
@@ -122,6 +122,6 @@ class Gamestat < ActiveRecord::Base
     s << Gamestat.formulaTosSeason + ','
     s << Gamestat.formulaTosSeason + ','
     s << Gamestat.formulaGameScoreSeason
-    Gamestat.select(s).where(:t_abbr => team).group(:player_id).order("gamescore desc").limit(lim)
+    Gamestat.select(s).where(:abbr => abbr).group(:player_id).order("gamescore desc").limit(lim)
   end
 end

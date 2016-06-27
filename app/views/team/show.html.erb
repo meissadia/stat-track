@@ -8,8 +8,8 @@
     </nav>
   </div>
   <div class="center" id=team_logo>
-    <%= image_tag teamLogo(@team.t_abbr) %>
-    <h1><%= @team.t_name %></h1>
+    <%= image_tag teamLogo(@team.abbr) %>
+    <h1><%= @team.name %></h1>
   </div>
   <h2></h2>
   <table class="center" id=team_info>
@@ -22,7 +22,7 @@
     </thead>
     <tbody>
       <tr class=r0>
-        <td><%= link_to @team.t_name, "/team/#{@team.id}"  %></td>
+        <td><%= link_to @team.name, "/team/#{@team.id}"  %></td>
         <td><%= @team.division %></td>
         <td><%= @team.conference %></td>
       </tr>
@@ -42,7 +42,7 @@
         </thead>
         <tbody>
           <tr class=r0>
-            <td><%= (image_tag teamLogo(@team.t_abbr)) %>#<%= @rank %></td>
+            <td><%= (image_tag teamLogo(@team.abbr)) %>#<%= @rank %></td>
             <td><%= @wins %></td>
             <td><%= @losses %></td>
             <td><%= "#{@win_pct}"  %></td>
@@ -61,7 +61,7 @@
         <tbody>
           <% if !@next_game.nil? %>
           <tr class=r0>
-            <td><a href="/team/<%= @next_game.opp_id %>"><%= @next_game.home ? "vs" : "@" %> <%= (image_tag teamLogo(@next_game.opp_abbr)) %></a></td>
+            <td><a href="/team/<%= @next_game.opp_id %>"><%= @next_game.home ? "vs" : "@" %> <%= (image_tag teamLogo(@next_game.opponent)) %></a></td>
             <td><%= @next_game.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
           </tr>
           <% else %>
@@ -79,8 +79,8 @@
     <% @team_best.each do |player| %>
     <div class="col">
       <table class=center>
-        <div class=pname><%= link_to "%s" % [player.p_name], "/player/#{player.player_id}" %></pname></div>
-        <caption><%= link_to (image_tag teamLogo(@team.t_abbr)), "/team/#{@team.id}" %></caption>
+        <div class=pname><%= link_to "%s" % [player.name], "/player/#{player.player_id}" %></pname></div>
+        <caption><%= link_to (image_tag teamLogo(@team.abbr)), "/team/#{@team.id}" %></caption>
         <tr><td>PTS:</td><td><%= "%.1f" % [player.apts] %></td><td>AST:</td><td><%= "%.1f" % [player.aast] %></td></tr>
         <tr><td>REB:</td><td><%= "%.1f" % [player.areb] %></td><td>BLK:</td><td><%= "%.1f" % [player.ablk] %></td></tr>
         <tr><td>STL:</td><td><%= "%.1f" % [player.astl] %></td><td>TOS:</td><td><%= "%.1f" % [player.atos] %></td></tr>
@@ -106,11 +106,11 @@
       <tbody>
         <% @roster.each do |row| %>
         <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
-          <td><%= row.p_num %></td>
-          <td><%= link_to row.p_name, "/player/#{row.id}" %></td>
-          <td><%= row.pos %></td>
+          <td><%= row.jersey %></td>
+          <td><%= link_to row.name, "/player/#{row.id}" %></td>
+          <td><%= row.position %></td>
           <td><%= row.age %></td>
-          <td><span class=hide><%= row.h_ft*12+row.h_in%></span><%= "%i' %i\"" % [row.h_ft,row.h_in] %></td>
+          <td><span class=hide><%= row.height_ft*12+row.height_in%></span><%= "%i' %i\"" % [row.height_ft,row.height_in] %></td>
           <td><%= row.weight %></td>
           <td><%= row.college %></td>
           <td><%= number_to_currency(row.salary, {:precision => 0}) %></td>
@@ -135,7 +135,7 @@
           <% @last10_games.each do |pg| %>
           <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
             <td><%= pg.game_num %></td>
-            <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+            <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opponent}", "/team/#{Team.getTeamId(pg.opponent)}" %></td>
             <td><%= link_to "%s %i - %i" %[pg.win ? 'W' : 'L', pg.team_score, pg.opp_score], "/game/#{pg.boxscore_id}" %></td>
           </tr>
           <% end %>
@@ -155,7 +155,7 @@
           <% @next10_games.each do |pg| %>
           <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
             <td><%= pg.game_num %></td>
-            <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opp_abbr}", "/team/#{Team.getTeamId(pg.opp_abbr)}" %></td>
+            <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opponent}", "/team/#{Team.getTeamId(pg.opponent)}" %></td>
             <td><span class=hide><%= pg.gdate.strftime('%y/%m/%d') %></span><%= pg.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
           </tr>
           <% end %>

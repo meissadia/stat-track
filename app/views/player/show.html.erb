@@ -3,14 +3,14 @@
     <nav id=player_nav>
       <ul id=nav_list class=removeTextNodes>
         <li><%= @previous.nil? ? "< Prev. Player" : (link_to "< Prev. Player", "/player/#{@previous}") %></li>
-        <li><%= link_to "Team: #{@player.t_abbr}", "/team/#{Team.getTeamId(@player.t_abbr)}" %></li>
+        <li><%= link_to "Team: #{@player.abbr}", "/team/#{Team.getTeamId(@player.abbr)}" %></li>
         <li><%= @next.nil? ? "Next Player >" : (link_to "Next Player >", "/player/#{@next}") %></li>
       </ul>
     </nav>
   </div>
   <div class="center" id=team_logo>
-    <%= (image_tag teamLogo(@player.t_abbr)) if !Team.getTeamId(@player.t_abbr).nil? %>
-    <h1><%= @player.p_name %></h1>
+    <%= (image_tag teamLogo(@player.abbr)) if !Team.getTeamId(@player.abbr).nil? %>
+    <h1><%= @player.name %></h1>
   </div>
   <h2>Player Info</h2>
   <table class="width_90 center"  id=player_info>
@@ -22,8 +22,8 @@
       <th>Salary</th>
     </tr>
     <tr class=r0>
-      <td><%= @player.p_num %></td>
-      <td><%= "%i\'%i\"" % [@player.h_ft, @player.h_in] %></td>
+      <td><%= @player.jersey %></td>
+      <td><%= "%i\'%i\"" % [@player.height_ft, @player.height_in] %></td>
       <td><%= @player.weight %></td>
       <td><%= @player.college %></td>
       <td><%= number_to_currency(@player.salary, {:precision => 0}) %></td>
@@ -49,18 +49,18 @@
     </thead>
     <tbody>
       <tr class=r0>
-        <td><%= @p_maxs.min == '' ? 'Blank MIN' : @p_maxs.min %></td>
-        <td><%= @p_maxs.pts %></td>
-        <td><%= @p_maxs.ast %></td>
-        <td><%= @p_maxs.reb %></td>
-        <td><%= @p_maxs.stl %></td>
-        <td><%= @p_maxs.blk %></td>
-        <td><%= @p_maxs.tos %></td>
+        <td><%= @p_maxs.minutes == '' ? 'Blank MIN' : @p_maxs.minutes %></td>
+        <td><%= @p_maxs.points %></td>
+        <td><%= @p_maxs.assists %></td>
+        <td><%= @p_maxs.rebounds %></td>
+        <td><%= @p_maxs.steals %></td>
+        <td><%= @p_maxs.blocks %></td>
+        <td><%= @p_maxs.turnovers %></td>
         <td><%= @p_maxs.fgp %>%</td>
         <td><%= @p_maxs.ftp %>%</td>
         <td><%= @p_maxs.tpp %>%</td>
-        <td><%= @p_maxs.plus %></td>
-        <td><%= @p_maxs.pf %></td>
+        <td><%= @p_maxs.plusminus %></td>
+        <td><%= @p_maxs.fouls %></td>
       </tr>
     </tbody>
   </table>
@@ -89,23 +89,23 @@
       </thead>
       <tbody>
         <% @stats.each do |row| %>
-          <% if row.min > 0 %>
+          <% if row.minutes > 0 %>
             <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
-              <td><%= link_to row.t_abbr, "/team/#{Team.getTeamId(row.t_abbr)}" %></td>
-              <td><%= link_to row.opp_abbr, "/game/#{row.boxscore_id}" %></td>
-              <td><%= row.pos %></td>
-              <td><%= row.min == '' ? 'Blank MIN' : row.min %></td>
-              <td><%= row.pts %></td>
-              <td><%= row.ast %></td>
-              <td><%= row.reb %> (<%= row.oreb %>)</td>
-              <td><%= row.stl %></td>
-              <td><%= row.blk %></td>
-              <td><%= row.tos %></td>
+              <td><%= link_to row.abbr, "/team/#{Team.getTeamId(row.abbr)}" %></td>
+              <td><%= link_to row.opponent, "/game/#{row.boxscore_id}" %></td>
+              <td><%= row.position %></td>
+              <td><%= row.minutes == '' ? 'Blank MIN' : row.minutes %></td>
+              <td><%= row.points %></td>
+              <td><%= row.assists %></td>
+              <td><%= row.rebounds %> (<%= row.oreb %>)</td>
+              <td><%= row.steals %></td>
+              <td><%= row.blocks %></td>
+              <td><%= row.turnovers %></td>
               <td><span class=hide><%= row.fga.eql?(0) ? 0 : 100*(row.fgm*1.0/row.fga).round(2) %></span><%= "%i / %i" % [row.fgm, row.fga] %></td>
               <td><span class=hide><%= row.fta.eql?(0) ? 0 : 100*(row.ftm*1.0/row.fta).round(2) %></span><%= "%i / %i" % [row.ftm, row.fta] %></td>
               <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
-              <td><%= row.plus %></td>
-              <td><%= row.pf %></td>
+              <td><%= row.plusminus %></td>
+              <td><%= row.fouls %></td>
               <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
             </tr>
           <% end %>

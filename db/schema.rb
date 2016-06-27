@@ -44,15 +44,15 @@ ActiveRecord::Schema.define(version: 20151128124750) do
 
   create_table "games", force: :cascade do |t|
     t.integer  "team_id"
-    t.string   "t_abbr"
+    t.string   "abbr"
     t.integer  "game_num"
     t.boolean  "home"
-    t.string   "opp_abbr"
-    t.integer  "opp_id"
+    t.string   "opponent"
+    t.integer  "opponent_id"
     t.boolean  "win",         default: false
     t.integer  "team_score"
     t.integer  "opp_score"
-    t.datetime "gdate"
+    t.datetime "datetime"
     t.boolean  "tv",          default: false
     t.integer  "boxscore_id", default: 0
     t.integer  "wins"
@@ -62,21 +62,21 @@ ActiveRecord::Schema.define(version: 20151128124750) do
     t.datetime "updated_at",                  null: false
   end
 
+  add_index "games", ["abbr"], name: "index_games_on_abbr"
   add_index "games", ["boxscore_id"], name: "index_games_on_boxscore_id"
-  add_index "games", ["t_abbr"], name: "index_games_on_t_abbr"
   add_index "games", ["team_id"], name: "index_games_on_team_id"
 
   create_table "gamestats", force: :cascade do |t|
     t.integer  "player_id"
     t.integer  "boxscore_id"
-    t.string   "t_abbr"
-    t.integer  "opp_id"
-    t.string   "opp_abbr"
+    t.string   "abbr"
+    t.integer  "opponent_id"
+    t.string   "opponent"
     t.integer  "game_num"
-    t.string   "p_name"
-    t.integer  "p_eid"
-    t.string   "pos"
-    t.integer  "min"
+    t.string   "name"
+    t.integer  "eid"
+    t.string   "position"
+    t.integer  "minutes"
     t.integer  "fgm"
     t.integer  "fga"
     t.integer  "tpm"
@@ -85,24 +85,24 @@ ActiveRecord::Schema.define(version: 20151128124750) do
     t.integer  "fta"
     t.integer  "oreb"
     t.integer  "dreb"
-    t.integer  "reb"
-    t.integer  "ast"
-    t.integer  "stl"
-    t.integer  "blk"
-    t.integer  "tos"
-    t.integer  "pf"
-    t.integer  "plus"
-    t.integer  "pts"
+    t.integer  "rebounds"
+    t.integer  "assists"
+    t.integer  "steals"
+    t.integer  "blocks"
+    t.integer  "turnovers"
+    t.integer  "fouls"
+    t.integer  "plusminus"
+    t.integer  "points"
     t.boolean  "starter"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
+  add_index "gamestats", ["abbr"], name: "index_gamestats_on_abbr"
   add_index "gamestats", ["boxscore_id"], name: "index_gamestats_on_boxscore_id"
-  add_index "gamestats", ["opp_abbr"], name: "index_gamestats_on_opp_abbr"
-  add_index "gamestats", ["opp_id"], name: "index_gamestats_on_opp_id"
+  add_index "gamestats", ["opponent"], name: "index_gamestats_on_opponent"
+  add_index "gamestats", ["opponent_id"], name: "index_gamestats_on_opponent_id"
   add_index "gamestats", ["player_id"], name: "index_gamestats_on_player_id"
-  add_index "gamestats", ["t_abbr"], name: "index_gamestats_on_t_abbr"
 
   create_table "lottos", force: :cascade do |t|
     t.integer  "rank"
@@ -113,14 +113,14 @@ ActiveRecord::Schema.define(version: 20151128124750) do
 
   create_table "players", force: :cascade do |t|
     t.integer  "team_id"
-    t.string   "t_abbr"
-    t.integer  "p_eid"
-    t.string   "p_name"
-    t.integer  "p_num"
-    t.string   "pos"
+    t.string   "abbr"
+    t.integer  "eid"
+    t.string   "name"
+    t.integer  "jersey"
+    t.string   "position"
     t.integer  "age"
-    t.integer  "h_ft"
-    t.integer  "h_in"
+    t.integer  "height_ft"
+    t.integer  "height_in"
     t.integer  "weight"
     t.string   "college"
     t.integer  "salary"
@@ -128,8 +128,8 @@ ActiveRecord::Schema.define(version: 20151128124750) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "players", ["p_eid"], name: "index_players_on_p_eid"
-  add_index "players", ["t_abbr"], name: "index_players_on_t_abbr"
+  add_index "players", ["abbr"], name: "index_players_on_abbr"
+  add_index "players", ["eid"], name: "index_players_on_eid"
   add_index "players", ["team_id"], name: "index_players_on_team_id"
 
   create_table "rosters", force: :cascade do |t|
@@ -166,8 +166,8 @@ ActiveRecord::Schema.define(version: 20151128124750) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string   "t_abbr"
-    t.string   "t_name"
+    t.string   "abbr"
+    t.string   "name"
     t.string   "city"
     t.string   "division"
     t.string   "conference"
@@ -175,6 +175,6 @@ ActiveRecord::Schema.define(version: 20151128124750) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "teams", ["t_abbr"], name: "index_teams_on_t_abbr"
+  add_index "teams", ["abbr"], name: "index_teams_on_abbr"
 
 end
