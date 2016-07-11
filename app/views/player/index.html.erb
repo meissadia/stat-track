@@ -24,7 +24,7 @@
           <td><span class=hide><%= player.height_ft*12+player.height_in%></span><%= "%i' %i\"" % [player.height_ft,player.height_in] %></td>
           <td><%= player.weight %></td>
           <td><%= player.college %></td>
-          <td><%= number_to_currency(player.salary, {:precision => 0}) %></td>
+          <td><%= number_to_currency(player.salary || 0, {:precision => 0}) %></td>
         </tr>
         <% end %>
       </tbody>
