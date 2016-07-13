@@ -132,39 +132,6 @@ ActiveRecord::Schema.define(version: 20151128124750) do
   add_index "players", ["eid"], name: "index_players_on_eid"
   add_index "players", ["team_id"], name: "index_players_on_team_id"
 
-  create_table "rosters", force: :cascade do |t|
-    t.string   "team_id"
-    t.string   "pname"
-    t.integer  "pnum"
-    t.string   "pos"
-    t.integer  "age"
-    t.integer  "h_ft"
-    t.integer  "h_in"
-    t.integer  "weight"
-    t.string   "college"
-    t.integer  "salary"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "schedules", force: :cascade do |t|
-    t.string   "team_id"
-    t.integer  "game_id"
-    t.boolean  "home"
-    t.string   "opp_id"
-    t.boolean  "win"
-    t.integer  "team_score"
-    t.integer  "opp_score"
-    t.date     "gdate"
-    t.time     "gtime"
-    t.boolean  "tv"
-    t.string   "boxscore_id"
-    t.integer  "wins"
-    t.integer  "losses"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "teams", force: :cascade do |t|
     t.string   "abbr"
     t.string   "name"

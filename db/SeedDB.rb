@@ -21,7 +21,7 @@ class SeedDB
       process_roster(team)    # EspnScrape::NbaRoster   => Players
     end
     seed_gamestats            # EspnScrape::NbaBoxscore => Gamestats
-    @file.close
+    @file.close if SAVE_TO_FILE
   end
 
   # Populate Teams Table with NBA League data

@@ -1,0 +1,19 @@
+<% if row.minutes > 0 %>
+<tr>
+  <td><%= link_to row.name, "/player/#{row.player_id}" %></td>
+  <td><%= row.position %></td>
+  <td><%= row.minutes == '' ? 'Blank MIN' : row.minutes %></td>
+  <td><%= row.points %></td>
+  <td><%= row.assists %></td>
+  <td><%= row.rebounds %> (<%= row.oreb %>)</td>
+  <td><%= row.steals %></td>
+  <td><%= row.blocks %></td>
+  <td><%= row.turnovers %></td>
+  <td><span class=hide><%= row.fga.eql?(0) ? 0 : 100*(row.fgm*1.0/row.fga).round(2) %></span><%= "%i / %i" % [row.fgm, row.fga] %></td>
+  <td><span class=hide><%= row.fta.eql?(0) ? 0 : 100*(row.ftm*1.0/row.fta).round(2) %></span><%= "%i / %i" % [row.ftm, row.fta] %></td>
+  <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
+  <td><%= row.plusminus %></td>
+  <td><%= row.fouls %></td>
+  <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
+</tr>
+<% end %>

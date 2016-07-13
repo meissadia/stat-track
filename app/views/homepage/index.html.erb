@@ -69,7 +69,7 @@
 
   <!-- Conference Standings -->
   <div class='columns-two width_90' id=standings>
-    <h1>Conference Standings</h1>
+    <h1><%= seasonString(current_season_type) %> Standings</h1>
     <div class="col1" id=conference_west>
       <!-- Conference  -->
       <%= render partial: "ranks", locals: { ranks: @ranks_west, conf: "West", counter: 0 } %>

@@ -15,5 +15,6 @@ USE_STORED_DATA = false
 # This option will save the new Create commands.
 # By default, you cannot overwrite the file you are seeding from (!USE_STORED_DATA)
 # Change the second half of the || vvvvv to your desired behavior
-SAVE_TO_FILE = !USE_STORED_DATA || false
+# SAVE_TO_FILE = !USE_STORED_DATA || false
+SAVE_TO_FILE = false
 STORED_SEEDS = "seeds_stored.rb"

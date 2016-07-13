@@ -1,5 +1,13 @@
 ## Change Log :: StatTrack
 
+## 0.0.19
++ Small bug fixes
++ Code cleanup
++ Refactored some view stuff into partials
+
+## 0.0.18
++ Added secrets.yml to allow app use out-of-the-box
+
 ## 0.0.17
 + EspnScape 0.5.1
 + Fixed Players height sorting

@@ -71,6 +71,7 @@
         <tr>
           <th>Team</th>
           <th>Opp</th>
+          <th>Game</th>
           <th>POS</th>
           <th>MIN</th>
           <th>PTS</th>
@@ -93,6 +94,7 @@
             <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
               <td><%= link_to row.abbr, "/team/#{Team.getTeamId(row.abbr)}" %></td>
               <td><%= link_to row.opponent, "/game/#{row.boxscore_id}" %></td>
+              <td><%= row.game_num %></td>
               <td><%= row.position %></td>
               <td><%= row.minutes == '' ? 'Blank MIN' : row.minutes %></td>
               <td><%= row.points %></td>

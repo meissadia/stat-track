@@ -27,9 +27,6 @@ module StatTrack
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
-    # Store team logos globally
-    config.logos = NbaLogo.allSmall
-
     # Adjust field names from EspnScrape
     for s in [S_BOX_P, S_BOX_T, S_GAME_F, S_GAME_P, S_ROSTER, S_TEAM]
       s.change_sym!(:team, :abbr)

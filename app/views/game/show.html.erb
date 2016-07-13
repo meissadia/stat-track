@@ -1,5 +1,4 @@
 <main>
-  <!-- <h2>Game Stats</h2> -->
   <h2>
     <%= @home_name %> (<span class="<%= if !@game.boxscore_id.eql?(0) && @game.win then 'win' end %>"><%= @game.team_score %></span>)
     <%= @game.home ? ' vs ' : ' @ ' %>
@@ -11,59 +10,16 @@
       <div class="center" id=home_best>
         <div class="columns-five removeTextNodes">
           <% @home_best.each do |player| %>
-          <div class="col">
-            <table class=center>
-              <div class=pname><%= link_to "%s" % [player.name], "/player/#{player.player_id}" %></pname></div>
-              <caption><%= link_to (image_tag teamLogo(@game.abbr)), "/team/#{@game.team_id}" %></caption>
-              <tr><td>PTS:</td><td><%= player.points %></td><td>AST:</td><td><%= player.assists %></td></tr>
-              <tr><td>REB:</td><td><%= player.rebounds %></td><td>BLK:</td><td><%= player.blocks %></td></tr>
-              <tr><td>STL:</td><td><%= player.steals %></td><td>TOS:</td><td><%= player.turnovers %></td></tr>
-            </table>
-          </div>
+          <%= render 'team_best', player: player, abbr: @game.abbr, team_id: @game.team_id %>
           <% end %>
         </div>
       </div>
       <table class="tablesorter center" id=home_stats>
-        <thead>
-          <tr>
-            <th>NAME</th>
-            <th>POS</th>
-            <th>MIN</th>
-            <th>PTS</th>
-            <th>AST</th>
-            <th>R(O)</th>
-            <th>STL</th>
-            <th>BLK</th>
-            <th>TO</th>
-            <th>FG</th>
-            <th>FT</th>
-            <th>3P</th>
-            <th>+/-</th>
-            <th>PFs</th>
-            <th title="GameScore">GS</th>
-          </tr>
+        <%= render 'stat_header' %>
         </thead>
         <tbody>
           <% @home_stats.each do |row| %>
-          <% if row.minutes > 0 %>
-          <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
-            <td><%= link_to row.name, "/player/#{row.player_id}" %></td>
-            <td><%= row.position %></td>
-            <td><%= row.minutes == '' ? 'Blank MIN' : row.minutes %></td>
-            <td><%= row.points %></td>
-            <td><%= row.assists %></td>
-            <td><%= row.rebounds %> (<%= row.oreb %>)</td>
-            <td><%= row.steals %></td>
-            <td><%= row.blocks %></td>
-            <td><%= row.turnovers %></td>
-            <td><span class=hide><%= row.fga.eql?(0) ? 0 : 100*(row.fgm*1.0/row.fga).round(2) %></span><%= "%i / %i" % [row.fgm, row.fga] %></td>
-            <td><span class=hide><%= row.fta.eql?(0) ? 0 : 100*(row.ftm*1.0/row.fta).round(2) %></span><%= "%i / %i" % [row.ftm, row.fta] %></td>
-            <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
-            <td><%= row.plusminus %></td>
-            <td><%= row.fouls %></td>
-            <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
-          </tr>
-          <% end %>
+          <%= render 'stat_row', row: row %>
           <% end %>
         </tbody>
       </table>
@@ -73,59 +29,15 @@
       <div class="center" id=away_best>
         <div class="columns-five removeTextNodes">
           <% @away_best.each do |player| %>
-          <div class="col">
-            <table class=center>
-              <div class=pname><%= link_to "%s" % [player.name], "/player/#{player.player_id}" %></pname></div>
-              <caption><%= link_to (image_tag teamLogo(@game.opponent)), "/team/#{@game.opponent_id}" %></caption>
-              <tr><td>PTS:</td><td><%= player.points %></td><td>AST:</td><td><%= player.assists %></td></tr>
-              <tr><td>REB:</td><td><%= player.rebounds %></td><td>BLK:</td><td><%= player.blocks %></td></tr>
-              <tr><td>STL:</td><td><%= player.steals %></td><td>TOS:</td><td><%= player.turnovers %></td></tr>
-            </table>
-          </div>
+          <%= render 'team_best', player: player, abbr: @game.opponent, team_id: @game.opponent_id %>
           <% end %>
         </div>
       </div>
       <table class="tablesorter center" id=away_stats>
-        <thead>
-          <tr>
-            <th>NAME</th>
-            <th>POS</th>
-            <th>MIN</th>
-            <th>PTS</th>
-            <th>AST</th>
-            <th>REB(O)</th>
-            <th>STL</th>
-            <th>BLK</th>
-            <th>TO</th>
-            <th>FG</th>
-            <th>FT</th>
-            <th>3P</th>
-            <th>+/-</th>
-            <th>Fouls</th>
-            <th title="GameScore">GS</th>
-          </tr>
-        </thead>
+        <%= render 'stat_header' %>
         <tbody>
           <% @away_stats.each do |row| %>
-          <% if row.minutes > 0 %>
-          <tr class=r<%= @alt_bg = (@alt_bg + 1)%2 %>>
-            <td><%= link_to row.name, "/player/#{row.player_id}" %></td>
-            <td><%= row.position %></td>
-            <td><%= row.minutes == '' ? 'Blank MIN' : row.minutes %></td>
-            <td><%= row.points %></td>
-            <td><%= row.assists %></td>
-            <td><%= row.rebounds %> (<%= row.oreb %>)</td>
-            <td><%= row.steals %></td>
-            <td><%= row.blocks %></td>
-            <td><%= row.turnovers %></td>
-            <td><span class=hide><%= row.fga.eql?(0) ? 0 : 100*(row.fgm*1.0/row.fga).round(2) %></span><%= "%i / %i" % [row.fgm, row.fga] %></td>
-            <td><span class=hide><%= row.fta.eql?(0) ? 0 : 100*(row.ftm*1.0/row.fta).round(2) %></span><%= "%i / %i" % [row.ftm, row.fta] %></td>
-            <td><span class=hide><%= row.tpa.eql?(0) ? 0 : 100*(row.tpm*1.0/row.tpa).round(2) %></span><%= "%i / %i" % [row.tpm, row.tpa] %></td>
-            <td><%= row.plusminus %></td>
-            <td><%= row.fouls %></td>
-            <td><%= (!row.gamescore.nil? ? "%.2f" % [row.gamescore] : 0) %></td>
-          </tr>
-          <% end %>
+          <%= render 'stat_row', row: row %>
           <% end %>
         </tbody>
       </table>

@@ -38,7 +38,7 @@ class Player < ActiveRecord::Base
 
     fl[:boxscore_id] = boxscore_id
     fl[:opponent]    = boxscore.getTid(home ? boxscore.awayName : boxscore.homeName)
-    fl[:opponent_id] = Team.getTeamId(fl[:opponent])
+    fl[:opponent_id] = Team.getTeamId(fl[:opponent]) || 0
     return fl
   end
 

@@ -7,18 +7,21 @@ class GameController < ApplicationController
       return nil
     end
 
-    s = "Gamestats.*, " + Gamestat.formulaGameScore
-    @home_stats = Gamestat.select(s).where("abbr = ? and boxscore_id = ?", @game.abbr, @game.boxscore_id)
-    @away_stats = Gamestat.select(s).where("abbr = ? and boxscore_id = ?", @game.opponent, @game.boxscore_id)
-
+    # Best Performances (both teams)
     @games_best = Gamestat.topGameScores([@game.boxscore_id])
-    @home_best = Gamestat.topGameScoresTeam(@game.boxscore_id, 5, @game.abbr)
-    @away_best = Gamestat.topGameScoresTeam(@game.boxscore_id, 5, @game.opponent)
 
-    @home_name = Team.getTeamName(@game.team_id)
-    @away_name = Team.getTeamName(@game.opponent_id)
-    @home_logo = StatTrack::Application.config.logos[@home_name]
-    @away_logo = StatTrack::Application.config.logos[@away_name]
+    # Prepare Query: All columns + Calculate game score
+    s = "Gamestats.*, " + Gamestat.formulaGameScore
+
+    # Home Team
+    @home_name  = Team.getTeamName(@game.team_id)
+    @home_stats = Gamestat.select(s).where("abbr = ? and boxscore_id = ?", @game.abbr, @game.boxscore_id)
+    @home_best  = Gamestat.topGameScoresTeam(@game.boxscore_id, 5, @game.abbr)
+
+    # Away Team
+    @away_name  = Team.getTeamName(@game.opponent_id)
+    @away_stats = Gamestat.select(s).where("abbr = ? and boxscore_id = ?", @game.opponent, @game.boxscore_id)
+    @away_best  = Gamestat.topGameScoresTeam(@game.boxscore_id, 5, @game.opponent)
   end
 
   private

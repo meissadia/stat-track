@@ -18,3 +18,5 @@
 
 # Ignore OSX system file
 .DS_Store
+
+secrets.yml

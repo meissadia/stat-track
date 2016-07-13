@@ -1,0 +1,9 @@
+<div class="col">
+  <table class=center>
+    <div class=pname><%= link_to "%s" % [player.name], "/player/#{player.player_id}" %></pname></div>
+    <caption><%= link_to (image_tag teamLogo(abbr)), "/team/#{team_id}" %></caption>
+    <tr><td>PTS:</td><td><%= player.points %></td><td>AST:</td><td><%= player.assists %></td></tr>
+    <tr><td>REB:</td><td><%= player.rebounds %></td><td>BLK:</td><td><%= player.blocks %></td></tr>
+    <tr><td>STL:</td><td><%= player.steals %></td><td>TOS:</td><td><%= player.turnovers %></td></tr>
+  </table>
+</div>

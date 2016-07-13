@@ -129,6 +129,7 @@
             <th>Game Num</th>
             <th>Opp</th>
             <th>Score</th>
+            <th>Season</th>
           </tr>
         </thead>
         <tbody>
@@ -137,6 +138,7 @@
             <td><%= pg.game_num %></td>
             <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opponent}", "/team/#{Team.getTeamId(pg.opponent)}" %></td>
             <td><%= link_to "%s %i - %i" %[pg.win ? 'W' : 'L', pg.team_score, pg.opp_score], "/game/#{pg.boxscore_id}" %></td>
+            <td><%= seasonString(pg.season_type) %></td>
           </tr>
           <% end %>
         </tbody>
@@ -149,6 +151,7 @@
             <th>Game Num</th>
             <th>Opp</th>
             <th>Game Date</th>
+            <th>Season</th>
           </tr>
         </thead>
         <tbody>
@@ -157,6 +160,7 @@
             <td><%= pg.game_num %></td>
             <td><%= link_to "#{pg.home ? 'vs ' : '@ '} #{pg.opponent}", "/team/#{Team.getTeamId(pg.opponent)}" %></td>
             <td><span class=hide><%= pg.gdate.strftime('%y/%m/%d') %></span><%= pg.gdate.strftime('%A, %b %d @ %I:%M %p') %></td>
+            <td><%= seasonString(pg.season_type) %></td>
           </tr>
           <% end %>
         </tbody>

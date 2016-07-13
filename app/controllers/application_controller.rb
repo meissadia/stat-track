@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
            return nil
        end
    end
+
+   def current_season_type
+     return Game.all.order('datetime desc').limit(1).pluck(:season_type).first
+   end
 end

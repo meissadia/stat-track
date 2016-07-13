@@ -35,6 +35,10 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def self.current_season_type
+    return Game.all.order('datetime desc').limit(1).pluck(:season_type).first
+  end
+
   # Erase existing Schedule data and replace
   def self.refreshSchedule(team, teamSchedule, season)
     # Delete conflicting Schedule records for this team

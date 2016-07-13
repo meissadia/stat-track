@@ -37,7 +37,7 @@ class Team < ActiveRecord::Base
     t_list = []
     t_rank = []
     teams.each { |t| t_list << t.id }
-    @records = Game.where(team_id: t_list, season_type: 2).where.not(:boxscore_id => 0).order("datetime desc").group(:team_id)
+    @records = Game.where(team_id: t_list, season_type: Game.current_season_type).where.not(:boxscore_id => 0).order("datetime desc").group(:team_id)
     @records.each do |record|
       w_pct = record.wins.to_f / (record.wins + record.losses)
       t_rank << [w_pct.round(2), Team.find(record.team_id).name, record]
