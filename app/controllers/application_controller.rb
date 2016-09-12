@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
        end
    end
 
-   def current_season_type
-     return Game.all.order('datetime desc').limit(1).pluck(:season_type).first
+   def current_season_type(team=nil)
+     s = team.nil? ? "abbr != '' AND " : "abbr = '#{team}' AND "
+     return Game.where(s + 'boxscore_id > 0').order('datetime desc').limit(1).pluck(:season_type).first
    end
 end

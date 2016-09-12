@@ -1,8 +1,9 @@
 class TeamController < ApplicationController
-  before_action :initialize_common_data, except: [:by_team]
+  before_action :initialize_common_data, except: [:by_team, :index]
 
   def index
     @teams = Team.all
+    @alt_bg = 0
   end
 
   def by_team
@@ -21,7 +22,8 @@ class TeamController < ApplicationController
     @next10_games = Game.where(:team_id => @team.id).where("boxscore_id = 0").limit(10)
 
     # Team Result Info
-    last_game = Game.where("team_id = ? and boxscore_id > 0 and season_type = ?", @team.id, current_season_type ).order("datetime desc").first
+    @season   = current_season_type(@team.abbr)
+    last_game = Game.where("team_id = ? and boxscore_id > 0 and season_type = ?", @team.id, @season ).order("datetime desc").first
     @rank     = league_rank(@team.abbr)
     @wins     = last_game.wins.to_i rescue 0
     @losses   = last_game.losses.to_i rescue 0
@@ -45,7 +47,7 @@ class TeamController < ApplicationController
     def league_rank(abbr="")
       t_rank = []
       s = "abbr, wins, losses"
-      @records = Game.select(s).where("boxscore_id > 0 and season_type = ?", current_season_type).group(:abbr).order(:wins)
+      @records = Game.select(s).where("boxscore_id > 0 and season_type = ?", current_season_type(abbr)).group(:abbr).order(:wins)
       @records.each do |record|
         w_pct = record.wins.to_f / (record.wins + record.losses)
         t_rank << [w_pct.round(2), record.abbr]

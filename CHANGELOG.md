@@ -15,7 +15,7 @@
 
 ## 0.0.15
 ####&nbsp;&nbsp;&nbsp;changed
-+ EspnScrape 0.3.0
++ HoopScrape 0.3.0
 + New formatting in CHANGELOG
 
 ## 0.0.14
@@ -37,7 +37,7 @@
 
 ## 0.0.11
 ####&nbsp;&nbsp;&nbsp;new
-+ EspnScrape 0.1.1
++ HoopScrape 0.1.1
 + Include Preseason and Playoff data
 
 ####&nbsp;&nbsp;&nbsp;changed
@@ -59,7 +59,7 @@ making the instance reachable from other devices on the local network.
 viewport was small.
 
 ## 0.0.8
-+ Integrated new version of EspnScrape
++ Integrated new version of HoopScrape
 
 ## 0.0.7
 ####&nbsp;&nbsp;&nbsp;fixed-issues
@@ -67,7 +67,7 @@ viewport was small.
 
 ## 0.0.6
 ####&nbsp;&nbsp;&nbsp;fixed-issues
-+ New version of EspnScrape to correctly pull data
++ New version of HoopScrape to correctly pull data
 + Tons of re-writes and fixes to get system back to functional
 
 ## 0.0.5

@@ -1,10 +1,10 @@
 require 'benchmark'
-require 'espnscrape'
+require 'hoopscrape'
 
 class Game < ActiveRecord::Base
   belongs_to :team
   # FIELD_NAMES_PG = [:team, :p_eid, :name, :pos, :min, :fgm, :fga, :tpm, :tpa, :ftm, :fta, :oreb, :dreb, :reb, :ast, :stl, :blk, :tos, :pf, :plus, :pts, :starter]
-  # FIELD_NAMES_FG = EspnScrape::FS_SCHEDULE_FUTURE
+  # FIELD_NAMES_FG = HoopScrape::FS_SCHEDULE_FUTURE
 
   # Find the latest completed games
   def self.latestComplete
@@ -76,7 +76,8 @@ class Game < ActiveRecord::Base
         cnt = 0
         fl_a  = []
         # Update from the last accessible
-        pastGames  = EspnScrape.schedule(team.abbr, '', :to_hashes).pastGames[]
+        s_type = 3
+        pastGames  = HoopScrape.schedule(team.abbr, season: s_type, format: :to_hashes, year: "2016").pastGames[]
         pastGames.each do |pg|
           print '.'
           home_game = pg[:home].eql?('true')
@@ -89,8 +90,8 @@ class Game < ActiveRecord::Base
             pg[:opponent_id] = Team.getTeamId(pg[:opponent])
 
             # Validate that game number and opponent are correct
-            game = Game.find_by("team_id = ? AND game_num = ? AND opponent = ?" ,
-                                 team.id, pg[:game_num], pg[:opponent])
+            game = Game.find_by("team_id = ? AND game_num = ? AND opponent = ? AND season_type = ?" ,
+                                 team.id, pg[:game_num], pg[:opponent], s_type)
             if !game.nil?
               ignore_on_update.each { |f| pg.delete(f) }
               # gs_msgs << "Updating #{team.abbr}, #{pg[:game_num]}, #{pg[:opponent]}"
@@ -99,7 +100,7 @@ class Game < ActiveRecord::Base
               # gs_msgs << "Creating #{team.abbr}, #{pg[:game_num]}, #{pg[:opponent]}"
               ignore_on_create.each { |f| pg.delete(f) }
               # If oppenent or game # are incorrect, delete existing record and replace
-              Game.where("team_id = ? AND game_num = ?" , team.id, pg[:game_num]).destroy_all
+              Game.where("team_id = ? AND game_num = ? AND season_type = ?" , team.id, pg[:game_num], s_type).destroy_all
               game = Game.create(pg)
             end
 
@@ -113,7 +114,7 @@ class Game < ActiveRecord::Base
               Gamestat.where(boxscore_id: pg[:boxscore_id], abbr: pg[:abbr]).destroy_all
 
               # Collect boxcore data
-              bs = EspnScrape.boxscore(pg[:boxscore_id], :to_hashes)
+              bs = HoopScrape.boxscore(pg[:boxscore_id], :to_hashes)
               fl_temp = (home_game ? bs.homePlayers[] : bs.awayPlayers[])
 
               # Process boxscore data

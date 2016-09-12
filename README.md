@@ -44,5 +44,5 @@ When seeding, you can pull the most up-to-date data from the internet or use an 
 *Built on Ruby 2.2.3p173 / Rails 4.2.5*
 
 ###Dependencies
-espnscrape 0.1.1  
+hoopscrape 1.0.0  
 jquery-tablesorter

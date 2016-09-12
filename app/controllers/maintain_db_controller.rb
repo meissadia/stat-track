@@ -1,19 +1,19 @@
+require 'celluloid'
+
 class MaintainDbController < ApplicationController
   def index
     @status = [""]
     @settings = DbSetting.first
     @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1)
     @last_update = (@last_update.first.created_at.in_time_zone('Arizona')).strftime('%D %r')
-    # Thread.new do
-    #   @status = Game.updateFromSchedule()
-    #   ActiveRecord::Base.connection.close
-    # end
     render 'maintain_db/index'
   end
 
   def updateDb
-    @status = ["updateTeams"]
-    @status = Game.updateFromSchedule()
+    d = Celluloid::Future.new do
+      Game.updateFromSchedule()
+    end
+    @status = d.value
     @last_update = Gamestat.where("boxscore_id > 0").order("created_at desc").limit(1)
     @last_update = (@last_update.first.created_at.in_time_zone('Arizona')).strftime('%D %r')
     render '/maintain_db/index'

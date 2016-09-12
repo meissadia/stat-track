@@ -44,7 +44,7 @@ class Player < ActiveRecord::Base
 
   def self.createFromEspn(eid, t_abbr="", file=nil)
     # puts "Creating Player: " + eid.to_s + ", team: " + t_abbr
-    player = EspnScrape.player(eid)
+    player = HoopScrape.player(eid)
     if (!player.name.nil?)
       new_player = {
         :position     => player.position,

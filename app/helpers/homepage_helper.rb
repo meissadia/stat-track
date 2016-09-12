@@ -2,11 +2,11 @@ module HomepageHelper
   def seasonString(type)
     case type
     when 1
-      return "Preseason"
+      return "Pre Season"
     when 2
-      return "Regular"
+      return "Regular Season"
     when 3
-      return "Playoff"
+      return "Post Season"
     end
   end
 

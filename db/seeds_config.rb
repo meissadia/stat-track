@@ -1,5 +1,5 @@
 require 'benchmark'
-require 'espnscrape'
+require 'hoopscrape'
 ##
 ## Configuration for database Seeding :: db:seed or db:setup
 ##
@@ -18,3 +18,4 @@ USE_STORED_DATA = false
 # SAVE_TO_FILE = !USE_STORED_DATA || false
 SAVE_TO_FILE = false
 STORED_SEEDS = "seeds_stored.rb"
+YEAR = "2016" || seasonYearEnd(Date.today)

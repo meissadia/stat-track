@@ -2,7 +2,7 @@ class Gamestat < ActiveRecord::Base
   belongs_to :player
   # belongs_to :game
 
-  # FIELD_NAMES = EspnScrape::FS_BOXSCORE
+  # FIELD_NAMES = HoopScrape::FS_BOXSCORE
 
   # GameScore SQL single game
   # @return [String] #GameScore formula
